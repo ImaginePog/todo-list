@@ -1,15 +1,13 @@
-const path = require("path");
-
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-
 module.exports = {
 	entry: {
 		index: "./src/index.js",
 	},
-	plugins: [new MiniCssExtractPlugin({ filename: "main.[contenthash].css" })],
 	module: {
 		rules: [
+			{
+				test: /\.html$/i,
+				loader: "html-loader",
+			},
 			{
 				test: /\.(png|svg|jpg|jpeg|gif)$/i,
 				type: "asset/resource",
