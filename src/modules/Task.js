@@ -1,30 +1,14 @@
 export default class Task {
 	#creationDate;
-	#starred;
 
 	constructor(taskInfo) {
-		taskInfo.status = "incomplete";
-		taskInfo.creationDate = new Date();
-
 		this.name = taskInfo.name;
-		this.#creationDate = taskInfo.creationDate;
+		this.#creationDate = new Date();
 		this.dueDate = taskInfo.dueDate;
-		this.status = taskInfo.status;
+		this.status = incomplete;
 		this.priority = taskInfo.priority;
 		this.description = taskInfo.description;
-		this.#starred = taskInfo.starred;
-	}
-
-	star() {
-		this.#starred = true;
-	}
-
-	unstar() {
-		this.#starred = false;
-	}
-
-	get starred() {
-		return this.#starred;
+		this.starred = taskInfo.starred;
 	}
 
 	get creationDate() {
