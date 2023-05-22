@@ -1,3 +1,5 @@
+import Task from "./Task";
+
 export default class Project {
 	#tasks;
 
@@ -6,8 +8,8 @@ export default class Project {
 		this.#tasks = [];
 	}
 
-	addTask(task) {
-		this.#tasks.push(task);
+	addTask(taskInfo) {
+		this.#tasks.push(new Task(taskInfo));
 	}
 
 	removeTask(taskId) {
@@ -16,8 +18,8 @@ export default class Project {
 		}
 	}
 
-	editTask(taskId, newTask) {
-		this.#tasks[taskId] = newTask;
+	editTask(taskId, newTaskInfo) {
+		this.#tasks[taskId] = new Task(newTaskInfo);
 	}
 
 	get tasks() {
