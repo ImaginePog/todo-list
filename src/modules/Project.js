@@ -10,10 +10,14 @@ export default class Project {
 		this.#tasks.push(task);
 	}
 
-	removeTask(index) {
-		if (index >= 0 && index < this.#tasks.length) {
-			this.#tasks.splice(index, 1);
+	removeTask(taskId) {
+		if (taskId >= 0 && taskId < this.#tasks.length) {
+			this.#tasks.splice(taskId, 1);
 		}
+	}
+
+	editTask(taskId, newTask) {
+		this.#tasks[taskId] = newTask;
 	}
 
 	get tasks() {
