@@ -3,34 +3,41 @@ import ProjectManager from "./ProjectManager";
 
 const UI = (() => {
 	const nav = document.querySelector(".nav");
+
 	const main = document.querySelector("#main");
 	const taskForm = document.querySelector(".add-task-form");
+	const projectForm = document.querySelector(".add-project-form");
 
 	function handleMainClick(e) {
 		if (e.target.dataset.action === "openTaskModal") {
-			DisplayController.openTaskModal();
+			DisplayController.openTaskModal(taskForm);
 		}
 	}
 
 	function handleNavClick(e) {
-		const navId = e.target.dataset.navId;
+		const action = e.target.dataset.action;
 
-		if (!navId) {
+		if (!action) {
 			return;
 		}
 
-		switch (navId) {
+		switch (action) {
 			case "inbox":
-				console.log("display inbox");
+				ProjectManager.changeCurrentProject("Inbox");
+				DisplayController.changeCurrentTab("project");
 				break;
 			case "today":
-				console.log("display today");
-				break;
+				DisplayController.changeCurrentTab("today");
+				return;
 			case "projects":
-				console.log("display projects");
-				break;
+				DisplayController.changeCurrentTab("projects");
+				return;
+			case "openProjectModal":
+				DisplayController.openProjectModal();
+				return;
 			default:
-				console.log(`display ${navId} project`);
+				ProjectManager.changeCurrentProject(action);
+				DisplayController.changeCurrentTab("project");
 		}
 	}
 
@@ -39,6 +46,24 @@ const UI = (() => {
 			e.currentTarget.reset();
 			DisplayController.closeTaskModal();
 		}
+	}
+
+	function handleProjectFormClick(e) {
+		if (e.target.dataset.action === "closeForm") {
+			e.currentTarget.reset();
+			DisplayController.closeProjectModal();
+		}
+	}
+
+	function handleProjectFormSubmit(e) {
+		e.preventDefault();
+
+		ProjectManager.addProject(e.currentTarget.elements.title.value);
+
+		e.currentTarget.reset();
+		DisplayController.closeProjectModal();
+		DisplayController.renderProjectTabs();
+		DisplayController.changeCurrentTab("project");
 	}
 
 	function handleTaskFormSubmit(e) {
@@ -53,12 +78,18 @@ const UI = (() => {
 			priority: form.elements.priority.value,
 		};
 
+		if (!taskInfo.name) {
+			alert("Please enter a title");
+			return;
+		}
+
 		let projectId = form.elements.project.value;
 
 		ProjectManager.addTaskToProject(projectId, taskInfo);
 
 		form.reset();
 		DisplayController.closeTaskModal();
+		DisplayController.renderCurrentTab();
 	}
 
 	main.addEventListener("click", handleMainClick);
@@ -67,6 +98,9 @@ const UI = (() => {
 
 	taskForm.addEventListener("click", handleTaskFormClick);
 	taskForm.addEventListener("submit", handleTaskFormSubmit);
+
+	projectForm.addEventListener("click", handleProjectFormClick);
+	projectForm.addEventListener("submit", handleProjectFormSubmit);
 
 	return {};
 })();
