@@ -1,3 +1,5 @@
+import { parseISO } from "date-fns";
+
 export default class Task {
 	#creationDate;
 	#completed;
@@ -5,7 +7,7 @@ export default class Task {
 	constructor(taskInfo) {
 		this.name = taskInfo.name;
 		this.#creationDate = new Date();
-		this.dueDate = taskInfo.dueDate;
+		this.dueDate = parseISO(taskInfo.dueDate);
 		this.#completed = false;
 		this.priority = taskInfo.priority;
 		this.description = taskInfo.description;
