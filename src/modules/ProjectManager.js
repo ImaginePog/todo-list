@@ -25,12 +25,25 @@ const ProjectManager = (() => {
 		return projects;
 	}
 
-	function addTaskToProject(projectId, task) {
-		projects[projectId].addTask(task);
+	function getProjectByName(projName) {
+		let index = projects.findIndex((proj) => {
+			proj.name === projName;
+		});
+
+		if (index < 0) {
+			console.error("Could not find project");
+			return;
+		}
+
+		return projects[index];
 	}
 
-	function editProjectTask(projectId, taskId, newTask) {
-		projects[projectId].editTask(taskId, newTask);
+	function addTaskToProject(projectId, taskInfo) {
+		projects[projectId].addTask(taskInfo);
+	}
+
+	function editProjectTask(projectId, taskId, newTaskInfo) {
+		projects[projectId].editTask(taskId, newTaskInfo);
 	}
 
 	function removeProjectTask(projectId, taskId) {
@@ -42,6 +55,7 @@ const ProjectManager = (() => {
 		removeProject,
 		getAllProjectNames,
 		getAllProjects,
+		getProjectByName,
 		addTaskToProject,
 		editProjectTask,
 		removeProjectTask,
