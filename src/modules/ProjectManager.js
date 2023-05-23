@@ -2,6 +2,7 @@ import Project from "./Project";
 
 const ProjectManager = (() => {
 	let projects = [];
+	let currentProject;
 
 	function addProject(projName) {
 		projects.push(new Project(projName));
@@ -26,9 +27,7 @@ const ProjectManager = (() => {
 	}
 
 	function getProjectByName(projName) {
-		let index = projects.findIndex((proj) => {
-			proj.name === projName;
-		});
+		let index = projects.findIndex((proj) => proj.name === projName);
 
 		if (index < 0) {
 			console.error("Could not find project");
@@ -50,12 +49,22 @@ const ProjectManager = (() => {
 		projects[projectId].removeTask(taskId);
 	}
 
+	function changeCurrentProject(newProjName) {
+		currentProject = getProjectByName(newProjName);
+	}
+
+	function getCurrentProject() {
+		return currentProject;
+	}
+
 	return {
 		addProject,
 		removeProject,
 		getAllProjectNames,
 		getAllProjects,
 		getProjectByName,
+		changeCurrentProject,
+		getCurrentProject,
 		addTaskToProject,
 		editProjectTask,
 		removeProjectTask,
