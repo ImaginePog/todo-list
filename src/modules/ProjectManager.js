@@ -7,6 +7,7 @@ const ProjectManager = (() => {
 
 	function addProject(projName) {
 		projects.push(new Project(projName));
+		changeCurrentProject(projName);
 	}
 
 	function removeProject(projectId) {
