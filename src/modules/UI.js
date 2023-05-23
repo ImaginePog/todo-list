@@ -35,7 +35,10 @@ const UI = (() => {
 	}
 
 	function handleTaskFormClick(e) {
-		console.log(e + "lol");
+		if (e.target.dataset.action === "closeForm") {
+			e.currentTarget.reset();
+			DisplayController.closeTaskModal();
+		}
 	}
 
 	function handleTaskFormSubmit(e) {
@@ -59,7 +62,9 @@ const UI = (() => {
 	}
 
 	main.addEventListener("click", handleMainClick);
+
 	nav.addEventListener("click", handleNavClick);
+
 	taskForm.addEventListener("click", handleTaskFormClick);
 	taskForm.addEventListener("submit", handleTaskFormSubmit);
 
