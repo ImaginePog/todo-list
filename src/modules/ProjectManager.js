@@ -1,3 +1,4 @@
+import { isToday } from "date-fns";
 import Project from "./Project";
 
 const ProjectManager = (() => {
@@ -57,6 +58,35 @@ const ProjectManager = (() => {
 		return currentProject;
 	}
 
+	function filterAllProjectsByToday() {
+		const projs = getAllProjects();
+		console.log(projs);
+
+		let filteredProjs = [];
+		projs.forEach((proj) => {
+			let filteredProj = new Project(proj.name);
+			let filteredTasks = proj.tasks.filter((task) => isToday(task.dueDate));
+
+			filteredTasks.forEach((task) => {
+				filteredProj.addTask(task);
+			});
+
+			filteredProjs.push(filteredProj);
+		});
+		return filteredProjs;
+	}
+
+	function getProjectsFiltered(filter) {
+		let filtered;
+		switch (filter) {
+			case "today":
+				filtered = filterAllProjectsByToday();
+				break;
+		}
+
+		return filtered;
+	}
+
 	return {
 		addProject,
 		removeProject,
@@ -68,6 +98,7 @@ const ProjectManager = (() => {
 		addTaskToProject,
 		editProjectTask,
 		removeProjectTask,
+		getProjectsFiltered,
 	};
 })();
 
