@@ -3,6 +3,7 @@ import ProjectManager from "./ProjectManager";
 const DisplayController = (() => {
 	const projectList = document.querySelector(".project-list");
 	const taskModal = document.querySelector(".task-modal");
+	const projectModal = document.querySelector(".project-modal");
 	const dynamicDisplay = document.querySelector(".dynamic-content");
 
 	let currentTab;
@@ -13,7 +14,7 @@ const DisplayController = (() => {
 
 		const btn = document.createElement("button");
 		btn.classList.add("nav-btn");
-		btn.dataset.navId = btn.textContent = projectName;
+		btn.dataset.action = btn.textContent = projectName;
 
 		li.append(btn);
 
@@ -26,7 +27,6 @@ const DisplayController = (() => {
 		projectList.textContent = "";
 
 		const projNames = ProjectManager.getAllProjectNames();
-		console.log(projNames);
 		const frag = document.createDocumentFragment();
 
 		for (let i = 1; i < projNames.length; ++i) {
@@ -169,10 +169,20 @@ const DisplayController = (() => {
 		renderCurrentTab();
 	}
 
+	function openProjectModal() {
+		projectModal.classList.remove("hide");
+	}
+
+	function closeProjectModal() {
+		projectModal.classList.add("hide");
+	}
+
 	return {
 		renderProjectTabs,
 		openTaskModal,
 		closeTaskModal,
+		openProjectModal,
+		closeProjectModal,
 		renderToday,
 		changeCurrentTab,
 		renderCurrentTab,
