@@ -1,3 +1,4 @@
+import { isToday } from "date-fns";
 import Task from "./Task";
 
 export default class Project {
@@ -20,6 +21,14 @@ export default class Project {
 
 	editTask(taskId, newTaskInfo) {
 		this.#tasks[taskId] = new Task(newTaskInfo);
+	}
+
+	getTasksDueToday() {
+		return this.#tasks.filter((task) => isToday(task.dueDate));
+	}
+
+	getIncompleteTasks() {
+		return this.#tasks.filter((task) => task.completed);
 	}
 
 	get tasks() {
