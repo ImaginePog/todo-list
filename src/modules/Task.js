@@ -18,6 +18,10 @@ export default class Task {
 		this.#completed = true;
 	}
 
+	get completed() {
+		return this.#completed;
+	}
+
 	get creationDate() {
 		return this.#creationDate;
 	}
