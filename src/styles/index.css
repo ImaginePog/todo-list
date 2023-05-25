@@ -1,0 +1,311 @@
+@font-face {
+	font-family: "Lato Black";
+	src: url("../assets/fonts/Lato/Lato-Black.ttf") format("truetype");
+	font-style: normal;
+	font-weight: normal;
+}
+
+/* ROOT */
+:root {
+	--color-background: #151515;
+	--color-background-darker: #0a0a0a;
+	--color-golden-poppy: #fbc403; /*TEMP NAME*/
+	--color-main-text: #fbfcd4;
+	--color-dim-text: rgba(251, 252, 212, 0.6);
+	--color-main-border: #4e4c4c;
+	--font-header: "Lato Black";
+}
+
+/* RESET */
+* {
+	padding: 0;
+	margin: 0;
+	border: 0;
+
+	color: var(--color-main-text);
+
+	box-sizing: border-box;
+}
+
+ul {
+	list-style: none;
+}
+
+/*  PAGE LAYOUT*/
+#app {
+	display: grid;
+	grid-template-columns: 1fr 5fr;
+	grid-template-rows: auto 1fr auto;
+	grid-template-areas:
+		"header header"
+		"sidebar main"
+		"footer footer";
+	min-height: 100vh;
+
+	background-color: var(--color-background);
+}
+
+/* HEADER */
+#header {
+	grid-area: header;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	font-family: var(--font-header);
+	text-transform: uppercase;
+	font-size: 4rem;
+
+	padding: 1rem 0;
+
+	border-bottom: 2px solid var(--color-main-border);
+}
+
+/* SIDEBAR */
+#sidebar {
+	grid-area: sidebar;
+
+	padding: 2rem 1rem 0;
+
+	border-right: 2px solid var(--color-main-border);
+
+	font-family: "Lato Black";
+}
+
+.nav-item {
+	height: 2rem;
+	display: flex;
+	align-items: center;
+	padding-left: 0.5rem;
+	border-radius: 4px;
+}
+
+.nav-item:hover {
+	background-color: var(--color-background-darker);
+}
+
+.project-nav-item:hover {
+	background-color: inherit;
+}
+
+.nav-btn {
+	background-color: transparent;
+	font-family: "Lato Black";
+	width: 100%;
+	text-align: left;
+}
+
+.project-nav-item {
+	display: flex;
+	align-items: center;
+	padding-left: 0;
+}
+
+.add-project-btn {
+	background: transparent;
+	width: 2rem;
+	height: 2rem;
+	font-size: 1rem;
+	border-radius: 4px;
+}
+
+.projects-btn {
+	width: 100%;
+	height: 100%;
+	padding-left: 0.5rem;
+	border-radius: 4px;
+}
+
+.projects-btn:hover,
+.add-project-btn:hover {
+	background-color: var(--color-background-darker);
+}
+
+/* MAIN */
+#main {
+	grid-area: main;
+	padding: 2rem 10rem;
+}
+
+.display-title {
+	padding: 1rem 0;
+	font-family: "Lato Black";
+}
+
+.task-container {
+	padding: 1rem 0;
+	border-bottom: 1px solid var(--color-main-border);
+}
+
+.modal-btn {
+	background-color: var(--color-background-darker);
+	width: 3rem;
+	height: 3rem;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	position: fixed;
+	bottom: 5rem;
+	right: 3rem;
+
+	font-size: 2rem;
+	color: var(--color-golden-poppy);
+
+	border-radius: 50%;
+}
+
+.modal-btn:hover {
+	opacity: 70%;
+}
+
+/* *** */
+
+.icon-img {
+	width: 100%;
+	height: auto;
+}
+
+/* FOOTER */
+#footer {
+	grid-area: footer;
+
+	padding: 0.8rem 0;
+
+	display: flex;
+	justify-content: center;
+
+	font-size: 0.8rem;
+
+	border-top: 2px solid var(--color-main-border);
+}
+
+/* MODAL */
+.modal {
+	z-index: 100;
+
+	position: fixed;
+	left: 0;
+	top: 0;
+
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.5);
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.modal-content {
+	z-index: 101;
+}
+
+.modal-form {
+	display: flex;
+	flex-direction: column;
+
+	border: 3px solid var(--color-main-border);
+	border-radius: 6px;
+	background-color: var(--color-background);
+}
+
+.task-form-input-fields {
+	display: flex;
+	flex-direction: column;
+
+	padding: 1.5rem;
+}
+
+.task-form-text-inputs {
+	display: flex;
+	flex-direction: column;
+
+	gap: 5px;
+}
+
+.task-form-select-inputs {
+	display: flex;
+	gap: 10px;
+}
+
+.task-form-select-inputs .input,
+.task-form-options .input {
+	border: 2px solid var(--color-main-border);
+	border-radius: 5px;
+	padding: 5px 5px;
+
+	background-color: var(--color-background-darker);
+	width: 5rem;
+}
+
+.task-form-options {
+	display: flex;
+	justify-content: space-between;
+	padding: 1rem;
+
+	border-top: 1px solid var(--color-main-border);
+}
+
+.task-form-buttons {
+	display: flex;
+	gap: 20px;
+}
+
+.task-form-action-btn {
+	background: transparent;
+	border: 1px solid var(--color-golden-poppy);
+	padding: 10px;
+	font-family: "Lato Black";
+	color: var(--color-golden-poppy);
+	border-radius: 5px;
+}
+
+#task-title-input {
+	font-size: 1.5rem;
+}
+
+#description-input {
+	resize: none;
+}
+
+.input {
+	background-color: transparent;
+}
+
+.input:focus-visible {
+	outline: none;
+}
+
+/* PROJECT FORM */
+
+.add-project-form {
+	padding: 1rem;
+	gap: 2rem;
+}
+
+#project-name-input {
+	font-size: 1.5rem;
+}
+.project-form-buttons {
+	display: flex;
+	justify-content: space-evenly;
+}
+
+.project-form-action-btn {
+	background: transparent;
+	border: 1px solid var(--color-golden-poppy);
+	border-radius: 5px;
+	padding: 10px;
+	width: 40%;
+	color: var(--color-golden-poppy);
+	font-size: 1rem;
+}
+
+/* UTILS */
+
+.hide {
+	display: none;
+}
