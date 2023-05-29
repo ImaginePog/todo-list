@@ -31,6 +31,7 @@ const DisplayController = (() => {
 
 		for (let i = 1; i < projNames.length; ++i) {
 			const tab = createProjectTab(projNames[i]);
+			tab.dataset.projectId = i;
 			frag.append(tab);
 		}
 
