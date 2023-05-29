@@ -62,8 +62,15 @@ const ProjectManager = (() => {
 		return currentProject;
 	}
 
-	function completeProjectTask(projName, taskId) {
-		getProjectByName(projName).tasks[taskId].complete();
+	function getAllTasksDueToday() {
+		const tasks = [];
+
+		projects.forEach((proj) => {
+			tasks.push(...proj.getTasksDueToday());
+		});
+
+		return tasks;
+	}
 	}
 
 	return {
