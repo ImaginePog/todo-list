@@ -4,13 +4,14 @@ import Task from "./Task";
 export default class Project {
 	#tasks;
 
-	constructor(projName) {
+	constructor(projName, id) {
 		this.name = projName;
 		this.#tasks = [];
+		this.id = id;
 	}
 
 	addTask(taskInfo) {
-		this.#tasks.push(new Task(taskInfo));
+		this.#tasks.push(new Task(taskInfo, this.#tasks.length, this.id));
 	}
 
 	removeTask(taskId) {
