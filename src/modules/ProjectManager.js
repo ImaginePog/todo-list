@@ -1,4 +1,3 @@
-import { isToday } from "date-fns";
 import Project from "./Project";
 
 const ProjectManager = (() => {
@@ -71,6 +70,10 @@ const ProjectManager = (() => {
 
 		return tasks;
 	}
+
+	function toggleTaskStatus(projName, taskId) {
+		const proj = getProjectByName(projName);
+		proj.toggleTaskStatus(taskId);
 	}
 
 	return {
@@ -78,11 +81,13 @@ const ProjectManager = (() => {
 		removeProject,
 		getAllProjectNames,
 		getAllProjects,
+		getAllTasksDueToday,
 		getProjectByName,
 		changeCurrentProject,
 		getCurrentProject,
 		addTaskToProject,
 		editProjectTask,
+		toggleTaskStatus,
 		removeProjectTask,
 		completeProjectTask,
 	};
