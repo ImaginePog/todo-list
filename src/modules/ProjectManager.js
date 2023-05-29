@@ -27,34 +27,20 @@ const ProjectManager = (() => {
 		return projects;
 	}
 
-	function getProjectByName(projName) {
-		const proj = projects.find((proj) => proj.name === projName);
-
-		if (!proj) {
-			console.error("Could not find project");
-			return;
-		}
-
-		return proj;
+	function addTaskToProject(projId, taskInfo) {
+		projects[projId].addTask(taskInfo);
 	}
 
-	function addTaskToProject(projName, taskInfo) {
-		const proj = getProjectByName(projName);
-		proj.addTask(taskInfo);
+	function editProjectTask(projId, taskId, newTaskInfo) {
+		projects[projId].editTask(taskId, newTaskInfo);
 	}
 
-	function editProjectTask(projName, taskId, newTaskInfo) {
-		const proj = getProjectByName(projName);
-		proj.editTask(taskId, newTaskInfo);
+	function removeProjectTask(projId, taskId) {
+		projects[projId].removeTask(taskId);
 	}
 
-	function removeProjectTask(projName, taskId) {
-		const proj = getProjectByName(projName);
-		proj.removeTask(taskId);
-	}
-
-	function changeCurrentProject(newProjName) {
-		currentProject = getProjectByName(newProjName);
+	function changeCurrentProject(projId) {
+		currentProject = projects[projId];
 	}
 
 	function getCurrentProject() {
@@ -71,6 +57,16 @@ const ProjectManager = (() => {
 		return tasks;
 	}
 
+	function getAllCompletedTasks() {
+		const tasks = [];
+
+		projects.forEach((proj) => {
+			tasks.push(...proj.getCompleteTasks());
+		});
+
+		return tasks;
+	}
+
 	function toggleTaskStatus(projName, taskId) {
 		const proj = getProjectByName(projName);
 		proj.toggleTaskStatus(taskId);
@@ -82,14 +78,13 @@ const ProjectManager = (() => {
 		getAllProjectNames,
 		getAllProjects,
 		getAllTasksDueToday,
-		getProjectByName,
+		getAllCompletedTasks,
 		changeCurrentProject,
 		getCurrentProject,
 		addTaskToProject,
 		editProjectTask,
 		toggleTaskStatus,
 		removeProjectTask,
-		completeProjectTask,
 	};
 })();
 
