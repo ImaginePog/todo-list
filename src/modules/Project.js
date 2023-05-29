@@ -28,7 +28,15 @@ export default class Project {
 	}
 
 	getIncompleteTasks() {
+		return this.#tasks.filter((task) => !task.completed);
+	}
+
+	getCompleteTasks() {
 		return this.#tasks.filter((task) => task.completed);
+	}
+
+	toggleTaskStatus(taskId) {
+		this.#tasks[taskId].toggleStatus();
 	}
 
 	get tasks() {
