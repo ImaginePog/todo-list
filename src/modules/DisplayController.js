@@ -147,14 +147,14 @@ const DisplayController = (() => {
 		dynamicDisplay.append(title, taskList);
 	}
 
-		const displayList = document.createElement("ul");
+	function renderCompleted() {
+		clearDynamicDisplay();
 
-		filteredProjs.forEach((proj) => {
-			const tasks = createTaskContainers(proj);
-			displayList.append(tasks);
-		});
+		const title = createDisplayTitle("Completed");
+		const tasks = ProjectManager.getAllCompletedTasks();
+		const taskList = createTaskList(tasks);
 
-		dynamicDisplay.append(title, displayList);
+		dynamicDisplay.append(title, taskList);
 	}
 
 	function renderCurrentTab() {
@@ -167,6 +167,8 @@ const DisplayController = (() => {
 			case "today":
 				renderToday();
 				break;
+			case "completed":
+				renderCompleted();
 			case "projects":
 				//renderprojects
 				break;
