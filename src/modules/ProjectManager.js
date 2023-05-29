@@ -29,26 +29,29 @@ const ProjectManager = (() => {
 	}
 
 	function getProjectByName(projName) {
-		let index = projects.findIndex((proj) => proj.name === projName);
+		const proj = projects.find((proj) => proj.name === projName);
 
-		if (index < 0) {
+		if (!proj) {
 			console.error("Could not find project");
 			return;
 		}
 
-		return projects[index];
+		return proj;
 	}
 
-	function addTaskToProject(projectId, taskInfo) {
-		projects[projectId].addTask(taskInfo);
+	function addTaskToProject(projName, taskInfo) {
+		const proj = getProjectByName(projName);
+		proj.addTask(taskInfo);
 	}
 
-	function editProjectTask(projectId, taskId, newTaskInfo) {
-		projects[projectId].editTask(taskId, newTaskInfo);
+	function editProjectTask(projName, taskId, newTaskInfo) {
+		const proj = getProjectByName(projName);
+		proj.editTask(taskId, newTaskInfo);
 	}
 
-	function removeProjectTask(projectId, taskId) {
-		projects[projectId].removeTask(taskId);
+	function removeProjectTask(projName, taskId) {
+		const proj = getProjectByName(projName);
+		proj.removeTask(taskId);
 	}
 
 	function changeCurrentProject(newProjName) {
