@@ -5,8 +5,8 @@ const ProjectManager = (() => {
 	let currentProject;
 
 	function addProject(projName) {
-		projects.push(new Project(projName));
-		changeCurrentProject(projName);
+		projects.push(new Project(projName, projects.length));
+		changeCurrentProject(projects.length - 1);
 	}
 
 	function removeProject(projectId) {
@@ -27,20 +27,20 @@ const ProjectManager = (() => {
 		return projects;
 	}
 
-	function addTaskToProject(projId, taskInfo) {
-		projects[projId].addTask(taskInfo);
+	function addTaskToProject(projectId, taskInfo) {
+		projects[projectId].addTask(taskInfo, projectId);
 	}
 
-	function editProjectTask(projId, taskId, newTaskInfo) {
-		projects[projId].editTask(taskId, newTaskInfo);
+	function editProjectTask(projectId, taskId, newTaskInfo) {
+		projects[projectId].editTask(taskId, newTaskInfo);
 	}
 
-	function removeProjectTask(projId, taskId) {
-		projects[projId].removeTask(taskId);
+	function removeProjectTask(projectId, taskId) {
+		projects[projectId].removeTask(taskId);
 	}
 
-	function changeCurrentProject(projId) {
-		currentProject = projects[projId];
+	function changeCurrentProject(projectId) {
+		currentProject = projects[projectId];
 	}
 
 	function getCurrentProject() {
@@ -67,9 +67,8 @@ const ProjectManager = (() => {
 		return tasks;
 	}
 
-	function toggleTaskStatus(projName, taskId) {
-		const proj = getProjectByName(projName);
-		proj.toggleTaskStatus(taskId);
+	function toggleTaskStatus(projectId, taskId) {
+		projects[projectId].toggleTaskStatus(taskId);
 	}
 
 	return {
