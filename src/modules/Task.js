@@ -14,8 +14,12 @@ export default class Task {
 		this.starred = taskInfo.starred;
 	}
 
-	complete() {
-		this.#completed = true;
+	toggleStatus() {
+		if (this.#completed) {
+			this.#completed = false;
+		} else {
+			this.#completed = true;
+		}
 	}
 
 	get completed() {
