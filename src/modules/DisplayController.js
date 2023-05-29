@@ -102,33 +102,35 @@ const DisplayController = (() => {
 		return frag;
 	}
 
-	function createTaskList() {
+	function createTaskList(tasks) {
 		const list = document.createElement("ul");
 		list.classList.add("task-list");
+
+		const frag = createTaskContainers(tasks);
+		list.append(frag);
 
 		return list;
 	}
 
 	function renderCurrentProject() {
 		clearDynamicDisplay();
+
 		const currProject = ProjectManager.getCurrentProject();
 		const title = createDisplayTitle(currProject.name);
 
-		const taskList = createTaskList();
-
-		const tasks = createTaskContainers(currProject);
-		taskList.append(tasks);
+		const taskList = createTaskList(currProject.getIncompleteTasks());
 
 		dynamicDisplay.append(title, taskList);
 	}
 
 	function openTaskModal(taskForm) {
-		taskModal.classList.remove("hide");
 		renderProjectSelect(taskForm);
 
 		if (currentTab === "today") {
 			taskForm.elements.dueDate.valueAsDate = new Date();
 		}
+
+		taskModal.classList.remove("hide");
 	}
 
 	function closeTaskModal() {
@@ -139,9 +141,11 @@ const DisplayController = (() => {
 		clearDynamicDisplay();
 
 		const title = createDisplayTitle("Today");
+		const tasks = ProjectManager.getAllTasksDueToday();
+		const taskList = createTaskList(tasks);
 
-		const filteredProjs = ProjectManager.getProjectsFiltered("today");
-		console.log(filteredProjs);
+		dynamicDisplay.append(title, taskList);
+	}
 
 		const displayList = document.createElement("ul");
 
