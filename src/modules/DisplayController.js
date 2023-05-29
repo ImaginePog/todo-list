@@ -78,17 +78,23 @@ const DisplayController = (() => {
 		return displayTitle;
 	}
 
-	function createTaskContainers(proj) {
+	function createTaskContainers(tasks) {
 		const frag = document.createDocumentFragment();
-		for (let i = 0; i < proj.tasks.length; ++i) {
+		for (let i = 0; i < tasks.length; ++i) {
 			const taskContainer = document.createElement("li");
 			taskContainer.classList.add("task-container");
+			taskContainer.dataset.projectId = tasks[i].projectId;
+			taskContainer.dataset.taskId = tasks[i].id;
+
+			const completeBtn = document.createElement("button");
+			completeBtn.classList.add("complete-btn");
+			completeBtn.dataset.action = "toggleComplete";
 
 			const title = document.createElement("h3");
 			title.classList.add("task-title");
-			title.textContent = proj.tasks[i].name;
+			title.textContent = tasks[i].name;
 
-			taskContainer.append(title);
+			taskContainer.append(completeBtn, title);
 			frag.append(taskContainer);
 		}
 
