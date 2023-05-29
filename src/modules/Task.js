@@ -4,7 +4,7 @@ export default class Task {
 	#creationDate;
 	#completed;
 
-	constructor(taskInfo) {
+	constructor(taskInfo, id, projectId) {
 		this.name = taskInfo.name;
 		this.#creationDate = new Date();
 		this.dueDate = parseISO(taskInfo.dueDate);
@@ -12,6 +12,8 @@ export default class Task {
 		this.priority = taskInfo.priority;
 		this.description = taskInfo.description;
 		this.starred = taskInfo.starred;
+		this.projectId = projectId;
+		this.id = id;
 	}
 
 	toggleStatus() {
