@@ -89,6 +89,11 @@ const DisplayController = (() => {
 
 			const completeBtn = document.createElement("button");
 			completeBtn.classList.add("complete-btn");
+
+			if (tasks[i].completed) {
+				completeBtn.classList.add("complete-btn-on");
+			}
+
 			completeBtn.dataset.action = "toggleComplete";
 
 			const title = document.createElement("h3");
