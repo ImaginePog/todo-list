@@ -86,6 +86,7 @@ const DisplayController = (() => {
 			taskContainer.classList.add("task-container");
 			taskContainer.dataset.projectId = tasks[i].projectId;
 			taskContainer.dataset.taskId = tasks[i].id;
+			taskContainer.dataset.action = "showTaskDetails";
 
 			const completeBtn = document.createElement("button");
 			completeBtn.classList.add("complete-btn");
