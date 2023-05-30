@@ -25,7 +25,8 @@ export default class Project {
 	}
 
 	getTasksDueToday() {
-		return this.#tasks.filter((task) => isToday(task.dueDate));
+		const tasks = this.getIncompleteTasks();
+		return tasks.filter((task) => isToday(task.dueDate));
 	}
 
 	getIncompleteTasks() {
