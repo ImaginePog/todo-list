@@ -1,3 +1,4 @@
+import { format, formatDistance } from "date-fns";
 import ProjectManager from "./ProjectManager";
 
 const DisplayController = (() => {
@@ -5,6 +6,19 @@ const DisplayController = (() => {
 	const taskModal = document.querySelector(".task-modal");
 	const projectModal = document.querySelector(".project-modal");
 	const dynamicDisplay = document.querySelector(".dynamic-content");
+
+	const taskDetailsModal = document.querySelector(".task-details-modal");
+	const taskDetailTitle = taskDetailsModal.querySelector(".task-about-title");
+	const taskDetailDescription = taskDetailsModal.querySelector(
+		".task-about-description"
+	);
+	const taskDetailParent = taskDetailsModal.querySelector(
+		".task-parent-project"
+	);
+	const taskDetailDue = taskDetailsModal.querySelector(".task-due-date");
+	const taskDetailPriority = taskDetailsModal.querySelector(".task-priority");
+	const taskDetailCreation =
+		taskDetailsModal.querySelector(".task-created-date");
 
 	let currentTab;
 
@@ -196,12 +210,48 @@ const DisplayController = (() => {
 		projectModal.classList.add("hide");
 	}
 
+	function showTaskDetails(projectId, taskId) {
+		const proj = ProjectManager.getAllProjects()[projectId];
+		const task = proj.tasks[taskId];
+
+		taskDetailTitle.textContent = task.name;
+
+		if (task.description) {
+			taskDetailDescription.textContent = task.description;
+		} else {
+			taskDetailDescription.textContent = "No Description";
+		}
+
+		taskDetailParent.textContent = proj.name;
+
+		if (task.dueDate) {
+			taskDetailDue.textContent = format(task.dueDate, "MMM d, yyyy");
+		} else {
+			taskDetailDue.textContent = "No Due Set";
+		}
+
+		if (task.overdue) {
+			taskDetailDue.classList.add("overdue-indicator");
+			taskDetailDue.textContent += ` (overdue by ${formatDistance(
+				task.dueDate,
+				new Date()
+			)})`;
+		}
+
+		taskDetailPriority.textContent = task.priority;
+
+		taskDetailCreation.textContent = format(task.creationDate, "MMM d, yyyy");
+
+		taskDetailsModal.classList.remove("hide");
+	}
+
 	return {
 		renderProjectTabs,
 		openTaskModal,
 		closeTaskModal,
 		openProjectModal,
 		closeProjectModal,
+		showTaskDetails,
 		renderToday,
 		changeCurrentTab,
 		renderCurrentTab,
