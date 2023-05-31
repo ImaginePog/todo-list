@@ -22,13 +22,14 @@ const DisplayController = (() => {
 
 	let currentTab;
 
-	function createProjectTab(projectName) {
+	function createProjectTab(projectName, projectId) {
 		const li = document.createElement("li");
 		li.classList.add("nav-item");
 
 		const btn = document.createElement("button");
 		btn.classList.add("nav-btn");
 		btn.dataset.action = btn.textContent = projectName;
+		btn.dataset.projectId = projectId;
 
 		li.append(btn);
 
@@ -44,8 +45,7 @@ const DisplayController = (() => {
 		const frag = document.createDocumentFragment();
 
 		for (let i = 1; i < projNames.length; ++i) {
-			const tab = createProjectTab(projNames[i]);
-			tab.dataset.projectId = i;
+			const tab = createProjectTab(projNames[i], i);
 			frag.append(tab);
 		}
 
