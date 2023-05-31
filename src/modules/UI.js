@@ -8,9 +8,32 @@ const UI = (() => {
 	const taskForm = document.querySelector(".add-task-form");
 	const projectForm = document.querySelector(".add-project-form");
 
+	function toggleComplete(taskContainer) {
+		ProjectManager.toggleTaskStatus(
+			taskContainer.dataset.projectId,
+			taskContainer.dataset.taskId
+		);
+		DisplayController.renderCurrentTab();
+	}
+
 	function handleMainClick(e) {
-		if (e.target.dataset.action === "openTaskModal") {
+		if (!e.target.dataset.action) {
+			return;
+		}
+
+		switch (e.target.dataset.action) {
+			case "openTaskModal":
 			DisplayController.openTaskModal(taskForm);
+				break;
+			case "toggleComplete":
+				toggleComplete(e.target.closest(".task-container"));
+				break;
+			case "showTaskDetails":
+				const taskContainer = e.target.closest(".task-container");
+				DisplayController.showTaskDetails(
+					taskContainer.dataset.projectId,
+					taskContainer.dataset.taskId
+				);
 		}
 	}
 
