@@ -32,8 +32,10 @@ export default class Task {
 	toggleStatus() {
 		if (this.#completed) {
 			this.#completed = false;
+			this.overdue = isAfter(now, taskInfo.dueDate);
 		} else {
 			this.#completed = true;
+			this.overdue = false;
 		}
 	}
 
