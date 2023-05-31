@@ -45,12 +45,11 @@ const UI = (() => {
 		}
 
 		switch (action) {
-			case "inbox":
-				ProjectManager.changeCurrentProject("Inbox");
-				DisplayController.changeCurrentTab("project");
-				break;
 			case "today":
 				DisplayController.changeCurrentTab("today");
+				return;
+			case "completed":
+				DisplayController.changeCurrentTab("completed");
 				return;
 			case "projects":
 				DisplayController.changeCurrentTab("projects");
@@ -59,7 +58,7 @@ const UI = (() => {
 				DisplayController.openProjectModal();
 				return;
 			default:
-				ProjectManager.changeCurrentProject(action);
+				ProjectManager.changeCurrentProject(e.target.dataset.projectId);
 				DisplayController.changeCurrentTab("project");
 		}
 	}
