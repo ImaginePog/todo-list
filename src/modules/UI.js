@@ -3,37 +3,41 @@ import ProjectManager from "./ProjectManager";
 
 const UI = (() => {
 	const nav = document.querySelector(".nav");
-
 	const main = document.querySelector("#main");
 	const taskForm = document.querySelector(".add-task-form");
 	const projectForm = document.querySelector(".add-project-form");
-
-	function toggleComplete(taskContainer) {
-		ProjectManager.toggleTaskStatus(
-			taskContainer.dataset.projectId,
-			taskContainer.dataset.taskId
-		);
-		DisplayController.renderCurrentTab();
-	}
 
 	function handleMainClick(e) {
 		if (!e.target.dataset.action) {
 			return;
 		}
 
+		const taskContainer = e.target.closest(".task-container");
+
 		switch (e.target.dataset.action) {
 			case "openTaskModal":
-			DisplayController.openTaskModal(taskForm);
+				DisplayController.openTaskModal(taskForm);
 				break;
 			case "toggleComplete":
-				toggleComplete(e.target.closest(".task-container"));
+				ProjectManager.toggleTaskStatus(
+					taskContainer.dataset.projectId,
+					taskContainer.dataset.taskId
+				);
+				DisplayController.renderCurrentTab();
 				break;
 			case "showTaskDetails":
-				const taskContainer = e.target.closest(".task-container");
 				DisplayController.showTaskDetails(
 					taskContainer.dataset.projectId,
 					taskContainer.dataset.taskId
 				);
+				break;
+			case "deleteTask":
+				ProjectManager.removeProjectTask(
+					taskContainer.dataset.projectId,
+					taskContainer.dataset.taskId
+				);
+				DisplayController.renderCurrentTab();
+				break;
 		}
 	}
 
