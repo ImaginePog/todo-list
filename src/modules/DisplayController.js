@@ -1,5 +1,7 @@
 import { format, formatDistance } from "date-fns";
 import ProjectManager from "./ProjectManager";
+import trashIcon from "../assets/images/trash-icon.png";
+import editIconImg from "../assets/images/edit-icon.png";
 
 const DisplayController = (() => {
 	const projectList = document.querySelector(".project-list");
@@ -103,7 +105,7 @@ const DisplayController = (() => {
 			taskContainer.dataset.action = "showTaskDetails";
 
 			const completeBtn = document.createElement("button");
-			completeBtn.classList.add("complete-btn");
+			completeBtn.classList.add("complete-task-btn");
 
 			if (tasks[i].completed) {
 				completeBtn.classList.add("complete-btn-on");
@@ -114,8 +116,34 @@ const DisplayController = (() => {
 			const title = document.createElement("h3");
 			title.classList.add("task-title");
 			title.textContent = tasks[i].name;
+			title.dataset.action = "showTaskDetails";
 
-			taskContainer.append(completeBtn, title);
+			const taskOptions = document.createElement("div");
+			taskOptions.classList.add("task-options-container");
+
+			const deleteBtn = document.createElement("button");
+			deleteBtn.classList.add("delete-task-btn", "task-option-btn");
+			deleteBtn.dataset.action = "deleteTask";
+
+			const deleteIcon = document.createElement("img");
+			deleteIcon.src = trashIcon;
+			deleteIcon.classList.add("icon-img");
+			deleteIcon.dataset.action = "deleteTask";
+			deleteBtn.append(deleteIcon);
+
+			const editBtn = document.createElement("button");
+			editBtn.classList.add("edit-task-btn", "task-option-btn");
+			editBtn.dataset.action = "editTask";
+
+			const editIcon = document.createElement("img");
+			editIcon.src = editIconImg;
+			editIcon.classList.add("icon-img");
+			editIcon.dataset.action = "editTask";
+			editBtn.append(editIcon);
+
+			taskOptions.append(editBtn, deleteBtn);
+
+			taskContainer.append(completeBtn, title, taskOptions);
 			frag.append(taskContainer);
 		}
 
