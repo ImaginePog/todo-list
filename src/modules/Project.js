@@ -21,7 +21,7 @@ export default class Project {
 	}
 
 	editTask(taskId, newTaskInfo) {
-		this.#tasks[taskId] = new Task(newTaskInfo);
+		this.#tasks[taskId] = new Task(newTaskInfo, taskId, this.id);
 	}
 
 	getTasksDueToday() {
