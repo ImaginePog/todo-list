@@ -174,6 +174,11 @@ const DisplayController = (() => {
 	function openTaskModal(taskForm) {
 		renderProjectSelect(taskForm);
 
+		const submitBtn = taskForm.querySelector(".task-form-submit-btn");
+		submitBtn.textContent = "Add Task";
+		submitBtn.dataset.action = "add";
+		delete submitBtn.dataset.actionTask;
+
 		if (currentTab === "today") {
 			taskForm.elements.dueDate.valueAsDate = new Date();
 		}
@@ -183,6 +188,40 @@ const DisplayController = (() => {
 
 	function closeTaskModal() {
 		taskModal.classList.add("hide");
+	}
+
+	function formatDateForInput(date = new Date()) {
+		return [
+			date.getFullYear(),
+			(date.getMonth() + 1).toString().padStart(2, "0"),
+			date.getDate().toString().padStart(2, "0"),
+		].join("-");
+	}
+
+	function openEditModal(taskForm, projectId, taskId) {
+		openTaskModal(taskForm);
+
+		const submitBtn = taskForm.querySelector(".task-form-submit-btn");
+		submitBtn.textContent = "Edit Task";
+		submitBtn.dataset.action = "edit";
+		submitBtn.dataset.actionTask = taskId;
+
+		const taskBeforeEdit =
+			ProjectManager.getAllProjects()[projectId].tasks[taskId];
+
+		taskForm.elements.title.value = taskBeforeEdit.name;
+		if (taskBeforeEdit.description)
+			taskForm.elements.description.value = taskBeforeEdit.description;
+		if (taskBeforeEdit.dueDate) {
+			taskForm.elements.dueDate.value = formatDateForInput(
+				taskBeforeEdit.dueDate
+			);
+		}
+		taskForm.elements.priority.value = taskBeforeEdit.priority;
+
+		taskForm.elements.project.value = projectId;
+
+		ProjectManager.removeProjectTask(projectId, taskId);
 	}
 
 	function renderToday() {
@@ -279,6 +318,7 @@ const DisplayController = (() => {
 		closeTaskModal,
 		openProjectModal,
 		closeProjectModal,
+		openEditModal,
 		showTaskDetails,
 		renderToday,
 		changeCurrentTab,
