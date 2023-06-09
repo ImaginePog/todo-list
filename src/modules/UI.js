@@ -38,6 +38,13 @@ const UI = (() => {
 				);
 				DisplayController.renderCurrentTab();
 				break;
+			case "editTask":
+				DisplayController.openEditModal(
+					taskForm,
+					taskContainer.dataset.projectId,
+					taskContainer.dataset.taskId
+				);
+				break;
 		}
 	}
 
@@ -69,6 +76,29 @@ const UI = (() => {
 
 	function handleTaskFormClick(e) {
 		if (e.target.dataset.action === "closeForm") {
+			if (
+				e.target
+					.closest(".add-task-form")
+					.querySelector(".task-form-submit-btn").dataset.action === "edit"
+			) {
+				const form = e.target.closest(".add-task-form");
+
+				let taskInfo = {
+					name: form.elements.title.value,
+					description: form.elements.description.value,
+					dueDate: form.elements.dueDate.value,
+					priority: form.elements.priority.value,
+				};
+
+				if (!taskInfo.name) {
+					alert("Please enter a title");
+					return;
+				}
+
+				let projectId = form.elements.project.value;
+
+				ProjectManager.addTaskToProject(projectId, taskInfo);
+			}
 			e.currentTarget.reset();
 			DisplayController.closeTaskModal();
 		}
@@ -111,7 +141,16 @@ const UI = (() => {
 
 		let projectId = form.elements.project.value;
 
-		ProjectManager.addTaskToProject(projectId, taskInfo);
+		const actionBtn = form.querySelector(".task-form-submit-btn");
+		if (actionBtn.dataset.action === "add") {
+			ProjectManager.addTaskToProject(projectId, taskInfo);
+		} else {
+			ProjectManager.editProjectTask(
+				projectId,
+				actionBtn.dataset.actionTask,
+				taskInfo
+			);
+		}
 
 		form.reset();
 		DisplayController.closeTaskModal();
