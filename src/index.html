@@ -20,18 +20,18 @@
       <main id="main"></main>
       <form class="add-form">
         <label for="project-select">Project: </label>
-        <select name="project-select" id="project-select">
+        <select name="projectSelect" id="project-select">
           <!-- dynamic options here -->
         </select>
         <label for="task-name">task name: </label>
-        <input type="text" id="task-name" />
+        <input type="text" name="taskName" id="task-name" />
         <label for="task-priority">task priority: </label>
-        <select name="task-priority" id="task-priority">
+        <select name="taskPriority" id="task-priority">
           <option value="high">High</option>
-          <option value="none">None</option>
+          <option value="none" selected>None</option>
           <option value="low">Low</option>
         </select>
-        <button>Add</button>
+        <button class="add-task-btn" data-action="add">Add</button>
       </form>
     </div>
   </body>

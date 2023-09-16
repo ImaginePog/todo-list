@@ -4,8 +4,9 @@ const Handle = (() => {
   const main = document.querySelector("#main");
   const projectListSide = document.querySelector(".sidebar-project-list");
 
-  const addForm = document.querySelector("add-form");
+  const addForm = document.querySelector(".add-form");
   const projectSelect = addForm.querySelector("#project-select");
+  const addTaskBtn = addForm.querySelector(".add-task-btn");
 
   let projects = [];
   projects.push(new Project("Home", 0));
@@ -134,6 +135,22 @@ const Handle = (() => {
     projectSelect.innerText = "";
     projectSelect.append(frag);
   }
+
+  addForm.addEventListener("click", (e) => {
+    if (!e.target.dataset.action) {
+      return;
+    }
+    e.preventDefault();
+    const form = e.currentTarget;
+
+    const taskInfo = {};
+    taskInfo.name = form["taskName"].value;
+    taskInfo.priority = form["taskPriority"].value;
+
+    AddTaskToProject(form["projectSelect"].value, taskInfo);
+    DisplayProject(form["projectSelect"].value);
+    form.reset();
+  });
 
   AddTaskToProject(0, { name: "mytask", priority: "very fucking high" });
   AddTaskToProject(0, { name: "someothetask", priority: "low bruv" });
