@@ -88,3 +88,10 @@ ul {
   display: block;
   margin-bottom: 20px;
 }
+
+.add-input-container {
+  position: absolute;
+  bottom: 20px;
+  background-color: rgb(109, 37, 37);
+  padding: 10px;
+}
