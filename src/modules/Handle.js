@@ -10,8 +10,11 @@ const Handle = (() => {
   const addProjectForm = document.querySelector(".add-project-form");
 
   let projects = [];
-  projects.push(new Project("Home", 0));
-  projects.push(new Project("TestProj", 1));
+
+  function AddProject(projName) {
+    projects.push(new Project(projName, projects.length));
+    return projects[length - 1];
+  }
 
   function DisplayAllProjects() {
     const frag = document.createDocumentFragment();
@@ -167,8 +170,7 @@ const Handle = (() => {
     e.preventDefault();
     const form = e.currentTarget;
 
-    const newProjectName = form["projectName"].value;
-    projects.push(new Project(newProjectName, projects.length));
+    AddProject(form["projectName"].value);
 
     form.reset();
 
