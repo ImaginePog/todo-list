@@ -4,7 +4,7 @@ const Handle = (() => {
   const main = document.querySelector("#main");
   const projectListSide = document.querySelector(".sidebar-project-list");
 
-  const addForm = document.querySelector(".add-form");
+  const addForm = document.querySelector(".add-task-form");
   const projectSelect = addForm.querySelector("#project-select");
   const addTaskBtn = addForm.querySelector(".add-task-btn");
 
@@ -24,6 +24,8 @@ const Handle = (() => {
       item.innerText =
         "Name: " + project.name + " No. of tasks: " + project.tasks.length;
       item.classList.add("project-container");
+      item.dataset.projId = project.id;
+      item.dataset.tabber = "project";
       list.appendChild(item);
     });
 
@@ -33,40 +35,42 @@ const Handle = (() => {
     main.append(frag);
   }
 
+  function ChangeView(viewtype, viewid) {
+    switch (viewtype) {
+      case "allproj":
+        DisplayAllProjects();
+        break;
+      case "project":
+        DisplayProject(viewid);
+        break;
+      default:
+    }
+  }
+
   const sidebar = document.querySelector("#aside");
   sidebar.addEventListener("click", (e) => {
     if (!e.target.dataset.action) {
       return;
     }
-    // console.log("confirmed tab");
-
-    switch (e.target.dataset.action) {
-      case "allproj":
-        DisplayAllProjects();
-        break;
-      case "project":
-        DisplayProject(e.target.dataset.projId);
-        break;
-      default:
-    }
+    ChangeView(e.target.dataset.action, e.target.dataset.projId);
   });
 
   main.addEventListener("click", (e) => {
-    if (!e.target.dataset.action) {
-      return;
-    }
+    if (e.target.dataset.action) {
+      const pressedTask = e.target.closest(".task-container").dataset.taskId;
+      const parentProject = e.target.closest(".task-container").dataset.projId;
 
-    const pressedTask = e.target.closest(".task-container").dataset.taskId;
-    const parentProject = e.target.closest(".task-container").dataset.projectId;
-
-    switch (e.target.dataset.action) {
-      case "Edit":
-        break;
-      case "Delete":
-        projects[parentProject].removeTask(pressedTask);
-        break;
+      switch (e.target.dataset.action) {
+        case "Edit":
+          break;
+        case "Delete":
+          projects[parentProject].removeTask(pressedTask);
+          break;
+      }
+      DisplayProject(parentProject);
+    } else if (e.target.dataset.tabber) {
+      ChangeView(e.target.dataset.tabber, e.target.dataset.projId);
     }
-    DisplayProject(parentProject);
   });
 
   function DisplayProject(projId) {
@@ -89,7 +93,7 @@ const Handle = (() => {
         task.creationDate;
       item.classList.add("task-container");
       item.dataset.taskId = index;
-      item.dataset.projectId = selectedProj.id;
+      item.dataset.projId = selectedProj.id;
 
       const editBtn = document.createElement("button");
       editBtn.innerText = editBtn.dataset.action = "Edit";
@@ -158,6 +162,7 @@ const Handle = (() => {
 
   RenderSidebarProjects();
   PopulateProjectSelect();
+  ChangeView("allproj");
 })();
 
 export default Handle;
