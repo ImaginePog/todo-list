@@ -95,3 +95,18 @@ ul {
   background-color: rgb(109, 37, 37);
   padding: 10px;
 }
+
+.add-project-form {
+  bottom: 70px;
+}
+
+.high {
+  background-color: red;
+}
+
+.none {
+  background-color: aquamarine;
+}
+.low {
+  background-color: rgb(146, 146, 146);
+}

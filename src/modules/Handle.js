@@ -4,9 +4,10 @@ const Handle = (() => {
   const main = document.querySelector("#main");
   const projectListSide = document.querySelector(".sidebar-project-list");
 
-  const addForm = document.querySelector(".add-task-form");
-  const projectSelect = addForm.querySelector("#project-select");
-  const addTaskBtn = addForm.querySelector(".add-task-btn");
+  const addTaskForm = document.querySelector(".add-task-form");
+  const projectSelect = addTaskForm.querySelector("#project-select");
+
+  const addProjectForm = document.querySelector(".add-project-form");
 
   let projects = [];
   projects.push(new Project("Home", 0));
@@ -87,11 +88,11 @@ const Handle = (() => {
       item.innerText =
         "Task name: " +
         task.name +
-        " priority: " +
-        task.priority +
         " creation date " +
-        task.creationDate;
-      item.classList.add("task-container");
+        task.creationDate +
+        "due date: " +
+        task.dueDate;
+      item.classList.add(task.priority, "task-container");
       item.dataset.taskId = index;
       item.dataset.projId = selectedProj.id;
 
@@ -140,7 +141,7 @@ const Handle = (() => {
     projectSelect.append(frag);
   }
 
-  addForm.addEventListener("click", (e) => {
+  addTaskForm.addEventListener("click", (e) => {
     if (!e.target.dataset.action) {
       return;
     }
@@ -150,15 +151,31 @@ const Handle = (() => {
     const taskInfo = {};
     taskInfo.name = form["taskName"].value;
     taskInfo.priority = form["taskPriority"].value;
+    taskInfo.dueDate = form["duedate"].value;
+
+    console.log(taskInfo);
 
     AddTaskToProject(form["projectSelect"].value, taskInfo);
     DisplayProject(form["projectSelect"].value);
     form.reset();
   });
 
-  AddTaskToProject(0, { name: "mytask", priority: "very fucking high" });
-  AddTaskToProject(0, { name: "someothetask", priority: "low bruv" });
-  AddTaskToProject(1, { name: "besttask rbuv", priority: "high bruv" });
+  addProjectForm.addEventListener("click", (e) => {
+    if (!e.target.dataset.action) {
+      return;
+    }
+    e.preventDefault();
+    const form = e.currentTarget;
+
+    const newProjectName = form["projectName"].value;
+    projects.push(new Project(newProjectName, projects.length));
+
+    form.reset();
+
+    ChangeView("project", projects.length - 1);
+    RenderSidebarProjects();
+    PopulateProjectSelect();
+  });
 
   RenderSidebarProjects();
   PopulateProjectSelect();
