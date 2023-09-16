@@ -156,11 +156,11 @@ const Handle = (() => {
     taskInfo.priority = form["taskPriority"].value;
     taskInfo.dueDate = form["duedate"].value;
 
-    console.log(taskInfo);
-
     AddTaskToProject(form["projectSelect"].value, taskInfo);
     DisplayProject(form["projectSelect"].value);
     form.reset();
+
+    localStorage.setItem("projectList", JSON.stringify(projects));
   });
 
   addProjectForm.addEventListener("click", (e) => {
@@ -177,8 +177,27 @@ const Handle = (() => {
     ChangeView("project", projects.length - 1);
     RenderSidebarProjects();
     PopulateProjectSelect();
+
+    localStorage.setItem("projectList", JSON.stringify(projects));
   });
 
+  function PopulateProjects() {
+    if (!localStorage.getItem("projectList")) {
+      AddProject("Home");
+      return;
+    }
+
+    const projectData = JSON.parse(localStorage.getItem("projectList"));
+
+    projectData.forEach((data) => {
+      AddProject(data.name);
+      data.tasks.forEach((task) => {
+        AddTaskToProject(data.id, task);
+      });
+    });
+  }
+
+  PopulateProjects();
   RenderSidebarProjects();
   PopulateProjectSelect();
   ChangeView("allproj");
