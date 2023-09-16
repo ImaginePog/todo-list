@@ -4,6 +4,9 @@ const Handle = (() => {
   const main = document.querySelector("#main");
   const projectListSide = document.querySelector(".sidebar-project-list");
 
+  const addForm = document.querySelector("add-form");
+  const projectSelect = addForm.querySelector("#project-select");
+
   let projects = [];
   projects.push(new Project("Home", 0));
   projects.push(new Project("TestProj", 1));
@@ -118,11 +121,26 @@ const Handle = (() => {
     projects[projId].addTask(taskinfo);
   }
 
+  function PopulateProjectSelect() {
+    const frag = document.createDocumentFragment();
+
+    projects.forEach((project) => {
+      const opt = document.createElement("option");
+      opt.value = project.id;
+      opt.innerText = project.name;
+      frag.append(opt);
+    });
+
+    projectSelect.innerText = "";
+    projectSelect.append(frag);
+  }
+
   AddTaskToProject(0, { name: "mytask", priority: "very fucking high" });
   AddTaskToProject(0, { name: "someothetask", priority: "low bruv" });
   AddTaskToProject(1, { name: "besttask rbuv", priority: "high bruv" });
 
   RenderSidebarProjects();
+  PopulateProjectSelect();
 })();
 
 export default Handle;
