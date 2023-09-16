@@ -25,10 +25,66 @@ ul {
 /*  PAGE LAYOUT*/
 #app {
   min-height: 100vh;
+
+  display: grid;
+  grid-template-columns: 5;
+  grid-template-rows: 10;
 }
 
 /* UTILS */
 
 .hide {
   display: none;
+}
+
+#aside {
+  grid-area: "aside";
+  background-color: grey;
+  grid-row: 2 / span 11;
+  grid-column: 1 / span 1;
+
+  padding: 2rem;
+}
+
+#main {
+  grid-area: "main";
+  grid-column: 2 / 7;
+  grid-row: 2 / span 11;
+}
+
+#header {
+  grid-column: 1 / 7;
+  grid-row: 1 / 2;
+  grid-area: "header";
+  background-color: rgb(98, 98, 185);
+  color: white;
+  text-align: center;
+  padding: 10px;
+  font-size: 3rem;
+}
+
+.tab {
+  background-color: rgb(80, 65, 65);
+  padding: 5px;
+}
+
+.project-container {
+  background-color: rgb(124, 38, 38);
+  padding: 5px;
+  color: white;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.sidebar-project-item {
+  display: block;
+  margin-top: 10px;
+}
+
+.task-container {
+  background-color: rgb(187, 173, 173);
+  padding: 20px;
+  text-align: center;
+  display: block;
+  margin-bottom: 20px;
 }
