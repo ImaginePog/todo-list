@@ -6,7 +6,7 @@ export default class Task {
     if (taskInfo.creationDate) {
       this.creationDate = taskInfo.creationDate;
     } else {
-      this.creationDate = now();
+      this.creationDate = Date.now();
     }
 
     if (taskInfo.dueDate) {
