@@ -13,7 +13,8 @@ const Handle = (() => {
 
   function AddProject(projName) {
     projects.push(new Project(projName, projects.length));
-    return projects[length - 1];
+
+    UpdateStorage();
   }
 
   function RemoveProject(projId) {
@@ -21,6 +22,17 @@ const Handle = (() => {
     projects.forEach((project, index) => {
       project.id = index;
     });
+    UpdateStorage();
+  }
+
+  function AddTaskToProject(projId, taskinfo) {
+    projects[projId].addTask(taskinfo);
+    UpdateStorage();
+  }
+
+  function RemoveTaskFromProject(projId, taskId) {
+    projects[projId].removeTask(taskId);
+    UpdateStorage();
   }
 
   function UpdateStorage() {
@@ -75,7 +87,6 @@ const Handle = (() => {
       const projId = e.target.closest(".sidebar-project-item").dataset.projId;
 
       RemoveProject(projId);
-      UpdateStorage();
 
       RenderSidebarProjects();
       PopulateProjectSelect();
@@ -89,17 +100,17 @@ const Handle = (() => {
 
   main.addEventListener("click", (e) => {
     if (e.target.dataset.action) {
-      const pressedTask = e.target.closest(".task-container").dataset.taskId;
-      const parentProject = e.target.closest(".task-container").dataset.projId;
+      const taskId = e.target.closest(".task-container").dataset.taskId;
+      const projId = e.target.closest(".task-container").dataset.projId;
 
       switch (e.target.dataset.action) {
         case "Edit":
           break;
         case "Delete":
-          projects[parentProject].removeTask(pressedTask);
+          RemoveTaskFromProject(projId, taskId);
           break;
       }
-      DisplayProject(parentProject);
+      DisplayProject(projId);
     } else if (e.target.dataset.tabber) {
       ChangeView(e.target.dataset.tabber, e.target.dataset.projId);
     }
@@ -161,10 +172,6 @@ const Handle = (() => {
     });
   }
 
-  function AddTaskToProject(projId, taskinfo) {
-    projects[projId].addTask(taskinfo);
-  }
-
   function PopulateProjectSelect() {
     const frag = document.createDocumentFragment();
 
@@ -194,8 +201,6 @@ const Handle = (() => {
     AddTaskToProject(form["projectSelect"].value, taskInfo);
     DisplayProject(form["projectSelect"].value);
     form.reset();
-
-    UpdateStorage();
   });
 
   addProjectForm.addEventListener("click", (e) => {
@@ -212,8 +217,6 @@ const Handle = (() => {
     ChangeView("project", projects.length - 1);
     RenderSidebarProjects();
     PopulateProjectSelect();
-
-    UpdateStorage();
   });
 
   function PopulateProjects() {
