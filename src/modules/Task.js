@@ -1,12 +1,13 @@
 import { isAfter, parseISO } from "date-fns";
 
 export default class Task {
-  #creationDate;
-  #completed;
-
   constructor(taskInfo, id, projectId) {
     this.name = taskInfo.name;
-    this.#creationDate = new Date();
+    if (taskInfo.creationDate) {
+      this.creationDate = taskInfo.creationDate;
+    } else {
+      this.creationDate = now();
+    }
 
     if (taskInfo.dueDate) {
       taskInfo.dueDate = parseISO(taskInfo.dueDate);
@@ -21,7 +22,7 @@ export default class Task {
       this.dueDate = "";
     }
 
-    this.#completed = false;
+    this.completed = false;
     this.priority = taskInfo.priority;
     this.description = taskInfo.description;
     this.starred = taskInfo.starred;
@@ -30,24 +31,16 @@ export default class Task {
   }
 
   toggleStatus() {
-    if (this.#completed) {
-      this.#completed = false;
+    if (this.completed) {
+      this.completed = false;
 
       let now = new Date();
       now = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 
       this.overdue = isAfter(now, parseISO(this.dueDate));
     } else {
-      this.#completed = true;
+      this.completed = true;
       this.overdue = false;
     }
-  }
-
-  get completed() {
-    return this.#completed;
-  }
-
-  get creationDate() {
-    return this.#creationDate;
   }
 }
