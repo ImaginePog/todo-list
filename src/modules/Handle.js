@@ -23,6 +23,14 @@ const Handle = (() => {
     });
   }
 
+  function UpdateStorage() {
+    localStorage.setItem("projectList", JSON.stringify(projects));
+
+    if (JSON.parse(localStorage.getItem("projectList")).length == 0) {
+      localStorage.removeItem("projectList");
+    }
+  }
+
   function DisplayAllProjects() {
     const frag = document.createDocumentFragment();
 
@@ -65,9 +73,10 @@ const Handle = (() => {
     }
     if (e.target.dataset.action == "delete") {
       const projId = e.target.closest(".sidebar-project-item").dataset.projId;
-      localStorage.setItem("projectList", JSON.stringify(projects));
 
       RemoveProject(projId);
+      UpdateStorage();
+
       RenderSidebarProjects();
       PopulateProjectSelect();
 
@@ -186,7 +195,7 @@ const Handle = (() => {
     DisplayProject(form["projectSelect"].value);
     form.reset();
 
-    localStorage.setItem("projectList", JSON.stringify(projects));
+    UpdateStorage();
   });
 
   addProjectForm.addEventListener("click", (e) => {
@@ -204,7 +213,7 @@ const Handle = (() => {
     RenderSidebarProjects();
     PopulateProjectSelect();
 
-    localStorage.setItem("projectList", JSON.stringify(projects));
+    UpdateStorage();
   });
 
   function PopulateProjects() {
