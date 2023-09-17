@@ -16,6 +16,13 @@ const Handle = (() => {
     return projects[length - 1];
   }
 
+  function RemoveProject(projId) {
+    projects = projects.filter((project) => project.id != projId);
+    projects.forEach((project, index) => {
+      project.id = index;
+    });
+  }
+
   function DisplayAllProjects() {
     const frag = document.createDocumentFragment();
 
@@ -54,6 +61,18 @@ const Handle = (() => {
   const sidebar = document.querySelector("#aside");
   sidebar.addEventListener("click", (e) => {
     if (!e.target.dataset.action) {
+      return;
+    }
+    if (e.target.dataset.action == "delete") {
+      const projId = e.target.closest(".sidebar-project-item").dataset.projId;
+      localStorage.setItem("projectList", JSON.stringify(projects));
+
+      RemoveProject(projId);
+      RenderSidebarProjects();
+      PopulateProjectSelect();
+
+      ChangeView("allproj");
+
       return;
     }
     ChangeView(e.target.dataset.action, e.target.dataset.projId);
@@ -122,6 +141,13 @@ const Handle = (() => {
       item.classList.add("tab", "sidebar-project-item");
       item.dataset.action = "project";
       item.dataset.projId = index;
+
+      const deleteProjBtn = document.createElement("button");
+      deleteProjBtn.innerText = "Delete";
+      deleteProjBtn.dataset.action = "delete";
+      deleteProjBtn.classList.add(".delete-project-btn");
+      item.append(deleteProjBtn);
+
       projectListSide.append(item);
     });
   }
