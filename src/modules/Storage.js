@@ -1,3 +1,5 @@
+//Storage IIFE module provides interface to the localStorage
+//For now only stores everything in "state" maybe change later dunno
 const Storage = (() => {
   //Updates the state stored in the localStorage
   //If the state is empty removes the key from localStorage
@@ -21,3 +23,5 @@ const Storage = (() => {
 
   return { updateStorage, getStoredState };
 })();
+
+export default Storage;
