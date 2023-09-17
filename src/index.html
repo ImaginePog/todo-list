@@ -18,12 +18,12 @@
         <ul class="sidebar-project-list"></ul>
       </aside>
       <main id="main"></main>
-      <form class="add-form add-project-form">
+      <form class="form add-project-form">
         <label for="project-name">Project: </label>
         <input type="text" name="projectName" id="project-name" />
         <button class="add-project-btn" data-action="add">Add</button>
       </form>
-      <form class="add-form add-task-form">
+      <form class="form add-task-form">
         <label for="project-select">Project: </label>
         <select name="projectSelect" id="project-select">
           <!-- dynamic options here -->
@@ -39,6 +39,22 @@
         <label for="duedate">Due Date </label>
         <input type="date" name="duedate" id="duedate" />
         <button class="add-task-btn" data-action="add">Add</button>
+      </form>
+
+      <form class="form edit-task-form hide">
+        <label for="task-name">task name: </label>
+        <input type="text" name="taskName" id="task-name" />
+        <label for="task-priority">task priority: </label>
+        <select name="taskPriority" id="task-priority">
+          <option value="high">High</option>
+          <option value="none" selected>None</option>
+          <option value="low">Low</option>
+        </select>
+        <label for="duedate">Due Date </label>
+        <input type="date" name="duedate" id="duedate" />
+        <button name="editbtn" class="edit-task-btn" data-action="edit">
+          Edit
+        </button>
       </form>
     </div>
   </body>
