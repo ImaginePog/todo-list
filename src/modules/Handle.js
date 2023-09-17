@@ -1,3 +1,4 @@
+import { format } from "date-fns";
 import Project from "./Project";
 
 const Handle = (() => {
@@ -8,6 +9,8 @@ const Handle = (() => {
   const projectSelect = addTaskForm.querySelector("#project-select");
 
   const addProjectForm = document.querySelector(".add-project-form");
+
+  const editTaskForm = document.querySelector(".edit-task-form");
 
   let projects = [];
 
@@ -25,13 +28,18 @@ const Handle = (() => {
     UpdateStorage();
   }
 
-  function AddTaskToProject(projId, taskinfo) {
-    projects[projId].addTask(taskinfo);
+  function AddTaskToProject(projId, taskInfo) {
+    projects[projId].addTask(taskInfo);
     UpdateStorage();
   }
 
   function RemoveTaskFromProject(projId, taskId) {
     projects[projId].removeTask(taskId);
+    UpdateStorage();
+  }
+
+  function EditTaskFromProject(projId, taskId, taskInfo) {
+    projects[projId].editTask(taskId, taskInfo);
     UpdateStorage();
   }
 
@@ -41,6 +49,24 @@ const Handle = (() => {
     if (JSON.parse(localStorage.getItem("projectList")).length == 0) {
       localStorage.removeItem("projectList");
     }
+  }
+
+  function OpenEditModal(projId, taskId) {
+    const task = projects[projId].tasks[taskId];
+    editTaskForm["taskName"].value = task.name;
+    editTaskForm["taskPriority"].value = task.priority;
+    if (task.dueDate) {
+      editTaskForm["duedate"].value = format(task.dueDate, "yyyy-MM-dd");
+    }
+    editTaskForm["editbtn"].dataset.projId = projId;
+    editTaskForm["editbtn"].dataset.taskId = taskId;
+
+    editTaskForm.classList.remove("hide");
+  }
+
+  function CloseEditTaskModal() {
+    editTaskForm.classList.add("hide");
+    editTaskForm.reset();
   }
 
   function DisplayAllProjects() {
@@ -105,6 +131,7 @@ const Handle = (() => {
 
       switch (e.target.dataset.action) {
         case "Edit":
+          OpenEditModal(projId, taskId);
           break;
         case "Delete":
           RemoveTaskFromProject(projId, taskId);
@@ -219,6 +246,30 @@ const Handle = (() => {
     ChangeView("project", projects.length - 1);
     RenderSidebarProjects();
     PopulateProjectSelect();
+  });
+
+  editTaskForm.addEventListener("click", (e) => {
+    if (!e.target.dataset.action) {
+      return;
+    }
+    e.preventDefault();
+
+    const form = e.currentTarget;
+
+    const taskInfo = {};
+    taskInfo.name = form["taskName"].value;
+    taskInfo.priority = form["taskPriority"].value;
+    taskInfo.dueDate = form["duedate"].value;
+
+    EditTaskFromProject(
+      e.target.dataset.projId,
+      e.target.dataset.taskId,
+      taskInfo
+    );
+
+    CloseEditTaskModal();
+
+    ChangeView("project", projects.length - 1);
   });
 
   function PopulateProjects() {

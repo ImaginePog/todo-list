@@ -89,7 +89,7 @@ ul {
   margin-bottom: 20px;
 }
 
-.add-form {
+.form {
   position: absolute;
   bottom: 20px;
   background-color: rgb(109, 37, 37);
@@ -100,6 +100,11 @@ ul {
   bottom: 70px;
 }
 
+.edit-task-form {
+  bottom: 500px;
+  left: 500px;
+}
+
 .high {
   background-color: red;
 }
@@ -107,6 +112,7 @@ ul {
 .none {
   background-color: aquamarine;
 }
+
 .low {
   background-color: rgb(146, 146, 146);
 }
