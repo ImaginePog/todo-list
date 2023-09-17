@@ -22,7 +22,11 @@ export default class Task {
       this.dueDate = "";
     }
 
-    this.completed = false;
+    if (taskInfo.completed) {
+      this.completed = true;
+    } else {
+      this.completed = false;
+    }
     this.priority = taskInfo.priority;
     this.description = taskInfo.description;
     this.starred = taskInfo.starred;

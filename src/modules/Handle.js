@@ -43,6 +43,11 @@ const Handle = (() => {
     UpdateStorage();
   }
 
+  function ToggleTaskCompletion(projId, taskId) {
+    projects[projId].toggleTaskStatus(taskId);
+    UpdateStorage();
+  }
+
   function UpdateStorage() {
     localStorage.setItem("projectList", JSON.stringify(projects));
 
@@ -130,11 +135,14 @@ const Handle = (() => {
       const projId = e.target.closest(".task-container").dataset.projId;
 
       switch (e.target.dataset.action) {
-        case "Edit":
+        case "edit":
           OpenEditModal(projId, taskId);
           break;
-        case "Delete":
+        case "delete":
           RemoveTaskFromProject(projId, taskId);
+          break;
+        case "complete":
+          ToggleTaskCompletion(projId, taskId);
           break;
       }
       DisplayProject(projId);
@@ -152,7 +160,7 @@ const Handle = (() => {
     h1.innerText = selectedProj.name + " tasks:";
 
     const list = document.createElement("list");
-    selectedProj.tasks.forEach((task, index) => {
+    selectedProj.getIncompleteTasks().forEach((task, index) => {
       const item = document.createElement("item");
       item.innerText =
         "Task name: " +
@@ -164,11 +172,12 @@ const Handle = (() => {
       item.classList.add(task.priority, "task-container");
       item.dataset.taskId = index;
       item.dataset.projId = selectedProj.id;
+      item.dataset.action = "complete";
 
       const editBtn = document.createElement("button");
-      editBtn.innerText = editBtn.dataset.action = "Edit";
+      editBtn.innerText = editBtn.dataset.action = "edit";
       const deleteBtn = document.createElement("button");
-      deleteBtn.innerText = deleteBtn.dataset.action = "Delete";
+      deleteBtn.innerText = deleteBtn.dataset.action = "delete";
 
       item.append(editBtn, deleteBtn);
       list.append(item);
