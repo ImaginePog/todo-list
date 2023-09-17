@@ -162,11 +162,13 @@ const Handle = (() => {
       item.dataset.action = "project";
       item.dataset.projId = index;
 
-      const deleteProjBtn = document.createElement("button");
-      deleteProjBtn.innerText = "Delete";
-      deleteProjBtn.dataset.action = "delete";
-      deleteProjBtn.classList.add(".delete-project-btn");
-      item.append(deleteProjBtn);
+      if (index != 0) {
+        const deleteProjBtn = document.createElement("button");
+        deleteProjBtn.innerText = "Delete";
+        deleteProjBtn.dataset.action = "delete";
+        deleteProjBtn.classList.add(".delete-project-btn");
+        item.append(deleteProjBtn);
+      }
 
       projectListSide.append(item);
     });
