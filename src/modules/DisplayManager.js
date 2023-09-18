@@ -2,11 +2,6 @@ import ProjectManager from "./ProjectManager";
 import DOM from "./DOM";
 
 const DisplayManager = (() => {
-  function refreshDisplay() {
-    renderSidebarProjects();
-    renderProjectSelect();
-  }
-
   function renderSidebarProjects() {
     const projectListSide = DOM.getObject(".sidebar-project-list");
     DOM.addProperties(projectListSide, { innerText: "" });
@@ -52,7 +47,133 @@ const DisplayManager = (() => {
     projectSelect.append(frag);
   }
 
-  return { refreshDisplay };
+  function renderAllProjectsTab() {
+    const main = DOM.getObject("#main");
+
+    const frag = DOM.getFragment();
+    const h1 = DOM.createElement("h1", { innerText: "All projects" });
+
+    const list = DOM.createElement("ul");
+    ProjectManager.getAllProjects().forEach((project) => {
+      const item = DOM.createElement("item", {
+        innerText:
+          "Name: " + project.name + " No. of tasks: " + project.tasks.length,
+        classList: ["project-container"],
+        dataset: {
+          projId: project.id,
+          tabber: "project",
+        },
+      });
+      list.appendChild(item);
+    });
+
+    DOM.addProperties(main, { innerText: "" });
+
+    frag.append(h1, list);
+    main.append(frag);
+  }
+
+  function renderProjectTab(projId) {
+    const frag = DOM.getFragment();
+
+    const selectedProj = ProjectManager.getProject(projId);
+
+    const h1 = DOM.createElement("h1", {
+      innerText: selectedProj.name + " tasks:",
+    });
+
+    const list = DOM.createElement("ul");
+    selectedProj.getIncompleteTasks().forEach((task) => {
+      const item = DOM.createElement("li");
+      DOM.addProperties(item, {
+        innerText:
+          "Task name: " +
+          task.name +
+          " creation date " +
+          task.creationDate +
+          "due date: " +
+          task.dueDate,
+        classList: [task.priority, "task-container"],
+        dataset: {
+          taskId: task.id,
+          projId: selectedProj.id,
+          action: "complete",
+        },
+      });
+
+      const editBtn = DOM.createElement("button", {
+        innerText: "edit",
+        dataset: {
+          action: "edit",
+        },
+      });
+
+      const deleteBtn = DOM.createElement("button", {
+        innerText: "delete",
+        dataset: {
+          action: "delete",
+        },
+      });
+
+      item.append(editBtn, deleteBtn);
+      list.append(item);
+    });
+
+    frag.append(h1, list);
+
+    DOM.addProperties(main, { innerText: "" });
+    main.append(frag);
+  }
+
+  function changeRenderingTab(viewtype, viewid) {
+    switch (viewtype) {
+      case "allproj":
+        renderAllProjectsTab();
+        break;
+      case "project":
+        renderProjectTab(viewid);
+        break;
+      default:
+    }
+  }
+
+  function refreshDisplay(viewtype, viewid) {
+    renderSidebarProjects();
+    renderProjectSelect();
+    changeRenderingTab(viewtype, viewid);
+  }
+
+  function openEditTaskModal(projId, taskId) {
+    const editTaskForm = DOM.getObject(".edit-task-form");
+    const task = ProjectManager.getProject(projId).tasks[taskId];
+
+    DOM.addProperties(editTaskForm["taskName"], { value: task.name });
+    DOM.addProperties(editTaskForm["taskPriority"], { value: task.priority });
+    if (task.dueDate) {
+      DOM.addProperties(editTaskForm["duedate"], {
+        value: format(task.dueDate, "yyyy-MM-dd"),
+      });
+    }
+
+    DOM.addProperties(editTaskForm["editbtn"], {
+      dataset: {
+        projId,
+        taskId,
+      },
+    });
+    DOM.removeProperties(editTaskForm, { classList: ["hide"] });
+  }
+
+  function closeEditTaskModal() {
+    DOM.addProperties(editTaskForm, { classList: ["hide"] });
+    editTaskForm.reset();
+  }
+
+  return {
+    refreshDisplay,
+    editTaskModal: { open: openEditTaskModal, close: closeEditTaskModal },
+    changeRenderingTab,
+  };
 })();
 
 export default DisplayManager;
