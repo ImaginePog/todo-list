@@ -33,9 +33,9 @@ const DOM = (() => {
     return objects[query];
   }
 
-  //Returns given DOM element with added properties
+  //Adds properties to a DOM element
   function addProperties(element, properties) {
-    if (properties["innerText"]) {
+    if (properties["innerText"] != undefined) {
       element.innerText = properties["innerText"];
     }
 
@@ -58,8 +58,27 @@ const DOM = (() => {
         element.dataset[name] = value;
       }
     }
+  }
 
-    return element;
+  //Removes properties from a DOM element
+  function removeProperties(element, properties) {
+    if (properties["classList"]) {
+      properties["classList"].forEach((className) => {
+        element.classList.remove(className);
+      });
+    }
+
+    if (properties["attributes"]) {
+      properties["attributes"].forEach((attr) => {
+        element.removeAttribute(attr);
+      });
+    }
+
+    if (properties["dataset"]) {
+      properties["dataset"].forEach((data) => {
+        delete element.dataset.data;
+      });
+    }
   }
 
   //Returns an element created based on the elementName and properties
@@ -69,14 +88,14 @@ const DOM = (() => {
     const element = document.createElement(elementName);
 
     if (properties) {
-      element = addProperties(element, properties);
+      addProperties(element, properties);
     }
 
     return element;
   }
 
   loadObjects();
-  return { getObject, createElement };
+  return { getObject, createElement, addProperties, removeProperties };
 })();
 
 export default DOM;
