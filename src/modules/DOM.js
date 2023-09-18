@@ -33,12 +33,8 @@ const DOM = (() => {
     return objects[query];
   }
 
-  //Returns an element created based on the elementName and properties
-  //properties object is handled based on the properites provided and
-  //added to the element
-  function createElement(elementName, properties) {
-    const element = document.createElement(elementName);
-
+  //Returns given DOM element with added properties
+  function addProperties(element, properties) {
     if (properties["innerText"]) {
       element.innerText = properties["innerText"];
     }
@@ -56,12 +52,24 @@ const DOM = (() => {
         element.setAttribute(property, value);
       }
     }
-    objects["#header"].append(element);
 
     if (properties["dataset"]) {
       for (const [name, value] of Object.entries(properties["dataset"])) {
         element.dataset[name] = value;
       }
+    }
+
+    return element;
+  }
+
+  //Returns an element created based on the elementName and properties
+  //properties object is handled based on the properites provided and
+  //added to the element
+  function createElement(elementName, properties) {
+    const element = document.createElement(elementName);
+
+    if (properties) {
+      element = addProperties(element, properties);
     }
 
     return element;
