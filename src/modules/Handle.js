@@ -126,7 +126,7 @@ const Handle = (() => {
     });
 
     const list = DOM.createElement("ul");
-    selectedProj.getIncompleteTasks().forEach((task, index) => {
+    selectedProj.getIncompleteTasks().forEach((task) => {
       const item = DOM.createElement("li");
       DOM.addProperties(item, {
         innerText:
@@ -138,7 +138,7 @@ const Handle = (() => {
           task.dueDate,
         classList: [task.priority, "task-container"],
         dataset: {
-          taskId: index,
+          taskId: task.id,
           projId: selectedProj.id,
           action: "complete",
         },
