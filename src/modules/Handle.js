@@ -1,6 +1,7 @@
 import DOM from "./DOM";
 import { format } from "date-fns";
 import ProjectManager from "./ProjectManager";
+import DisplayManager from "./DisplayManager";
 
 const Handle = (() => {
   function OpenEditModal(projId, taskId) {
@@ -25,7 +26,7 @@ const Handle = (() => {
   }
 
   function CloseEditTaskModal() {
-    DOM.addProperties(editTaskForm, { classList: "hide" });
+    DOM.addProperties(editTaskForm, { classList: ["hide"] });
     editTaskForm.reset();
   }
 
@@ -78,8 +79,7 @@ const Handle = (() => {
         projId,
       });
 
-      RenderSidebarProjects();
-      PopulateProjectSelect();
+      DisplayManager.refreshDisplay();
 
       ChangeView("allproj");
 
@@ -168,51 +168,6 @@ const Handle = (() => {
     main.append(frag);
   }
 
-  function RenderSidebarProjects() {
-    const projectListSide = DOM.getObject(".sidebar-project-list");
-    DOM.addProperties(projectListSide, { innerText: "" });
-
-    ProjectManager.getAllProjects().forEach((project, index) => {
-      const item = DOM.createElement("li", {
-        innerText: project.name,
-        classList: ["tab", "sidebar-project-item"],
-        dataset: {
-          action: "project",
-          projId: index,
-        },
-      });
-
-      if (index != 0) {
-        const deleteProjBtn = DOM.createElement("button", {
-          innerText: "Delete",
-          dataset: {
-            action: "delete",
-          },
-          classList: [".delete-project-btn"],
-        });
-        item.append(deleteProjBtn);
-      }
-
-      projectListSide.append(item);
-    });
-  }
-
-  function PopulateProjectSelect() {
-    const projectSelect = DOM.getObject("#project-select");
-    const frag = DOM.getFragment();
-
-    ProjectManager.getAllProjects().forEach((project) => {
-      const opt = DOM.createElement("option", {
-        value: project.id,
-        innerText: project.name,
-      });
-      frag.append(opt);
-    });
-
-    DOM.addProperties(projectSelect, { innerText: "" });
-    projectSelect.append(frag);
-  }
-
   const addTaskForm = DOM.getObject(".add-task-form");
   addTaskForm.addEventListener("click", (e) => {
     if (!e.target.dataset.action) {
@@ -250,8 +205,7 @@ const Handle = (() => {
     form.reset();
 
     ChangeView("project", ProjectManager.getAllProjects().length - 1);
-    RenderSidebarProjects();
-    PopulateProjectSelect();
+    DisplayManager.refreshDisplay();
   });
 
   const editTaskForm = DOM.getObject(".edit-task-form");
@@ -275,13 +229,11 @@ const Handle = (() => {
     });
 
     CloseEditTaskModal();
-
-    ChangeView("project", ProjectManager.getAllProjects().length - 1);
+    DisplayProject(e.target.dataset.projId);
   });
 
   ProjectManager.populateProjects();
-  RenderSidebarProjects();
-  PopulateProjectSelect();
+  DisplayManager.refreshDisplay();
   ChangeView("allproj");
 })();
 
