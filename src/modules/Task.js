@@ -1,4 +1,4 @@
-import { isAfter, parse, parseISO } from "date-fns";
+import { isAfter, parseISO } from "date-fns";
 
 export default class Task {
   constructor(taskInfo, id, projectId) {
