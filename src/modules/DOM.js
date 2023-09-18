@@ -39,13 +39,13 @@ const DOM = (() => {
       element.innerText = properties["innerText"];
     }
 
-    if (properties["classList"]) {
+    if (properties["classList"] != undefined) {
       properties["classList"].forEach((className) => {
         element.classList.add(className);
       });
     }
 
-    if (properties["attributes"]) {
+    if (properties["attributes"] != undefined) {
       for (const [property, value] of Object.entries(
         properties["attributes"]
       )) {
@@ -53,13 +53,13 @@ const DOM = (() => {
       }
     }
 
-    if (properties["dataset"]) {
+    if (properties["dataset"] != undefined) {
       for (const [name, value] of Object.entries(properties["dataset"])) {
         element.dataset[name] = value;
       }
     }
 
-    if (properties["value"]) {
+    if (properties["value"] != undefined) {
       element.value = properties["value"];
     }
   }
