@@ -6,42 +6,51 @@ const Handle = (() => {
   function OpenEditModal(projId, taskId) {
     const editTaskForm = DOM.getObject(".edit-task-form");
     const task = ProjectManager.getProject(projId).tasks[taskId];
-    editTaskForm["taskName"].value = task.name;
-    editTaskForm["taskPriority"].value = task.priority;
-    if (task.dueDate) {
-      editTaskForm["duedate"].value = format(task.dueDate, "yyyy-MM-dd");
-    }
-    editTaskForm["editbtn"].dataset.projId = projId;
-    editTaskForm["editbtn"].dataset.taskId = taskId;
 
-    editTaskForm.classList.remove("hide");
+    DOM.addProperties(editTaskForm["taskName"], { value: task.name });
+    DOM.addProperties(editTaskForm["taskPriority"], { value: task.priority });
+    if (task.dueDate) {
+      DOM.addProperties(editTaskForm["duedate"], {
+        value: format(task.dueDate, "yyyy-MM-dd"),
+      });
+    }
+
+    DOM.addProperties(editTaskForm["editbtn"], {
+      dataset: {
+        projId,
+        taskId,
+      },
+    });
+    DOM.removeProperties(editTaskForm, { classList: ["hide"] });
   }
 
   function CloseEditTaskModal() {
-    editTaskForm.classList.add("hide");
+    DOM.addProperties(editTaskForm, { classList: "hide" });
     editTaskForm.reset();
   }
 
   function DisplayAllProjects() {
-    const frag = document.createDocumentFragment();
+    const frag = DOM.getFragment();
 
-    const h1 = document.createElement("h1");
-    h1.innerText = "All projects: ";
+    const h1 = DOM.createElement("h1", { innerText: "All projects" });
 
-    const list = document.createElement("list");
+    const list = DOM.createElement("ul");
     ProjectManager.getAllProjects().forEach((project) => {
-      const item = document.createElement("item");
-      item.innerText =
-        "Name: " + project.name + " No. of tasks: " + project.tasks.length;
-      item.classList.add("project-container");
-      item.dataset.projId = project.id;
-      item.dataset.tabber = "project";
+      const item = DOM.createElement("item", {
+        innerText:
+          "Name: " + project.name + " No. of tasks: " + project.tasks.length,
+        classList: ["project-container"],
+        dataset: {
+          projId: project.id,
+          tabber: "project",
+        },
+      });
       list.appendChild(item);
     });
 
-    frag.append(h1, list);
+    DOM.addProperties(main, { innerText: "" });
 
-    main.innerText = "";
+    frag.append(h1, list);
     main.append(frag);
   }
 
@@ -108,32 +117,46 @@ const Handle = (() => {
   });
 
   function DisplayProject(projId) {
-    const frag = document.createDocumentFragment();
+    const frag = DOM.getFragment();
 
     const selectedProj = ProjectManager.getProject(projId);
 
-    const h1 = document.createElement("h1");
-    h1.innerText = selectedProj.name + " tasks:";
+    const h1 = DOM.createElement("h1", {
+      innerText: selectedProj.name + " tasks:",
+    });
 
-    const list = document.createElement("list");
+    const list = DOM.createElement("ul");
     selectedProj.getIncompleteTasks().forEach((task, index) => {
-      const item = document.createElement("item");
-      item.innerText =
-        "Task name: " +
-        task.name +
-        " creation date " +
-        task.creationDate +
-        "due date: " +
-        task.dueDate;
-      item.classList.add(task.priority, "task-container");
-      item.dataset.taskId = index;
-      item.dataset.projId = selectedProj.id;
-      item.dataset.action = "complete";
+      const item = DOM.createElement("li");
+      DOM.addProperties(item, {
+        innerText:
+          "Task name: " +
+          task.name +
+          " creation date " +
+          task.creationDate +
+          "due date: " +
+          task.dueDate,
+        classList: [task.priority, "task-container"],
+        dataset: {
+          taskId: index,
+          projId: selectedProj.id,
+          action: "complete",
+        },
+      });
 
-      const editBtn = document.createElement("button");
-      editBtn.innerText = editBtn.dataset.action = "edit";
-      const deleteBtn = document.createElement("button");
-      deleteBtn.innerText = deleteBtn.dataset.action = "delete";
+      const editBtn = DOM.createElement("button", {
+        innerText: "edit",
+        dataset: {
+          action: "edit",
+        },
+      });
+
+      const deleteBtn = DOM.createElement("button", {
+        innerText: "delete",
+        dataset: {
+          action: "delete",
+        },
+      });
 
       item.append(editBtn, deleteBtn);
       list.append(item);
@@ -141,25 +164,32 @@ const Handle = (() => {
 
     frag.append(h1, list);
 
-    main.innerText = "";
+    DOM.addProperties(main, { innerText: "" });
     main.append(frag);
   }
 
   function RenderSidebarProjects() {
     const projectListSide = DOM.getObject(".sidebar-project-list");
-    projectListSide.innerText = "";
+    DOM.addProperties(projectListSide, { innerText: "" });
+
     ProjectManager.getAllProjects().forEach((project, index) => {
-      const item = document.createElement("item");
-      item.innerText = project.name;
-      item.classList.add("tab", "sidebar-project-item");
-      item.dataset.action = "project";
-      item.dataset.projId = index;
+      const item = DOM.createElement("li", {
+        innerText: project.name,
+        classList: ["tab", "sidebar-project-item"],
+        dataset: {
+          action: "project",
+          projId: index,
+        },
+      });
 
       if (index != 0) {
-        const deleteProjBtn = document.createElement("button");
-        deleteProjBtn.innerText = "Delete";
-        deleteProjBtn.dataset.action = "delete";
-        deleteProjBtn.classList.add(".delete-project-btn");
+        const deleteProjBtn = DOM.createElement("button", {
+          innerText: "Delete",
+          dataset: {
+            action: "delete",
+          },
+          classList: [".delete-project-btn"],
+        });
         item.append(deleteProjBtn);
       }
 
@@ -169,16 +199,17 @@ const Handle = (() => {
 
   function PopulateProjectSelect() {
     const projectSelect = DOM.getObject("#project-select");
-    const frag = document.createDocumentFragment();
+    const frag = DOM.getFragment();
 
     ProjectManager.getAllProjects().forEach((project) => {
-      const opt = document.createElement("option");
-      opt.value = project.id;
-      opt.innerText = project.name;
+      const opt = DOM.createElement("option", {
+        value: project.id,
+        innerText: project.name,
+      });
       frag.append(opt);
     });
 
-    projectSelect.innerText = "";
+    DOM.addProperties(projectSelect, { innerText: "" });
     projectSelect.append(frag);
   }
 

@@ -58,6 +58,10 @@ const DOM = (() => {
         element.dataset[name] = value;
       }
     }
+
+    if (properties["value"]) {
+      element.value = properties["value"];
+    }
   }
 
   //Removes properties from a DOM element
@@ -94,8 +98,21 @@ const DOM = (() => {
     return element;
   }
 
+  //Returns a document fragment
+  function getFragment() {
+    const frag = document.createDocumentFragment();
+
+    return frag;
+  }
+
   loadObjects();
-  return { getObject, createElement, addProperties, removeProperties };
+  return {
+    getObject,
+    createElement,
+    addProperties,
+    removeProperties,
+    getFragment,
+  };
 })();
 
 export default DOM;
