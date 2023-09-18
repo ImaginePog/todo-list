@@ -1,15 +1,21 @@
-import { isAfter, parseISO } from "date-fns";
+import { isAfter, parse, parseISO } from "date-fns";
 
 export default class Task {
   constructor(taskInfo, id, projectId) {
     this.name = taskInfo.name;
     if (taskInfo.creationDate) {
-      this.creationDate = parseISO(taskInfo.creationDate);
+      if (taskInfo.creationDate instanceof Date) {
+        this.creationDate = taskInfo.creationDate;
+      } else {
+        this.creationDate = parseISO(taskInfo.creationDate);
+      }
     } else {
       this.creationDate = new Date();
     }
 
     if (taskInfo.dueDate) {
+      taskInfo.dueDate = parseISO(taskInfo.dueDate);
+
       let now = new Date();
       now = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 

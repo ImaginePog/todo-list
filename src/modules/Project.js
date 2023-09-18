@@ -19,9 +19,8 @@ export default class Project {
   }
 
   editTask(taskId, newTaskInfo) {
-    for (const [taskProperty, value] of Object.entries(newTaskInfo)) {
-      this.tasks[taskId][taskProperty] = value;
-    }
+    newTaskInfo.creationDate = this.tasks[taskId].creationDate;
+    this.tasks[taskId] = new Task(newTaskInfo, taskId, this.id);
   }
 
   getTasksDueToday() {
