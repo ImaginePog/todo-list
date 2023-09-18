@@ -1,18 +1,10 @@
+import DOM from "./DOM";
 import { format } from "date-fns";
 import ProjectManager from "./ProjectManager";
 
 const Handle = (() => {
-  const main = document.querySelector("#main");
-  const projectListSide = document.querySelector(".sidebar-project-list");
-
-  const addTaskForm = document.querySelector(".add-task-form");
-  const projectSelect = addTaskForm.querySelector("#project-select");
-
-  const addProjectForm = document.querySelector(".add-project-form");
-
-  const editTaskForm = document.querySelector(".edit-task-form");
-
   function OpenEditModal(projId, taskId) {
+    const editTaskForm = DOM.getObject(".edit-task-form");
     const task = ProjectManager.getProject(projId).tasks[taskId];
     editTaskForm["taskName"].value = task.name;
     editTaskForm["taskPriority"].value = task.priority;
@@ -65,7 +57,7 @@ const Handle = (() => {
     }
   }
 
-  const sidebar = document.querySelector("#aside");
+  const sidebar = DOM.getObject("#aside");
   sidebar.addEventListener("click", (e) => {
     if (!e.target.dataset.action) {
       return;
@@ -154,6 +146,7 @@ const Handle = (() => {
   }
 
   function RenderSidebarProjects() {
+    const projectListSide = DOM.getObject(".sidebar-project-list");
     projectListSide.innerText = "";
     ProjectManager.getAllProjects().forEach((project, index) => {
       const item = document.createElement("item");
@@ -175,6 +168,7 @@ const Handle = (() => {
   }
 
   function PopulateProjectSelect() {
+    const projectSelect = DOM.getObject("#project-select");
     const frag = document.createDocumentFragment();
 
     ProjectManager.getAllProjects().forEach((project) => {
@@ -188,6 +182,7 @@ const Handle = (() => {
     projectSelect.append(frag);
   }
 
+  const addTaskForm = DOM.getObject(".add-task-form");
   addTaskForm.addEventListener("click", (e) => {
     if (!e.target.dataset.action) {
       return;
@@ -209,6 +204,7 @@ const Handle = (() => {
     form.reset();
   });
 
+  const addProjectForm = DOM.getObject(".add-project-form");
   addProjectForm.addEventListener("click", (e) => {
     if (!e.target.dataset.action) {
       return;
@@ -227,6 +223,7 @@ const Handle = (() => {
     PopulateProjectSelect();
   });
 
+  const editTaskForm = DOM.getObject(".edit-task-form");
   editTaskForm.addEventListener("click", (e) => {
     if (!e.target.dataset.action) {
       return;
