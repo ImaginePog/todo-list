@@ -4,14 +4,12 @@ export default class Task {
   constructor(taskInfo, id, projectId) {
     this.name = taskInfo.name;
     if (taskInfo.creationDate) {
-      this.creationDate = taskInfo.creationDate;
+      this.creationDate = parseISO(taskInfo.creationDate);
     } else {
       this.creationDate = new Date();
     }
 
     if (taskInfo.dueDate) {
-      taskInfo.dueDate = parseISO(taskInfo.dueDate);
-
       let now = new Date();
       now = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 

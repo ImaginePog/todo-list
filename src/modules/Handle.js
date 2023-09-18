@@ -1,5 +1,5 @@
 import DOM from "./DOM";
-import { format } from "date-fns";
+import { format, parseISO } from "date-fns";
 import ProjectManager from "./ProjectManager";
 import DisplayManager from "./DisplayManager";
 
@@ -179,7 +179,7 @@ const Handle = (() => {
     const taskInfo = {};
     taskInfo.name = form["taskName"].value;
     taskInfo.priority = form["taskPriority"].value;
-    taskInfo.dueDate = form["duedate"].value;
+    taskInfo.dueDate = parseISO(form["duedate"].value);
 
     ProjectManager.changeState(ProjectManager.STATE_ACTIONS.ADD_TASK, {
       projId: form["projectSelect"].value,
@@ -220,7 +220,7 @@ const Handle = (() => {
     const taskInfo = {};
     taskInfo.name = form["taskName"].value;
     taskInfo.priority = form["taskPriority"].value;
-    taskInfo.dueDate = form["duedate"].value;
+    taskInfo.dueDate = parseISO(form["duedate"].value);
 
     ProjectManager.changeState(ProjectManager.STATE_ACTIONS.EDIT_TASK, {
       projId: e.target.dataset.projId,
