@@ -140,12 +140,26 @@ const DisplayManager = (() => {
     main.append(list);
   }
 
+  function renderTodayTab() {
+    DOM.addProperties(main, { innerText: "" }); //CLEAR DISPLAY
+
+    let todayTasks = [];
+    ProjectManager.getAllProjects().forEach((project) => {
+      const tasks = project.getTasksDueToday();
+      todayTasks = [...todayTasks, ...tasks];
+    });
+    const list = createTaskList("Tasks due today:", todayTasks);
+
+    main.append(list);
   }
 
   function renderCurrentView() {
     switch (currentView) {
       case "allproj":
         renderAllProjectsTab();
+        break;
+      case "today":
+        renderTodayTab();
         break;
       default:
         renderProjectTab(currentView);
