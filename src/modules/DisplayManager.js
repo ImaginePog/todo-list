@@ -75,19 +75,10 @@ const DisplayManager = (() => {
     main.append(frag);
   }
 
-  function renderProjectTab(projId) {
+  function createTaskItems(tasks) {
     const frag = DOM.getFragment();
-
-    const selectedProj = ProjectManager.getProject(projId);
-
-    const h1 = DOM.createElement("h1", {
-      innerText: selectedProj.name + " tasks:",
-    });
-
-    const list = DOM.createElement("ul");
-    selectedProj.getIncompleteTasks().forEach((task) => {
-      const item = DOM.createElement("li");
-      DOM.addProperties(item, {
+    tasks.forEach((task) => {
+      const item = DOM.createElement("li", {
         innerText:
           "Task name: " +
           task.name +
@@ -98,7 +89,7 @@ const DisplayManager = (() => {
         classList: [task.priority, "task-container"],
         dataset: {
           taskId: task.id,
-          projId: selectedProj.id,
+          projId: task.projectId,
           action: "complete",
         },
       });
@@ -118,13 +109,37 @@ const DisplayManager = (() => {
       });
 
       item.append(editBtn, deleteBtn);
-      list.append(item);
+      frag.append(item);
+    });
+    return frag;
+  }
+
+  function createTaskList(listName, tasks) {
+    const frag = DOM.getFragment();
+    const h1 = DOM.createElement("h1", {
+      innerText: listName + " tasks:",
     });
 
-    frag.append(h1, list);
+    const list = DOM.createElement("ul");
+    list.append(createTaskItems(tasks));
 
+    frag.append(h1, list);
+    return frag;
+  }
+
+  function renderProjectTab(projId) {
     DOM.addProperties(main, { innerText: "" });
-    main.append(frag);
+
+    const selectedProj = ProjectManager.getProject(projId);
+
+    const list = createTaskList(
+      selectedProj.name,
+      selectedProj.getIncompleteTasks()
+    );
+
+    main.append(list);
+  }
+
   }
 
   function renderCurrentView() {
