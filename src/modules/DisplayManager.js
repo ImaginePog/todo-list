@@ -1,5 +1,6 @@
 import ProjectManager from "./ProjectManager";
 import DOM from "./DOM";
+import { format } from "date-fns";
 
 const DisplayManager = (() => {
   let currentView = "";

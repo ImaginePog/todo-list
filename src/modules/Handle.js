@@ -1,5 +1,4 @@
 import DOM from "./DOM";
-import { format } from "date-fns";
 import ProjectManager from "./ProjectManager";
 import DisplayManager from "./DisplayManager";
 
