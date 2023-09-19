@@ -101,6 +101,13 @@ const ProjectManager = (() => {
     return projects[projId];
   }
 
+  function getProjectId(projName) {
+    const found = projects.find((proj) => {
+      return proj.name == projName;
+    });
+    return found.id;
+  }
+
   function getAllProjects() {
     return projects;
   }
@@ -111,6 +118,7 @@ const ProjectManager = (() => {
     changeState,
     getAllProjects,
     getProject,
+    getProjectId,
   };
 })();
 

@@ -10,20 +10,16 @@ const Handle = (() => {
       return;
     }
     if (e.target.dataset.action == "delete") {
-      const projId = e.target.closest(".sidebar-project-item").dataset.projId;
+      const projId = e.target.closest(".sidebar-project-item").dataset.action;
 
       ProjectManager.changeState(ProjectManager.STATE_ACTIONS.REMOVE_PROJ, {
         projId,
       });
 
-      DisplayManager.refreshDisplay("allproj");
-
+      DisplayManager.changeView("allproj");
       return;
     }
-    DisplayManager.refreshDisplay(
-      e.target.dataset.action,
-      e.target.dataset.projId
-    );
+    DisplayManager.changeView(e.target.dataset.action);
   });
 
   main.addEventListener("click", (e) => {
@@ -33,7 +29,7 @@ const Handle = (() => {
 
       switch (e.target.dataset.action) {
         case "edit":
-          OpenEditModal(projId, taskId);
+          DisplayManager.editTaskModal.open(projId, taskId);
           break;
         case "delete":
           ProjectManager.changeState(ProjectManager.STATE_ACTIONS.REMOVE_TASK, {
@@ -48,12 +44,9 @@ const Handle = (() => {
           );
           break;
       }
-      DisplayManager.refreshDisplay("project", projId);
+      DisplayManager.refreshDisplay();
     } else if (e.target.dataset.tabber) {
-      DisplayManager.refreshDisplay(
-        e.target.dataset.tabber,
-        e.target.dataset.projId
-      );
+      DisplayManager.changeView(e.target.dataset.projId);
     }
   });
 
@@ -75,7 +68,7 @@ const Handle = (() => {
       taskInfo: taskInfo,
     });
 
-    DisplayManager.refreshDisplay("project", form["projectSelect"].value);
+    DisplayManager.changeView(form["projectSelect"].value);
     form.reset();
   });
 
@@ -84,6 +77,7 @@ const Handle = (() => {
     if (!e.target.dataset.action) {
       return;
     }
+
     e.preventDefault();
     const form = e.currentTarget;
 
@@ -91,12 +85,10 @@ const Handle = (() => {
       projName: form["projectName"].value,
     });
 
-    form.reset();
-
-    DisplayManager.refreshDisplay(
-      "project",
-      ProjectManager.getAllProjects().length - 1
+    DisplayManager.changeView(
+      ProjectManager.getProjectId(form["projectName"].value)
     );
+    form.reset();
   });
 
   const editTaskForm = DOM.getObject(".edit-task-form");
@@ -120,11 +112,11 @@ const Handle = (() => {
     });
 
     DisplayManager.editTaskModal.close();
-    DisplayManager.refreshDisplay("project", e.target.dataset.projId);
+    DisplayManager.refreshDisplay();
   });
 
   ProjectManager.populateProjects();
-  DisplayManager.refreshDisplay("allproj");
+  DisplayManager.changeView("0");
 })();
 
 export default Handle;

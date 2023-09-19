@@ -2,21 +2,22 @@ import ProjectManager from "./ProjectManager";
 import DOM from "./DOM";
 
 const DisplayManager = (() => {
+  let currentView = "";
+
   function renderSidebarProjects() {
     const projectListSide = DOM.getObject(".sidebar-project-list");
     DOM.addProperties(projectListSide, { innerText: "" });
 
-    ProjectManager.getAllProjects().forEach((project, index) => {
+    ProjectManager.getAllProjects().forEach((project) => {
       const item = DOM.createElement("li", {
         innerText: project.name,
         classList: ["tab", "sidebar-project-item"],
         dataset: {
-          action: "project",
-          projId: index,
+          action: project.id,
         },
       });
 
-      if (index != 0) {
+      if (project.id != 0) {
         const deleteProjBtn = DOM.createElement("button", {
           innerText: "Delete",
           dataset: {
@@ -125,22 +126,25 @@ const DisplayManager = (() => {
     main.append(frag);
   }
 
-  function changeRenderingTab(viewtype, viewid) {
-    switch (viewtype) {
+  function renderCurrentView() {
+    switch (currentView) {
       case "allproj":
         renderAllProjectsTab();
         break;
-      case "project":
-        renderProjectTab(viewid);
-        break;
       default:
+        renderProjectTab(currentView);
     }
   }
 
-  function refreshDisplay(viewtype, viewid) {
+  function changeView(newView) {
+    currentView = newView;
+    refreshDisplay();
+  }
+
+  function refreshDisplay() {
     renderSidebarProjects();
     renderProjectSelect();
-    changeRenderingTab(viewtype, viewid);
+    renderCurrentView();
   }
 
   function openEditTaskModal(projId, taskId) {
@@ -165,6 +169,7 @@ const DisplayManager = (() => {
   }
 
   function closeEditTaskModal() {
+    const editTaskForm = DOM.getObject(".edit-task-form");
     DOM.addProperties(editTaskForm, { classList: ["hide"] });
     editTaskForm.reset();
   }
@@ -172,7 +177,7 @@ const DisplayManager = (() => {
   return {
     refreshDisplay,
     editTaskModal: { open: openEditTaskModal, close: closeEditTaskModal },
-    changeRenderingTab,
+    changeView,
   };
 })();
 
