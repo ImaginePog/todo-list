@@ -150,7 +150,21 @@ const DisplayManager = (() => {
       const tasks = project.getTasksDueToday();
       todayTasks = [...todayTasks, ...tasks];
     });
-    const list = createTaskList("Tasks due today:", todayTasks);
+    const list = createTaskList("Today", todayTasks);
+
+    main.append(list);
+  }
+
+  function renderThisWeekTab() {
+    DOM.addProperties(main, { innerText: "" });
+    let weekTasks = [];
+
+    ProjectManager.getAllProjects().forEach((project) => {
+      const tasks = project.getTasksDueThisWeek();
+      weekTasks = [...weekTasks, ...tasks];
+    });
+
+    const list = createTaskList("This week", weekTasks);
 
     main.append(list);
   }
@@ -162,6 +176,9 @@ const DisplayManager = (() => {
         break;
       case "today":
         renderTodayTab();
+        break;
+      case "week":
+        renderThisWeekTab();
         break;
       default:
         renderProjectTab(currentView);
