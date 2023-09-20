@@ -1,4 +1,4 @@
-import { isToday } from "date-fns";
+import { isSameWeek, isToday } from "date-fns";
 import Task from "./Task";
 
 export default class Project {
@@ -27,6 +27,16 @@ export default class Project {
     const tasks = this.getIncompleteTasks();
     return tasks.filter((task) => {
       if (task.dueDate) return isToday(task.dueDate);
+    });
+  }
+
+  getTasksDueThisWeek() {
+    const tasks = this.getIncompleteTasks();
+
+    return tasks.filter((task) => {
+      if (task.dueDate && !task.overdue) {
+        return isSameWeek(Date.now(), task.dueDate);
+      }
     });
   }
 
