@@ -10,6 +10,10 @@ const DisplayManager = (() => {
     DOM.addProperties(projectListSide, { innerText: "" });
 
     ProjectManager.getAllProjects().forEach((project) => {
+      if (project.id == 0) {
+        return;
+      }
+
       const item = DOM.createElement("li", {
         innerText: project.name,
         classList: ["tab", "sidebar-project-item"],
@@ -18,16 +22,14 @@ const DisplayManager = (() => {
         },
       });
 
-      if (project.id != 0) {
-        const deleteProjBtn = DOM.createElement("button", {
-          innerText: "Delete",
-          dataset: {
-            action: "delete",
-          },
-          classList: [".delete-project-btn"],
-        });
-        item.append(deleteProjBtn);
-      }
+      const deleteProjBtn = DOM.createElement("button", {
+        innerText: "Delete",
+        dataset: {
+          action: "delete",
+        },
+        classList: [".delete-project-btn"],
+      });
+      item.append(deleteProjBtn);
 
       projectListSide.append(item);
     });
