@@ -117,7 +117,7 @@ const DisplayManager = (() => {
   function createTaskList(listName, tasks) {
     const frag = DOM.getFragment();
     const h1 = DOM.createElement("h1", {
-      innerText: listName + " tasks:",
+      innerText: listName,
     });
 
     const list = DOM.createElement("ul");
@@ -133,7 +133,7 @@ const DisplayManager = (() => {
     const selectedProj = ProjectManager.getProject(projId);
 
     const list = createTaskList(
-      selectedProj.name,
+      selectedProj.name + " tasks",
       selectedProj.getIncompleteTasks()
     );
 
