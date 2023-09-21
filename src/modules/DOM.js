@@ -3,26 +3,43 @@ const DOM = (() => {
 
   //Private function of the module that queries the DOM
   //Queries 'document' object by default
-  function queryObject(query, parent = document) {
-    objects[query] = parent.querySelector(query);
-    console.log(objects);
-  }
-
-  function queryObjects(query, parent = document) {
-    objects[query] = parent.querySelectorAll(query);
+  //Selects one or multiple objects based on type
+  function queryObject(query, parent = document, queryType = "single") {
+    if (queryType == "single") {
+      objects[query] = {
+        object: parent.querySelector(query),
+        queryType,
+        parent,
+      };
+    } else {
+      objects[query] = {
+        object: parent.querySelectorAll(query),
+        queryType,
+        parent,
+      };
+    }
   }
 
   //Loads all the objects on the creation of DOM module
   function loadObjects() {
     queryObject("#main");
     queryObject("#aside");
-    queryObjects(".tab");
-    queryObject("#header"); //temp
-    queryObject(".sidebar-project-list", objects["#aside"]);
+    queryObject(".tab", document, "multiple");
+    queryObject(".sidebar-project-list", objects["#aside"].object);
     queryObject(".add-task-form");
-    queryObject("#project-select", objects["#.add-task-form"]);
+    queryObject("#project-select", objects[".add-task-form"].object);
     queryObject(".add-project-form");
     queryObject(".edit-task-form");
+  }
+
+  //Reload an object; only if it has been loaded
+  function reloadObject(query) {
+    if (!objects[query]) {
+      console.error("FATAL EROOR WE AINT DEALING WITH THIS SHIT NAH");
+      return null;
+    }
+
+    queryObject(query, objects[query].parent, objects[query].queryType);
   }
 
   // Returns objects that are already loaded based on the query
@@ -35,7 +52,7 @@ const DOM = (() => {
       return null;
     }
 
-    return objects[query];
+    return objects[query].object;
   }
 
   //Adds properties to a DOM element
@@ -117,6 +134,7 @@ const DOM = (() => {
     addProperties,
     removeProperties,
     getFragment,
+    reloadObject,
   };
 })();
 
