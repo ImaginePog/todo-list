@@ -84,6 +84,10 @@ const DOM = (() => {
     if (properties["value"] != undefined) {
       element.value = properties["value"];
     }
+
+    if (properties["src"] != undefined) {
+      element.src = properties["src"];
+    }
   }
 
   //Removes properties from a DOM element
