@@ -26,14 +26,19 @@ export default class Task {
       this.dueDate = "";
     }
 
-    if (taskInfo.completed) {
-      this.completed = true;
+    if (taskInfo.completed != undefined) {
+      this.completed = taskInfo.completed;
     } else {
       this.completed = false;
     }
     this.priority = taskInfo.priority;
     this.description = taskInfo.description;
-    this.starred = taskInfo.starred;
+
+    if (taskInfo.starred != undefined) {
+      this.starred = taskInfo.starred;
+    } else {
+      this.starred = false;
+    }
     this.projectId = projectId;
     this.id = id;
   }
@@ -49,6 +54,12 @@ export default class Task {
     } else {
       this.completed = true;
       this.overdue = false;
+    }
+  }
+
+  toggleStar() {
+    if (this.starred != undefined) {
+      this.starred = !this.starred;
     }
   }
 }

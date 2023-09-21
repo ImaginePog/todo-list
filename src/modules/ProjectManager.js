@@ -12,6 +12,7 @@ const ProjectManager = (() => {
     EDIT_TASK: "3",
     TOGGLE_TASK_COMPLETE: "4",
     REMOVE_TASK: "5",
+    STAR_TASK: "6",
   });
 
   function updateState() {
@@ -47,6 +48,10 @@ const ProjectManager = (() => {
     projects[projId].removeTask(taskId);
   }
 
+  function toggleTaskStar(projId, taskId) {
+    projects[projId].toggleTaskStar(taskId);
+  }
+
   function changeState(action, data) {
     switch (action) {
       case STATE_ACTIONS.ADD_PROJ:
@@ -66,6 +71,9 @@ const ProjectManager = (() => {
         break;
       case STATE_ACTIONS.REMOVE_TASK:
         removeTaskFromProject(data.projId, data.taskId);
+        break;
+      case STATE_ACTIONS.STAR_TASK:
+        toggleTaskStar(data.projId, data.taskId);
         break;
       default:
         console.log("FATAL ERROR: DONT KNOW WHATS GOING ON THIS IS BAD!");

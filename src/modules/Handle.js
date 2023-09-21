@@ -42,6 +42,12 @@ const Handle = (() => {
             { projId, taskId }
           );
           break;
+        case "star":
+          ProjectManager.changeState(ProjectManager.STATE_ACTIONS.STAR_TASK, {
+            projId,
+            taskId,
+          });
+          break;
       }
       DisplayManager.refreshDisplay();
     } else if (e.target.dataset.tabber) {

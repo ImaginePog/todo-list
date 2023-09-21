@@ -96,6 +96,13 @@ const DisplayManager = (() => {
         },
       });
 
+      const starBtn = DOM.createElement("button", {
+        innerText: "star",
+        dataset: {
+          action: "star",
+        },
+      });
+
       const editBtn = DOM.createElement("button", {
         innerText: "edit",
         dataset: {
@@ -110,7 +117,7 @@ const DisplayManager = (() => {
         },
       });
 
-      item.append(editBtn, deleteBtn);
+      item.append(starBtn, editBtn, deleteBtn);
       frag.append(item);
     });
     return frag;

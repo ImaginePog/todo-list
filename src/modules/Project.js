@@ -51,4 +51,8 @@ export default class Project {
   toggleTaskStatus(taskId) {
     this.tasks[taskId].toggleStatus();
   }
+
+  toggleTaskStar(taskId) {
+    this.tasks[taskId].toggleStar();
+  }
 }
