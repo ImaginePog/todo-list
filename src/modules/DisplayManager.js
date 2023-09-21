@@ -193,13 +193,14 @@ const DisplayManager = (() => {
 
   function renderTabSelection(currentView) {
     const tabList = DOM.getObject(".tab");
-    console.log(tabList);
 
     for (let i = 0; i < tabList.length; ++i) {
       const tab = tabList[i];
       if (tab.classList.contains("tab-active")) {
         tab.classList.remove("tab-active");
-      } else if (tab.dataset.action == currentView) {
+      }
+
+      if (tab.dataset.action == currentView) {
         tab.classList.add("tab-active");
       }
     }
