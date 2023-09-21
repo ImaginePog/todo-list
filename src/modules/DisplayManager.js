@@ -56,7 +56,6 @@ const DisplayManager = (() => {
     const main = DOM.getObject("#main");
 
     const frag = DOM.getFragment();
-    const h1 = DOM.createElement("h1", { innerText: "All projects" });
 
     const list = DOM.createElement("ul");
     ProjectManager.getAllProjects().forEach((project) => {
@@ -74,7 +73,7 @@ const DisplayManager = (() => {
 
     DOM.addProperties(main, { innerText: "" });
 
-    frag.append(h1, list);
+    frag.append(list);
     main.append(frag);
   }
 
@@ -124,16 +123,13 @@ const DisplayManager = (() => {
     return frag;
   }
 
-  function createTaskList(listName, tasks) {
+  function createTaskList(tasks) {
     const frag = DOM.getFragment();
-    const h1 = DOM.createElement("h1", {
-      innerText: listName,
-    });
 
     const list = DOM.createElement("ul");
     list.append(createTaskItems(tasks));
 
-    frag.append(h1, list);
+    frag.append(list);
     return frag;
   }
 
@@ -142,10 +138,7 @@ const DisplayManager = (() => {
 
     const selectedProj = ProjectManager.getProject(projId);
 
-    const list = createTaskList(
-      selectedProj.name + " tasks",
-      selectedProj.getIncompleteTasks()
-    );
+    const list = createTaskList(selectedProj.getIncompleteTasks());
 
     main.append(list);
   }
@@ -158,7 +151,7 @@ const DisplayManager = (() => {
       const tasks = project.getTasksDueToday();
       todayTasks = [...todayTasks, ...tasks];
     });
-    const list = createTaskList("Today", todayTasks);
+    const list = createTaskList(todayTasks);
 
     main.append(list);
   }
@@ -172,7 +165,7 @@ const DisplayManager = (() => {
       weekTasks = [...weekTasks, ...tasks];
     });
 
-    const list = createTaskList("This week", weekTasks);
+    const list = createTaskList(weekTasks);
 
     main.append(list);
   }
@@ -186,7 +179,7 @@ const DisplayManager = (() => {
       starredTasks = [...starredTasks, ...tasks];
     });
 
-    const list = createTaskList("Starred", starredTasks);
+    const list = createTaskList(starredTasks);
 
     main.append(list);
   }
