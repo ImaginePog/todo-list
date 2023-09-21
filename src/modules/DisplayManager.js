@@ -33,6 +33,7 @@ const DisplayManager = (() => {
 
       projectListSide.append(item);
     });
+    DOM.reloadObject(".tab");
   }
 
   function renderProjectSelect() {
