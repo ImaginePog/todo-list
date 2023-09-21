@@ -48,6 +48,10 @@ export default class Project {
     return this.tasks.filter((task) => task.completed);
   }
 
+  getStarredTasks() {
+    return this.tasks.filter((task) => task.starred);
+  }
+
   toggleTaskStatus(taskId) {
     this.tasks[taskId].toggleStatus();
   }

@@ -176,6 +176,20 @@ const DisplayManager = (() => {
     main.append(list);
   }
 
+  function renderStarredTab() {
+    DOM.addProperties(main, { innerText: "" });
+    let starredTasks = [];
+
+    ProjectManager.getAllProjects().forEach((project) => {
+      const tasks = project.getStarredTasks();
+      starredTasks = [...starredTasks, ...tasks];
+    });
+
+    const list = createTaskList("Starred", starredTasks);
+
+    main.append(list);
+  }
+
   function renderCurrentView() {
     switch (currentView) {
       case "allproj":
@@ -186,6 +200,9 @@ const DisplayManager = (() => {
         break;
       case "week":
         renderThisWeekTab();
+        break;
+      case "starred":
+        renderStarredTab();
         break;
       default:
         renderProjectTab(currentView);
