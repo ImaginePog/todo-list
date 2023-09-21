@@ -8,10 +8,15 @@ const DOM = (() => {
     console.log(objects);
   }
 
+  function queryObjects(query, parent = document) {
+    objects[query] = parent.querySelectorAll(query);
+  }
+
   //Loads all the objects on the creation of DOM module
   function loadObjects() {
     queryObject("#main");
     queryObject("#aside");
+    queryObjects(".tab");
     queryObject("#header"); //temp
     queryObject(".sidebar-project-list", objects["#aside"]);
     queryObject(".add-task-form");
