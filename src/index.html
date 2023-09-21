@@ -8,57 +8,63 @@
   </head>
   <body>
     <div id="app">
-      <header id="header">TODO</header>
+      <header id="header">TODOER</header>
       <aside id="aside">
         <ul class="tab-list">
           <li class="tab" data-action="0">Home</li>
           <li class="tab" data-action="today">Today</li>
           <li class="tab" data-action="week">This Week</li>
           <li class="tab" data-action="starred">Starred</li>
+          <li>
+            <h3 class="tab sidebar-project-list-header" data-action="allproj">
+              Projects
+            </h3>
+          </li>
+          <li>
+            <ul class="sidebar-project-list"></ul>
+          </li>
         </ul>
-
-        <h3 data-action="allproj">Projects</h3>
-        <ul class="sidebar-project-list"></ul>
       </aside>
-      <main id="main"></main>
-      <form class="form add-project-form">
-        <label for="project-name">Project: </label>
-        <input type="text" name="projectName" id="project-name" />
-        <button class="add-project-btn" data-action="add">Add</button>
-      </form>
-      <form class="form add-task-form">
-        <label for="project-select">Project: </label>
-        <select name="projectSelect" id="project-select">
-          <!-- dynamic options here -->
-        </select>
-        <label for="task-name">task name: </label>
-        <input type="text" name="taskName" id="task-name" />
-        <label for="task-priority">task priority: </label>
-        <select name="taskPriority" id="task-priority">
-          <option value="high">High</option>
-          <option value="none" selected>None</option>
-          <option value="low">Low</option>
-        </select>
-        <label for="duedate">Due Date </label>
-        <input type="date" name="duedate" id="duedate" />
-        <button class="add-task-btn" data-action="add">Add</button>
-      </form>
-
-      <form class="form edit-task-form hide">
-        <label for="task-name">task name: </label>
-        <input type="text" name="taskName" id="task-name" />
-        <label for="task-priority">task priority: </label>
-        <select name="taskPriority" id="task-priority">
-          <option value="high">High</option>
-          <option value="none" selected>None</option>
-          <option value="low">Low</option>
-        </select>
-        <label for="duedate">Due Date </label>
-        <input type="date" name="duedate" id="duedate" />
-        <button name="editbtn" class="edit-task-btn" data-action="edit">
-          Edit
-        </button>
-      </form>
+      <main id="main">Main</main>
+      <footer id="footer">Footer here</footer>
     </div>
+    <form class="form add-project-form">
+      <label for="project-name">Project: </label>
+      <input type="text" name="projectName" id="project-name" />
+      <button class="add-project-btn" data-action="add">Add</button>
+    </form>
+    <form class="form add-task-form">
+      <label for="project-select">Project: </label>
+      <select name="projectSelect" id="project-select">
+        <!-- dynamic options here -->
+      </select>
+      <label for="task-name">task name: </label>
+      <input type="text" name="taskName" id="task-name" />
+      <label for="task-priority">task priority: </label>
+      <select name="taskPriority" id="task-priority">
+        <option value="high">High</option>
+        <option value="none" selected>None</option>
+        <option value="low">Low</option>
+      </select>
+      <label for="duedate">Due Date </label>
+      <input type="date" name="duedate" id="duedate" />
+      <button class="add-task-btn" data-action="add">Add</button>
+    </form>
+
+    <form class="form edit-task-form hide">
+      <label for="task-name">task name: </label>
+      <input type="text" name="taskName" id="task-name" />
+      <label for="task-priority">task priority: </label>
+      <select name="taskPriority" id="task-priority">
+        <option value="high">High</option>
+        <option value="none" selected>None</option>
+        <option value="low">Low</option>
+      </select>
+      <label for="duedate">Due Date </label>
+      <input type="date" name="duedate" id="duedate" />
+      <button name="editbtn" class="edit-task-btn" data-action="edit">
+        Edit
+      </button>
+    </form>
   </body>
 </html>

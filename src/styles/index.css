@@ -16,6 +16,9 @@
   border: 0;
 
   box-sizing: border-box;
+  font-family: "Lato Black";
+
+  color: rgb(98, 98, 185);
 }
 
 ul {
@@ -27,45 +30,71 @@ ul {
   min-height: 100vh;
 
   display: grid;
-  grid-template-columns: 5;
-  grid-template-rows: 10;
-}
-
-/* UTILS */
-
-.hide {
-  display: none;
-}
-
-#aside {
-  grid-area: "aside";
-  background-color: grey;
-  grid-row: 2 / span 11;
-  grid-column: 1 / span 1;
-
-  padding: 2rem;
-}
-
-#main {
-  grid-area: "main";
-  grid-column: 2 / 7;
-  grid-row: 2 / span 11;
+  grid-template-areas:
+    "header header"
+    "aside main"
+    "footer footer";
+  grid-template-columns: 1fr 5fr;
+  grid-template-rows: auto 1fr auto;
 }
 
 #header {
-  grid-column: 1 / 7;
-  grid-row: 1 / 2;
-  grid-area: "header";
-  background-color: rgb(98, 98, 185);
+  grid-area: header;
+
+  background-color: rgb(98, 98, 185); /*SUBJECT TO CHANGE*/
   color: white;
-  text-align: center;
-  padding: 10px;
+
   font-size: 3rem;
+  padding: 1rem;
+}
+
+#aside {
+  grid-area: aside;
+
+  border-right: 2px solid rgb(98, 98, 185);
+  padding: 2rem 3rem;
+
+  color: rgb(98, 98, 185);
+}
+
+.tab-list,
+.sidebar-project-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
 .tab {
-  background-color: rgb(80, 65, 65);
-  padding: 5px;
+  font-size: 1.4rem;
+  padding-left: 2rem;
+}
+
+.tab:hover,
+.tab-active {
+  border-left: 3px solid rgb(98, 98, 185);
+}
+
+.sidebar-project-list-header {
+  font-size: 1.5rem;
+}
+
+.sidebar-project-list {
+  padding-left: 1.5rem;
+}
+
+#main {
+  grid-area: main;
+}
+
+#footer {
+  grid-area: footer;
+
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
+
+  background-color: rgb(98, 98, 185);
+  color: white;
 }
 
 .project-container {
@@ -74,11 +103,6 @@ ul {
   color: white;
   display: block;
   margin-bottom: 10px;
-}
-
-.sidebar-project-item {
-  display: block;
-  margin-top: 10px;
 }
 
 .task-container {
@@ -103,6 +127,12 @@ ul {
 .edit-task-form {
   bottom: 500px;
   left: 500px;
+}
+
+/* UTILS */
+
+.hide {
+  display: none;
 }
 
 .high {
