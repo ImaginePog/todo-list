@@ -13,9 +13,7 @@ export default class Project {
   }
 
   removeTask(taskId) {
-    if (taskId >= 0 && taskId < this.tasks.length) {
-      this.tasks.splice(taskId, 1);
-    }
+    this.tasks = this.tasks.filter((task) => task.id != taskId);
   }
 
   editTask(taskId, newTaskInfo) {
