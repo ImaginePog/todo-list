@@ -2,6 +2,8 @@ import ProjectManager from "./ProjectManager";
 import DOM from "./DOM";
 import { format } from "date-fns";
 
+import trashIcon from "../assets/images/icons8-trash.svg";
+
 const DisplayManager = (() => {
   let currentView = "";
 
@@ -22,13 +24,18 @@ const DisplayManager = (() => {
         },
       });
 
-      const deleteProjBtn = DOM.createElement("button", {
-        innerText: "Delete",
+      const deleteProjBtn = DOM.createElement("span", {
+        classList: ["delete-project-btn"],
+      });
+
+      const deleteBtnImg = DOM.createElement("img", {
+        src: trashIcon,
         dataset: {
           action: "delete",
         },
-        classList: [".delete-project-btn"],
       });
+      deleteProjBtn.append(deleteBtnImg);
+
       item.append(deleteProjBtn);
 
       projectListSide.append(item);

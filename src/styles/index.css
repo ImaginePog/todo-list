@@ -52,7 +52,7 @@ ul {
   grid-area: aside;
 
   border-right: 2px solid rgb(98, 98, 185);
-  padding: 2rem 3rem;
+  padding: 2rem;
 
   color: rgb(98, 98, 185);
 }
@@ -71,7 +71,7 @@ ul {
 
 .tab:hover,
 .tab-active {
-  border-left: 3px solid rgb(98, 98, 185);
+  border-left: 3px solid #6262b9;
 }
 
 .sidebar-project-list-header {
@@ -82,19 +82,28 @@ ul {
   padding-left: 1.5rem;
 }
 
-#main {
-  grid-area: main;
+.sidebar-project-item {
+  display: flex;
+  justify-content: space-between;
 }
 
-#footer {
-  grid-area: footer;
-
+.project-name {
   display: flex;
-  justify-content: center;
-  padding: 1rem;
+}
 
-  background-color: rgb(98, 98, 185);
-  color: white;
+.delete-project-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.delete-project-btn img {
+  width: 100%;
+  height: 100%;
+}
+
+#main {
+  grid-area: main;
 }
 
 .project-container {
@@ -127,6 +136,52 @@ ul {
 .edit-task-form {
   bottom: 500px;
   left: 500px;
+}
+
+#footer {
+  grid-area: footer;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+
+  background-color: rgb(98, 98, 185);
+  color: white;
+}
+
+.icon-credits {
+  color: white;
+  font-size: 0.6rem;
+}
+
+.creator-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.6rem;
+}
+
+.creator-container p {
+  color: white;
+}
+
+.github-container {
+  width: 1.2rem;
+  height: 1.2rem;
+
+  display: block;
+}
+
+.github-container:hover {
+  opacity: 60%;
+}
+
+.github-container img {
+  width: 100%;
+  height: 100%;
 }
 
 /* UTILS */
