@@ -23,6 +23,7 @@ const DOM = (() => {
   //Loads all the objects on the creation of DOM module
   function loadObjects() {
     queryObject("#main");
+    queryObject(".dynamic-display", objects["#main"].object);
     queryObject("#aside");
     queryObject(".tab", document, "multiple");
     queryObject(".sidebar-project-list", objects["#aside"].object);

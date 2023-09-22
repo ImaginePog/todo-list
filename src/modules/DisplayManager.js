@@ -60,8 +60,6 @@ const DisplayManager = (() => {
   }
 
   function renderAllProjectsTab() {
-    const main = DOM.getObject("#main");
-
     const frag = DOM.getFragment();
 
     const list = DOM.createElement("ul");
@@ -78,28 +76,51 @@ const DisplayManager = (() => {
       list.appendChild(item);
     });
 
-    DOM.addProperties(main, { innerText: "" });
+    DOM.addProperties(DOM.getObject(".dynamic-display"), { innerText: "" });
 
     frag.append(list);
-    main.append(frag);
+    DOM.getObject(".dynamic-display").append(frag);
   }
 
   function createTaskItems(tasks) {
     const frag = DOM.getFragment();
     tasks.forEach((task) => {
       const item = DOM.createElement("li", {
-        innerText:
-          "Task name: " +
-          task.name +
-          " creation date " +
-          task.creationDate +
-          "due date: " +
-          task.dueDate,
         classList: [task.priority, "task-container"],
         dataset: {
           taskId: task.id,
           projId: task.projectId,
+        },
+      });
+
+      const checkBtn = DOM.createElement("button", {
+        innerText: "check",
+        dataset: {
           action: "complete",
+        },
+      });
+
+      const taskTitle = DOM.createElement("div", {
+        innerText: task.name,
+        classList: ["task-title"],
+      });
+
+      let dueDate = "";
+      if (task.dueDate) {
+        dueDate = format(task.dueDate, "MMM do");
+      } else {
+        dueDate = "no due";
+      }
+      const taskDue = DOM.createElement("div", {
+        innerText: dueDate,
+        classList: ["task-duedate"],
+      });
+
+      const taskDetails = DOM.createElement("button", {
+        innerText: "Details",
+        classList: ["task-detail-btn"],
+        dataset: {
+          action: "detail",
         },
       });
 
@@ -124,7 +145,15 @@ const DisplayManager = (() => {
         },
       });
 
-      item.append(starBtn, editBtn, deleteBtn);
+      item.append(
+        checkBtn,
+        taskTitle,
+        taskDue,
+        taskDetails,
+        starBtn,
+        editBtn,
+        deleteBtn
+      );
       frag.append(item);
     });
     return frag;
@@ -133,7 +162,7 @@ const DisplayManager = (() => {
   function createTaskList(tasks) {
     const frag = DOM.getFragment();
 
-    const list = DOM.createElement("ul");
+    const list = DOM.createElement("ul", { classList: ["task-list"] });
     list.append(createTaskItems(tasks));
 
     frag.append(list);
@@ -141,17 +170,17 @@ const DisplayManager = (() => {
   }
 
   function renderProjectTab(projId) {
-    DOM.addProperties(main, { innerText: "" });
+    DOM.addProperties(DOM.getObject(".dynamic-display"), { innerText: "" });
 
     const selectedProj = ProjectManager.getProject(projId);
 
     const list = createTaskList(selectedProj.getIncompleteTasks());
 
-    main.append(list);
+    DOM.getObject(".dynamic-display").append(list);
   }
 
   function renderTodayTab() {
-    DOM.addProperties(main, { innerText: "" }); //CLEAR DISPLAY
+    DOM.addProperties(DOM.getObject(".dynamic-display"), { innerText: "" }); //CLEAR DISPLAY
 
     let todayTasks = [];
     ProjectManager.getAllProjects().forEach((project) => {
@@ -160,11 +189,11 @@ const DisplayManager = (() => {
     });
     const list = createTaskList(todayTasks);
 
-    main.append(list);
+    DOM.getObject(".dynamic-display").append(list);
   }
 
   function renderThisWeekTab() {
-    DOM.addProperties(main, { innerText: "" });
+    DOM.addProperties(DOM.getObject(".dynamic-display"), { innerText: "" });
     let weekTasks = [];
 
     ProjectManager.getAllProjects().forEach((project) => {
@@ -174,11 +203,11 @@ const DisplayManager = (() => {
 
     const list = createTaskList(weekTasks);
 
-    main.append(list);
+    DOM.getObject(".dynamic-display").append(list);
   }
 
   function renderStarredTab() {
-    DOM.addProperties(main, { innerText: "" });
+    DOM.addProperties(DOM.getObject(".dynamic-display"), { innerText: "" });
     let starredTasks = [];
 
     ProjectManager.getAllProjects().forEach((project) => {
@@ -188,7 +217,7 @@ const DisplayManager = (() => {
 
     const list = createTaskList(starredTasks);
 
-    main.append(list);
+    DOM.getObject(".dynamic-display").append(list);
   }
 
   function renderTabSelection(currentView) {
