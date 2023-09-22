@@ -18,6 +18,7 @@ export default class Project {
 
   editTask(taskId, newTaskInfo) {
     newTaskInfo.creationDate = this.tasks[taskId].creationDate;
+    newTaskInfo.starred = this.tasks[taskId].starred;
     this.tasks[taskId] = new Task(newTaskInfo, taskId, this.id);
   }
 
