@@ -2,7 +2,10 @@ import ProjectManager from "./ProjectManager";
 import DOM from "./DOM";
 import { format } from "date-fns";
 
-import trashIcon from "../assets/images/icons8-trash.svg";
+import trashIcon from "../assets/images/icons8-trash-32.png";
+import editIcon from "../assets/images/icons8-edit-32.png";
+import starUncheckedIcon from "../assets/images/icons8-star-32-outline.png";
+import starCheckedIcon from "../assets/images/icons8-star-32-filled.png";
 
 const DisplayManager = (() => {
   let currentView = "";
@@ -116,44 +119,55 @@ const DisplayManager = (() => {
         classList: ["task-duedate"],
       });
 
-      const taskDetails = DOM.createElement("button", {
-        innerText: "Details",
-        classList: ["task-detail-btn"],
-        dataset: {
-          action: "detail",
-        },
+      const optionButtons = DOM.createElement("div", {
+        classList: ["option-btns-container"],
       });
 
       const starBtn = DOM.createElement("button", {
-        innerText: "star",
+        classList: ["task-star-btn", "icon-btn"],
+      });
+      let starIconSrc;
+      if (task.starred) {
+        starIconSrc = starCheckedIcon;
+      } else {
+        starIconSrc = starUncheckedIcon;
+      }
+      const starImg = DOM.createElement("img", {
+        src: starIconSrc,
+        classList: ["icon"],
         dataset: {
           action: "star",
         },
       });
+      starBtn.append(starImg);
 
       const editBtn = DOM.createElement("button", {
-        innerText: "edit",
+        classList: ["task-edit-btn", "icon-btn"],
+      });
+      const editImg = DOM.createElement("img", {
+        src: editIcon,
+        classList: ["icon"],
         dataset: {
           action: "edit",
         },
       });
+      editBtn.append(editImg);
 
       const deleteBtn = DOM.createElement("button", {
-        innerText: "delete",
+        classList: ["task-delete-btn", "icon-btn"],
+      });
+      const deleteImg = DOM.createElement("img", {
+        src: trashIcon,
+        classList: ["icon"],
         dataset: {
           action: "delete",
         },
       });
+      deleteBtn.append(deleteImg);
 
-      item.append(
-        checkBtn,
-        taskTitle,
-        taskDue,
-        taskDetails,
-        starBtn,
-        editBtn,
-        deleteBtn
-      );
+      optionButtons.append(starBtn, editBtn, deleteBtn);
+
+      item.append(checkBtn, taskTitle, taskDue, optionButtons);
       frag.append(item);
     });
     return frag;
