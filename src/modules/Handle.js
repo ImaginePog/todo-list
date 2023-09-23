@@ -123,6 +123,14 @@ const Handle = (() => {
     DisplayManager.refreshDisplay();
   });
 
+  const detailsModal = DOM.getObject(".details-modal");
+  detailsModal.addEventListener("click", (e) => {
+    if (!e.target.dataset.action) {
+      return;
+    }
+    DisplayManager.detailsModal.close();
+  });
+
   ProjectManager.populateProjects();
   DisplayManager.changeView("0");
 })();
