@@ -109,6 +109,10 @@ const DisplayManager = (() => {
         innerText: task.name,
         classList: ["task-title"],
       });
+      if (task.completed) {
+        DOM.addProperties(taskTitle, { classList: ["completed-task"] });
+        DOM.addProperties(item, { classList: ["completed-task-container"] });
+      }
 
       let dueDate = "";
       if (task.dueDate) {
@@ -190,7 +194,11 @@ const DisplayManager = (() => {
 
     const selectedProj = ProjectManager.getProject(projId);
 
-    const list = createTaskList(selectedProj.getIncompleteTasks());
+    const tasks = [
+      ...selectedProj.getIncompleteTasks(),
+      ...selectedProj.getCompleteTasks(),
+    ];
+    const list = createTaskList(tasks);
 
     DOM.getObject(".dynamic-display").append(list);
   }

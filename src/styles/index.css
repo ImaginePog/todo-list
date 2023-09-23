@@ -130,6 +130,14 @@ ul {
   gap: 20px;
 }
 
+.completed-task {
+  text-decoration: line-through;
+}
+
+.completed-task-container {
+  opacity: 6 5%;
+}
+
 .task-title {
   flex: 1;
 }
