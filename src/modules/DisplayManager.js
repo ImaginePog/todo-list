@@ -7,6 +7,8 @@ import editIcon from "../assets/images/icons8-edit-32.png";
 import starUncheckedIcon from "../assets/images/icons8-star-32-outline.png";
 import starCheckedIcon from "../assets/images/icons8-star-32-filled.png";
 import closeIcon from "../assets/images/icons8-close-48.png";
+import uncheckedBox from "../assets/images/icons8-unchecked-checkbox-32.png";
+import checkedBox from "../assets/images/icons8-checked-checkbox-32.png";
 
 const DisplayManager = (() => {
   let currentView = "";
@@ -98,16 +100,30 @@ const DisplayManager = (() => {
         },
       });
 
-      const checkBtn = DOM.createElement("button", {
-        innerText: "check",
+      const completeBtn = DOM.createElement("button", {
+        classList: ["task-complete-btn", "icon-btn"],
+      });
+      let checkBtnSrc;
+      if (task.completed) {
+        checkBtnSrc = checkedBox;
+      } else {
+        checkBtnSrc = uncheckedBox;
+      }
+      const checkImg = DOM.createElement("img", {
+        src: checkBtnSrc,
+        classList: ["icon"],
         dataset: {
           action: "complete",
         },
       });
+      completeBtn.append(checkImg);
 
       const taskTitle = DOM.createElement("div", {
         innerText: task.name,
         classList: ["task-title"],
+        dataset: {
+          action: "details",
+        },
       });
       if (task.completed) {
         DOM.addProperties(taskTitle, { classList: ["completed-task"] });
@@ -173,7 +189,7 @@ const DisplayManager = (() => {
 
       optionButtons.append(starBtn, editBtn, deleteBtn);
 
-      item.append(checkBtn, taskTitle, taskDue, optionButtons);
+      item.append(completeBtn, taskTitle, taskDue, optionButtons);
       frag.append(item);
     });
     return frag;
