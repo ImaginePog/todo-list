@@ -130,6 +130,12 @@ ul {
   gap: 20px;
 }
 
+.task-container:hover {
+  transform: scale(1.01);
+  transition: 150ms;
+  box-shadow: 3px 8px 6px -6px rgba(98, 98, 185, 0.5);
+}
+
 .completed-task {
   text-decoration: line-through;
 }
