@@ -48,6 +48,9 @@ const Handle = (() => {
             taskId,
           });
           break;
+        case "details":
+          DisplayManager.detailsModal.open(projId, taskId);
+          break;
       }
       DisplayManager.refreshDisplay();
     } else if (e.target.dataset.tabber) {
