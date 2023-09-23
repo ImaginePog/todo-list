@@ -31,6 +31,7 @@ const DOM = (() => {
     queryObject("#project-select", objects[".add-task-form"].object);
     queryObject(".add-project-form");
     queryObject(".edit-task-form");
+    queryObject(".details-modal");
   }
 
   //Reload an object; only if it has been loaded

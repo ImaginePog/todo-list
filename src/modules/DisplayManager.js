@@ -6,6 +6,7 @@ import trashIcon from "../assets/images/icons8-trash-32.png";
 import editIcon from "../assets/images/icons8-edit-32.png";
 import starUncheckedIcon from "../assets/images/icons8-star-32-outline.png";
 import starCheckedIcon from "../assets/images/icons8-star-32-filled.png";
+import closeIcon from "../assets/images/icons8-close-48.png";
 
 const DisplayManager = (() => {
   let currentView = "";
@@ -93,6 +94,7 @@ const DisplayManager = (() => {
         dataset: {
           taskId: task.id,
           projId: task.projectId,
+          action: "details",
         },
       });
 
@@ -308,9 +310,104 @@ const DisplayManager = (() => {
     editTaskForm.reset();
   }
 
+  function openDetailsModal(projId, taskId) {
+    const modal = DOM.getObject(".details-modal");
+    const project = ProjectManager.getProject(projId);
+    const taskInfo = project.tasks[taskId];
+
+    const container = DOM.createElement("div", {
+      classList: ["details-container"],
+    });
+
+    const head = DOM.createElement("div", {
+      classList: ["details-header"],
+    });
+    const taskDetailsTitle = DOM.createElement("h3", {
+      innerText: taskInfo.name,
+      classList: ["task-details-title"],
+    });
+    const closeBtn = DOM.createElement("button", {
+      classList: ["close-details-btn", "icon-btn"],
+    });
+    const closeBtnImg = DOM.createElement("img", {
+      src: closeIcon,
+      classList: ["icon"],
+      dataset: {
+        action: "close",
+      },
+    });
+    closeBtn.append(closeBtnImg);
+
+    head.append(taskDetailsTitle, closeBtn);
+
+    const body = DOM.createElement("div", {
+      classList: ["details-body"],
+    });
+
+    const taskParent = DOM.createElement("div", {
+      innerText: "Project: " + project.name,
+    });
+
+    let statusText = "";
+    let dueDate = null;
+    if (taskInfo.completed) {
+      statusText = "Completed";
+    } else {
+      statusText = "Incomplete";
+      let dueText = "";
+      if (taskInfo.dueDate) {
+        dueText = format(taskInfo.dueDate, "MMMM-do,yyyy");
+        if (taskInfo.overdue) {
+          dueText += " (overdue)";
+        }
+      } else {
+        dueText = "No due";
+      }
+      dueDate = DOM.createElement("div", {
+        innerText: "Due On: " + dueText,
+      });
+    }
+    const status = DOM.createElement("div", {
+      innerText: "Status: " + statusText,
+    });
+    body.append(taskParent, status);
+    if (dueDate) {
+      body.append(dueDate);
+    }
+
+    const priority = DOM.createElement("div", {
+      innerText: "Priority: " + taskInfo.priority,
+    });
+
+    let descriptionText = "No description";
+    if (taskInfo.description) {
+      descriptionText = description;
+    }
+    const description = DOM.createElement("div", {
+      innerText: "Description: " + descriptionText,
+    });
+
+    const creationDate = DOM.createElement("div", {
+      innerText: "Created on: " + format(taskInfo.creationDate, "MMMM-do,yyyy"),
+    });
+
+    body.append(priority, description, creationDate);
+
+    container.append(head, body);
+    modal.append(container);
+
+    DOM.removeProperties(modal, { classList: ["hide"] });
+  }
+
+  function closeDetailsModal() {
+    const modal = DOM.getObject(".details-modal");
+    DOM.addProperties(modal, { classList: ["hide"], innerText: "" });
+  }
+
   return {
     refreshDisplay,
     editTaskModal: { open: openEditTaskModal, close: closeEditTaskModal },
+    detailsModal: { open: openDetailsModal, close: closeDetailsModal },
     changeView,
   };
 })();
