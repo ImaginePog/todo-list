@@ -58,6 +58,13 @@ const DisplayManager = (() => {
         value: project.id,
         innerText: project.name,
       });
+      if (project.id == currentView) {
+        DOM.addProperties(opt, {
+          attributes: {
+            selected: true,
+          },
+        });
+      }
       frag.append(opt);
     });
 
