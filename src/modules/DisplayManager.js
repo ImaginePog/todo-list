@@ -341,6 +341,8 @@ const DisplayManager = (() => {
   }
 
   function openDetailsModal(projId, taskId) {
+    const modalOverlay = DOM.getObject(".modal-overlay");
+
     const modal = DOM.getObject(".details-modal");
     const project = ProjectManager.getProject(projId);
     const taskInfo = project.tasks[taskId];
@@ -374,6 +376,14 @@ const DisplayManager = (() => {
       classList: ["details-body"],
     });
 
+    let descriptionText = "No description";
+    if (taskInfo.description) {
+      descriptionText = taskInfo.description;
+    }
+    const description = DOM.createElement("div", {
+      innerText: "Description: " + descriptionText,
+    });
+
     const taskParent = DOM.createElement("div", {
       innerText: "Project: " + project.name,
     });
@@ -400,7 +410,7 @@ const DisplayManager = (() => {
     const status = DOM.createElement("div", {
       innerText: "Status: " + statusText,
     });
-    body.append(taskParent, status);
+    body.append(description, taskParent, status);
     if (dueDate) {
       body.append(dueDate);
     }
@@ -409,24 +419,17 @@ const DisplayManager = (() => {
       innerText: "Priority: " + taskInfo.priority,
     });
 
-    let descriptionText = "No description";
-    if (taskInfo.description) {
-      descriptionText = description;
-    }
-    const description = DOM.createElement("div", {
-      innerText: "Description: " + descriptionText,
-    });
-
     const creationDate = DOM.createElement("div", {
       innerText: "Created on: " + format(taskInfo.creationDate, "MMMM-do,yyyy"),
     });
 
-    body.append(priority, description, creationDate);
+    body.append(priority, creationDate);
 
     container.append(head, body);
     modal.append(container);
 
     DOM.removeProperties(modal, { classList: ["hide"] });
+    DOM.removeProperties(modalOverlay, { classList: ["hide"] });
   }
 
   function closeDetailsModal() {
