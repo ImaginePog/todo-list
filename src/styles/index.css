@@ -34,7 +34,7 @@ ul {
     "header header"
     "aside main"
     "footer footer";
-  grid-template-columns: 1fr 5fr;
+  grid-template-columns: 300px 5fr;
   grid-template-rows: auto 1fr auto;
 }
 
