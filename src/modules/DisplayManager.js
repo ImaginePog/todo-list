@@ -435,13 +435,19 @@ const DisplayManager = (() => {
         btn.classList.remove("selected-priority");
         switch (btn.dataset.value) {
           case "high":
-            btn.classList.remove("high-selected");
+            DOM.removeProperties(btn, {
+              classList: ["high-selected"],
+            });
             break;
           case "none":
-            btn.classList.remove("none-selected");
+            DOM.removeProperties(btn, {
+              classList: ["none-selected"],
+            });
             break;
           case "low":
-            btn.classList.remove("low-selected");
+            DOM.removeProperties(btn, {
+              classList: ["low-selected"],
+            });
             break;
         }
         return;
@@ -451,22 +457,37 @@ const DisplayManager = (() => {
     activeBtn.classList.add("selected-priority");
     switch (activeBtn.dataset.value) {
       case "high":
-        activeBtn.classList.add("high-selected");
+        DOM.addProperties(activeBtn, {
+          classList: ["high-selected"],
+        });
         break;
       case "none":
-        activeBtn.classList.add("none-selected");
+        DOM.addProperties(activeBtn, {
+          classList: ["none-selected"],
+        });
         break;
       case "low":
         activeBtn.classList.add("low-selected");
+        DOM.addProperties(activeBtn, {
+          classList: ["low-selected"],
+        });
         break;
     }
   }
+
+  function openAddModal(modal) {}
+
+  function closeAddModals() {}
 
   return {
     refreshDisplay,
     editTaskModal: { open: openEditTaskModal, close: closeEditTaskModal },
     detailsModal: { open: openDetailsModal, close: closeDetailsModal },
-    addModal: { changeSelectedPriority },
+    addModal: {
+      open: openAddModal,
+      close: closeAddModals,
+      changeSelectedPriority,
+    },
     changeView,
   };
 })();
