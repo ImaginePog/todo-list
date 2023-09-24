@@ -63,25 +63,6 @@ const Handle = (() => {
     DisplayManager.addModal.open(DOM.getObject(".add-task-modal"));
   });
 
-  // const addProjectForm = DOM.getObject(".add-project-form");
-  // addProjectForm.addEventListener("click", (e) => {
-  //   if (!e.target.dataset.action) {
-  //     return;
-  //   }
-
-  //   e.preventDefault();
-  //   const form = e.currentTarget;
-
-  //   ProjectManager.changeState(ProjectManager.STATE_ACTIONS.ADD_PROJ, {
-  //     projName: form["projectName"].value,
-  //   });
-
-  //   DisplayManager.changeView(
-  //     ProjectManager.getProjectId(form["projectName"].value)
-  //   );
-  //   form.reset();
-  // });
-
   const editTaskForm = DOM.getObject(".edit-task-form");
   editTaskForm.addEventListener("click", (e) => {
     if (!e.target.dataset.action) {
@@ -170,6 +151,20 @@ const Handle = (() => {
 
     DisplayManager.addModal.close();
     DisplayManager.changeView(project);
+  });
+
+  const addProjectForm = DOM.getObject(".add-project-form");
+  addProjectForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const form = e.currentTarget;
+    let name = form["projectName"].value;
+
+    ProjectManager.changeState(ProjectManager.STATE_ACTIONS.ADD_PROJ, {
+      projName: name,
+    });
+
+    DisplayManager.addModal.close();
+    DisplayManager.changeView(ProjectManager.getProjectId(name));
   });
 
   ProjectManager.populateProjects();
