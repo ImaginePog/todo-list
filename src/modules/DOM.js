@@ -24,6 +24,7 @@ const DOM = (() => {
   function loadObjects() {
     queryObject("#main");
     queryObject(".dynamic-display", objects["#main"].object);
+    queryObject(".main-add-modal-btn", objects["#main"].object);
     queryObject("#aside");
     queryObject(".tab", document, "multiple");
     queryObject(".sidebar-project-list", objects["#aside"].object);

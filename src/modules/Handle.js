@@ -58,26 +58,9 @@ const Handle = (() => {
     }
   });
 
-  const addTaskForm = DOM.getObject(".add-task-form");
-  addTaskForm.addEventListener("click", (e) => {
-    if (!e.target.dataset.action) {
-      return;
-    }
-    e.preventDefault();
-    const form = e.currentTarget;
-
-    const taskInfo = {};
-    taskInfo.name = form["taskName"].value;
-    taskInfo.priority = form["taskPriority"].value;
-    taskInfo.dueDate = form["duedate"].value;
-
-    ProjectManager.changeState(ProjectManager.STATE_ACTIONS.ADD_TASK, {
-      projId: form["projectSelect"].value,
-      taskInfo: taskInfo,
-    });
-
-    DisplayManager.changeView(form["projectSelect"].value);
-    form.reset();
+  const addModalBtn = DOM.getObject(".main-add-modal-btn");
+  addModalBtn.addEventListener("click", (e) => {
+    DisplayManager.addModal.open(DOM.getObject(".add-task-modal"));
   });
 
   const addProjectForm = DOM.getObject(".add-project-form");
