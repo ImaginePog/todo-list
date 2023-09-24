@@ -131,6 +131,17 @@ const Handle = (() => {
     DisplayManager.detailsModal.close();
   });
 
+  const modalOverlay = DOM.getObject(".modal-overlay");
+  modalOverlay.addEventListener("click", (e) => {
+    if (!e.target.dataset.action) {
+      return;
+    }
+
+    DisplayManager.addModal.changeSelectedPriority(
+      e.target.closest(".priority-btn")
+    );
+  });
+
   ProjectManager.populateProjects();
   DisplayManager.changeView("0");
 })();

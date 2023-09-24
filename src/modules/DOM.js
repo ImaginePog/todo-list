@@ -32,6 +32,8 @@ const DOM = (() => {
     queryObject(".add-project-form");
     queryObject(".edit-task-form");
     queryObject(".details-modal");
+    queryObject(".modal-overlay");
+    queryObject(".priority-btn", objects[".modal-overlay"].object, "multiple");
   }
 
   //Reload an object; only if it has been loaded

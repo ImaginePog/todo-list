@@ -191,21 +191,6 @@ ul {
 }
 
 .details-modal {
-  z-index: 10;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: rgba(0, 0, 0);
-  background-color: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(5px);
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 .details-container {
@@ -297,6 +282,23 @@ ul {
 
 /* UTILS */
 
+.modal-overlay {
+  z-index: 10;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(5px);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  content: "helo";
+}
+
 .hide {
   display: none;
 }
@@ -306,9 +308,136 @@ ul {
 }
 
 .none {
-  border-left: 5px solid rgb(158, 158, 158);
+  border-left: 5px solid #9e9e9e;
 }
 
 .low {
-  border-left: 5px solid rgb(28, 143, 104);
+  border-left: 5px solid #1c8f68;
+}
+
+/* TEMPORARY */
+
+.add-task-modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  width: 50rem;
+
+  overflow: hidden;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 2rem;
+  background-color: #6262b9;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+}
+
+.modal-header h3 {
+  font-size: 2rem;
+  color: white;
+}
+
+.modal-body {
+  padding: 2rem;
+  background-color: white;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  border: 3px solid #6262b9;
+}
+
+.add-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.add-form input:focus,
+.add-form textarea:focus {
+  border: none;
+  outline: none;
+}
+
+#task-name,
+#task-description,
+#project-name {
+  font-size: 1.5rem;
+  resize: none;
+}
+
+.task-properties-container {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.input-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+#duedate {
+  border: 1px solid #6262b9;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.input-container label {
+  font-size: 1rem;
+}
+
+.modal-form-btn {
+  background-color: #6262b9;
+  color: white;
+
+  width: 40%;
+  padding: 0.3rem 0;
+  border-radius: 5px;
+  font-size: 1.2rem;
+
+  align-self: center;
+}
+
+.priority-btn {
+  padding: 0.2rem 0.5rem;
+  border: solid 1px;
+  border-radius: 5px;
+  background-color: transparent;
+}
+
+.high-btn {
+  border-color: red;
+  color: red;
+}
+
+.high-btn:hover,
+.high-selected {
+  color: white;
+  background-color: red;
+}
+
+.none-btn {
+  border-color: #9e9e9e;
+  color: #9e9e9e;
+}
+
+.none-btn:hover,
+.none-selected {
+  color: white;
+  background-color: #9e9e9e;
+}
+
+.low-btn {
+  border-color: #1c8f68;
+  color: #1c8f68;
+}
+
+.low-btn:hover,
+.low-selected {
+  color: white;
+  background-color: #1c8f68;
 }

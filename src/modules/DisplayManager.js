@@ -428,10 +428,45 @@ const DisplayManager = (() => {
     DOM.addProperties(modal, { classList: ["hide"], innerText: "" });
   }
 
+  function changeSelectedPriority(activeBtn) {
+    const btns = DOM.getObject(".priority-btn");
+    btns.forEach((btn) => {
+      if (btn.classList.contains("selected-priority")) {
+        btn.classList.remove("selected-priority");
+        switch (btn.dataset.value) {
+          case "high":
+            btn.classList.remove("high-selected");
+            break;
+          case "none":
+            btn.classList.remove("none-selected");
+            break;
+          case "low":
+            btn.classList.remove("low-selected");
+            break;
+        }
+        return;
+      }
+    });
+
+    activeBtn.classList.add("selected-priority");
+    switch (activeBtn.dataset.value) {
+      case "high":
+        activeBtn.classList.add("high-selected");
+        break;
+      case "none":
+        activeBtn.classList.add("none-selected");
+        break;
+      case "low":
+        activeBtn.classList.add("low-selected");
+        break;
+    }
+  }
+
   return {
     refreshDisplay,
     editTaskModal: { open: openEditTaskModal, close: closeEditTaskModal },
     detailsModal: { open: openDetailsModal, close: closeDetailsModal },
+    addModal: { changeSelectedPriority },
     changeView,
   };
 })();
