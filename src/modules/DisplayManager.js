@@ -310,7 +310,6 @@ const DisplayManager = (() => {
 
   function refreshDisplay() {
     renderSidebarProjects();
-    renderProjectSelect();
     renderCurrentView();
   }
 
@@ -482,9 +481,42 @@ const DisplayManager = (() => {
     }
   }
 
-  function openAddModal(modal) {}
+  function openAddModal(defaultModal) {
+    const modalOverlay = DOM.getObject(".modal-overlay");
+    DOM.removeProperties(modalOverlay, { classList: ["hide"] });
+    let modal = defaultModal;
 
-  function closeAddModals() {}
+    switch (currentView) {
+      case "allproj":
+        modal = DOM.getObject(".add-project-modal");
+        DOM.removeProperties(modal, { classList: ["hide"] });
+        break;
+      default:
+        DOM.removeProperties(modal, { classList: ["hide"] });
+        renderProjectSelect();
+    }
+  }
+
+  function closeAddModals() {
+    const taskForm = DOM.getObject(".add-task-form");
+    taskForm.reset();
+
+    const projectForm = DOM.getObject(".add-project-form");
+    projectForm.reset();
+
+    const modalOverlay = DOM.getObject(".modal-overlay");
+    const taskModal = DOM.getObject(".add-task-modal");
+    const projectModal = DOM.getObject(".add-project-modal");
+
+    DOM.addProperties(taskModal, { classList: ["hide"] });
+    DOM.addProperties(projectModal, { classList: ["hide"] });
+    DOM.addProperties(modalOverlay, { classList: ["hide"] });
+
+    const defaultBtn = DOM.getObject(".none-btn");
+    changeSelectedPriority(defaultBtn);
+
+    DisplayManager.refreshDisplay();
+  }
 
   return {
     refreshDisplay,

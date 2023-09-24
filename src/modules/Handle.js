@@ -63,24 +63,24 @@ const Handle = (() => {
     DisplayManager.addModal.open(DOM.getObject(".add-task-modal"));
   });
 
-  const addProjectForm = DOM.getObject(".add-project-form");
-  addProjectForm.addEventListener("click", (e) => {
-    if (!e.target.dataset.action) {
-      return;
-    }
+  // const addProjectForm = DOM.getObject(".add-project-form");
+  // addProjectForm.addEventListener("click", (e) => {
+  //   if (!e.target.dataset.action) {
+  //     return;
+  //   }
 
-    e.preventDefault();
-    const form = e.currentTarget;
+  //   e.preventDefault();
+  //   const form = e.currentTarget;
 
-    ProjectManager.changeState(ProjectManager.STATE_ACTIONS.ADD_PROJ, {
-      projName: form["projectName"].value,
-    });
+  //   ProjectManager.changeState(ProjectManager.STATE_ACTIONS.ADD_PROJ, {
+  //     projName: form["projectName"].value,
+  //   });
 
-    DisplayManager.changeView(
-      ProjectManager.getProjectId(form["projectName"].value)
-    );
-    form.reset();
-  });
+  //   DisplayManager.changeView(
+  //     ProjectManager.getProjectId(form["projectName"].value)
+  //   );
+  //   form.reset();
+  // });
 
   const editTaskForm = DOM.getObject(".edit-task-form");
   editTaskForm.addEventListener("click", (e) => {
@@ -120,9 +120,56 @@ const Handle = (() => {
       return;
     }
 
-    DisplayManager.addModal.changeSelectedPriority(
-      e.target.closest(".priority-btn")
-    );
+    if (e.target.dataset.action === "close") {
+      DisplayManager.addModal.close();
+      DisplayManager.detailsModal.close();
+      DisplayManager.editTaskModal.close();
+    }
+  });
+
+  const addTaskForm = DOM.getObject(".add-task-form");
+  addTaskForm.addEventListener("click", (e) => {
+    if (!e.target.dataset.action) {
+      return;
+    }
+
+    switch (e.target.dataset.action) {
+      case "priorityChange":
+        DisplayManager.addModal.changeSelectedPriority(
+          e.target.closest(".priority-btn")
+        );
+        break;
+    }
+  });
+
+  addTaskForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const form = e.currentTarget;
+
+    const taskInfo = {};
+    taskInfo.name = form["taskName"].value;
+    taskInfo.description = form[1].value;
+    taskInfo.dueDate = form["duedate"].value;
+    let priority = null;
+
+    const priorityBtns = DOM.getObject(".priority-btn");
+    priorityBtns.forEach((btn) => {
+      if (btn.classList.contains("selected-priority")) {
+        priority = btn.dataset.value;
+      }
+    });
+
+    taskInfo.priority = priority;
+
+    const project = form["parentProject"].value;
+
+    ProjectManager.changeState(ProjectManager.STATE_ACTIONS.ADD_TASK, {
+      projId: project,
+      taskInfo: taskInfo,
+    });
+
+    DisplayManager.addModal.close();
+    DisplayManager.changeView(project);
   });
 
   ProjectManager.populateProjects();
