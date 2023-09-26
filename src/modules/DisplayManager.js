@@ -147,6 +147,9 @@ const DisplayManager = (() => {
         innerText: dueDate,
         classList: ["task-duedate"],
       });
+      if (task.overdue) {
+        DOM.addProperties(taskDue, { classList: ["overdue"] });
+      }
 
       const optionButtons = DOM.createElement("div", {
         classList: ["option-btns-container"],
