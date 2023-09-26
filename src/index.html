@@ -122,21 +122,58 @@
             />
           </button>
         </div>
-        <form class="edit-task-form">
-          <label for="task-name">task name: </label>
-          <input type="text" name="taskName" id="task-name" />
-          <label for="task-priority">task priority: </label>
-          <select name="taskPriority" id="task-priority">
-            <option value="high">High</option>
-            <option value="none" selected>None</option>
-            <option value="low">Low</option>
-          </select>
-          <label for="duedate">Due Date </label>
-          <input type="date" name="duedate" id="duedate" />
-          <button name="editbtn" class="edit-task-btn" data-action="edit">
-            Edit
-          </button>
-        </form>
+        <div class="modal-body">
+          <form class="edit-task-form">
+            <input
+              type="text"
+              name="taskName"
+              id="task-name"
+              placeholder="Task title"
+            />
+            <textarea
+              name="taskDescription"
+              id="task-description"
+              cols="30"
+              rows="6"
+              placeholder="Task description..."
+            ></textarea>
+            <div class="duedate-container input-container">
+              <label for="duedate">Due Date:</label>
+              <input type="date" name="duedate" id="duedate" />
+            </div>
+            <div class="priority-container input-container">
+              <label>Priority:</label>
+              <div
+                class="priority-btn high-btn high-btn-edit"
+                data-value="high"
+                data-action="priorityChange"
+              >
+                High
+              </div>
+              <div
+                class="priority-btn none-btn none-btn-edit"
+                data-value="none"
+                data-action="priorityChange"
+              >
+                None
+              </div>
+              <div
+                class="priority-btn low-btn low-btn-edit"
+                data-value="low"
+                data-action="priorityChange"
+              >
+                Low
+              </div>
+            </div>
+            <button
+              name="editbtn"
+              class="edit-task-btn modal-form-btn"
+              data-action="edit"
+            >
+              Edit
+            </button>
+          </form>
+        </div>
       </div>
       <div class="add-project-modal hide">
         <div class="modal-header">

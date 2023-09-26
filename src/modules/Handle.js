@@ -63,30 +63,6 @@ const Handle = (() => {
     DisplayManager.modals.addModal.open(DOM.getObject(".add-task-modal"));
   });
 
-  const editTaskForm = DOM.getObject(".edit-task-form");
-  editTaskForm.addEventListener("click", (e) => {
-    if (!e.target.dataset.action) {
-      return;
-    }
-    e.preventDefault();
-
-    const form = e.currentTarget;
-
-    const taskInfo = {};
-    taskInfo.name = form["taskName"].value;
-    taskInfo.priority = form["taskPriority"].value;
-    taskInfo.dueDate = form["duedate"].value;
-
-    ProjectManager.changeState(ProjectManager.STATE_ACTIONS.EDIT_TASK, {
-      projId: e.target.dataset.projId,
-      taskId: e.target.dataset.taskId,
-      taskInfo,
-    });
-
-    DisplayManager.modals.close();
-    DisplayManager.refreshDisplay();
-  });
-
   const modalOverlay = DOM.getObject(".modal-overlay");
   modalOverlay.addEventListener("click", (e) => {
     if (!e.target.dataset.action) {
@@ -141,6 +117,49 @@ const Handle = (() => {
 
     DisplayManager.modals.close();
     DisplayManager.changeView(project);
+  });
+
+  const editTaskForm = DOM.getObject(".edit-task-form");
+  editTaskForm.addEventListener("click", (e) => {
+    if (!e.target.dataset.action) {
+      return;
+    }
+
+    switch (e.target.dataset.action) {
+      case "priorityChange":
+        DisplayManager.modals.editTaskModal.changeSelectedPriority(
+          e.target.closest(".priority-btn")
+        );
+        break;
+    }
+  });
+  editTaskForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const form = e.currentTarget;
+
+    const taskInfo = {};
+    taskInfo.name = form["taskName"].value;
+
+    let priority = null;
+    const priorityBtns = DOM.getObject(".priority-btn");
+    priorityBtns.forEach((btn) => {
+      if (btn.classList.contains("selected-priority")) {
+        priority = btn.dataset.value;
+      }
+    });
+
+    taskInfo.priority = priority;
+    taskInfo.dueDate = form["duedate"].value;
+    taskInfo.description = form[1].value;
+
+    ProjectManager.changeState(ProjectManager.STATE_ACTIONS.EDIT_TASK, {
+      projId: e.target.dataset.projId,
+      taskId: e.target.dataset.taskId,
+      taskInfo,
+    });
+
+    DisplayManager.modals.close();
+    DisplayManager.refreshDisplay();
   });
 
   const addProjectForm = DOM.getObject(".add-project-form");

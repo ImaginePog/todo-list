@@ -37,6 +37,9 @@ const DOM = (() => {
     queryObject(".priority-btn", objects[".modal-overlay"].object, "multiple");
     queryObject(".add-task-modal", objects[".modal-overlay"].object);
     queryObject(".none-btn", objects[".add-task-form"].object);
+    queryObject(".none-btn-edit", objects[".edit-task-form"].object);
+    queryObject(".high-btn-edit", objects[".edit-task-form"].object);
+    queryObject(".low-btn-edit", objects[".edit-task-form"].object);
     queryObject(".edit-task-modal", objects[".modal-overlay"].object);
     queryObject(".add-project-modal", objects[".modal-overlay"].object);
   }

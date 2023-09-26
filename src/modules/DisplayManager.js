@@ -322,6 +322,10 @@ const DisplayManager = (() => {
     const editTaskForm = DOM.getObject(".edit-task-form");
     const task = ProjectManager.getProject(projId).tasks[taskId];
 
+    DOM.addProperties(editTaskForm, {
+      dataset: { projId: projId, taskId: taskId },
+    });
+
     DOM.addProperties(editTaskForm["taskName"], { value: task.name });
     if (task.description) {
       DOM.addProperties(editTaskForm[1], { value: task.description });
@@ -543,7 +547,7 @@ const DisplayManager = (() => {
   return {
     refreshDisplay,
     modals: {
-      editTaskModal: { open: openEditTaskModal },
+      editTaskModal: { open: openEditTaskModal, changeSelectedPriority },
       detailsModal: { open: openDetailsModal },
       addModal: {
         open: openAddModal,

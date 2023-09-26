@@ -202,11 +202,6 @@ ul {
   height: 100%;
 }
 
-.edit-task-form {
-  bottom: 500px;
-  left: 500px;
-}
-
 .add-task-modal {
   position: absolute;
   top: 50%;
@@ -240,13 +235,16 @@ ul {
   border: 3px solid #6262b9;
 }
 
-.add-form {
+.add-form,
+.edit-task-form {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
 }
 
 .add-form input:focus,
+.edit-task-form input:focus,
+.edit-task-form textarea:focus,
 .add-form textarea:focus {
   border: none;
   outline: none;
@@ -377,6 +375,10 @@ ul {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+}
+
+.edit-task-modal {
+  width: 50rem;
 }
 
 #footer {
