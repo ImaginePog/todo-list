@@ -28,7 +28,7 @@ const Handle = (() => {
 
       switch (e.target.dataset.action) {
         case "edit":
-          DisplayManager.editTaskModal.open(projId, taskId);
+          DisplayManager.modals.editTaskModal.open(projId, taskId);
           break;
         case "delete":
           ProjectManager.changeState(ProjectManager.STATE_ACTIONS.REMOVE_TASK, {
@@ -49,7 +49,7 @@ const Handle = (() => {
           });
           break;
         case "details":
-          DisplayManager.detailsModal.open(projId, taskId);
+          DisplayManager.modals.detailsModal.open(projId, taskId);
           break;
       }
       DisplayManager.refreshDisplay();
@@ -60,7 +60,7 @@ const Handle = (() => {
 
   const addModalBtn = DOM.getObject(".main-add-modal-btn");
   addModalBtn.addEventListener("click", (e) => {
-    DisplayManager.addModal.open(DOM.getObject(".add-task-modal"));
+    DisplayManager.modals.addModal.open(DOM.getObject(".add-task-modal"));
   });
 
   const editTaskForm = DOM.getObject(".edit-task-form");
@@ -83,16 +83,8 @@ const Handle = (() => {
       taskInfo,
     });
 
-    DisplayManager.editTaskModal.close();
+    DisplayManager.modals.close();
     DisplayManager.refreshDisplay();
-  });
-
-  const detailsModal = DOM.getObject(".details-modal");
-  detailsModal.addEventListener("click", (e) => {
-    if (!e.target.dataset.action) {
-      return;
-    }
-    DisplayManager.detailsModal.close();
   });
 
   const modalOverlay = DOM.getObject(".modal-overlay");
@@ -102,9 +94,7 @@ const Handle = (() => {
     }
 
     if (e.target.dataset.action === "close") {
-      DisplayManager.addModal.close();
-      DisplayManager.detailsModal.close();
-      DisplayManager.editTaskModal.close();
+      DisplayManager.modals.close();
     }
   });
 
@@ -116,7 +106,7 @@ const Handle = (() => {
 
     switch (e.target.dataset.action) {
       case "priorityChange":
-        DisplayManager.addModal.changeSelectedPriority(
+        DisplayManager.modals.addModal.changeSelectedPriority(
           e.target.closest(".priority-btn")
         );
         break;
@@ -149,7 +139,7 @@ const Handle = (() => {
       taskInfo: taskInfo,
     });
 
-    DisplayManager.addModal.close();
+    DisplayManager.modals.close();
     DisplayManager.changeView(project);
   });
 
@@ -163,7 +153,7 @@ const Handle = (() => {
       projName: name,
     });
 
-    DisplayManager.addModal.close();
+    DisplayManager.modals.close();
     DisplayManager.changeView(ProjectManager.getProjectId(name));
   });
 

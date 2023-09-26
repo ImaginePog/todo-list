@@ -44,24 +44,7 @@
       </footer>
     </div>
 
-    <form class="form edit-task-form hide">
-      <label for="task-name">task name: </label>
-      <input type="text" name="taskName" id="task-name" />
-      <label for="task-priority">task priority: </label>
-      <select name="taskPriority" id="task-priority">
-        <option value="high">High</option>
-        <option value="none" selected>None</option>
-        <option value="low">Low</option>
-      </select>
-      <label for="duedate">Due Date </label>
-      <input type="date" name="duedate" id="duedate" />
-      <button name="editbtn" class="edit-task-btn" data-action="edit">
-        Edit
-      </button>
-    </form>
-
     <div class="modal-overlay hide">
-      <div class="details-modal hide"></div>
       <div class="add-task-modal hide">
         <div class="modal-header">
           <h3>Add Task</h3>
@@ -125,6 +108,35 @@
             <button class="modal-form-btn" data-action="addTask">Add</button>
           </form>
         </div>
+      </div>
+      <div class="details-modal hide"></div>
+      <div class="edit-task-modal hide">
+        <div class="modal-header">
+          <h3>Edit Task</h3>
+          <button class="close-modal-btn icon-btn">
+            <img
+              src="assets/images/icons8-close-48.png"
+              alt="close"
+              class="icon"
+              data-action="close"
+            />
+          </button>
+        </div>
+        <form class="edit-task-form">
+          <label for="task-name">task name: </label>
+          <input type="text" name="taskName" id="task-name" />
+          <label for="task-priority">task priority: </label>
+          <select name="taskPriority" id="task-priority">
+            <option value="high">High</option>
+            <option value="none" selected>None</option>
+            <option value="low">Low</option>
+          </select>
+          <label for="duedate">Due Date </label>
+          <input type="date" name="duedate" id="duedate" />
+          <button name="editbtn" class="edit-task-btn" data-action="edit">
+            Edit
+          </button>
+        </form>
       </div>
       <div class="add-project-modal hide">
         <div class="modal-header">

@@ -314,6 +314,8 @@ const DisplayManager = (() => {
   }
 
   function openEditTaskModal(projId, taskId) {
+    const modalOverlay = DOM.getObject(".modal-overlay");
+    const modal = DOM.getObject(".edit-task-modal");
     const editTaskForm = DOM.getObject(".edit-task-form");
     const task = ProjectManager.getProject(projId).tasks[taskId];
 
@@ -331,12 +333,14 @@ const DisplayManager = (() => {
         taskId,
       },
     });
-    DOM.removeProperties(editTaskForm, { classList: ["hide"] });
+    DOM.removeProperties(modalOverlay, { classList: ["hide"] });
+    DOM.removeProperties(modal, { classList: ["hide"] });
   }
 
   function closeEditTaskModal() {
+    const modal = DOM.getObject(".edit-task-modal");
     const editTaskForm = DOM.getObject(".edit-task-form");
-    DOM.addProperties(editTaskForm, { classList: ["hide"] });
+    DOM.addProperties(modal, { classList: ["hide"] });
     editTaskForm.reset();
   }
 
@@ -507,13 +511,11 @@ const DisplayManager = (() => {
     const projectForm = DOM.getObject(".add-project-form");
     projectForm.reset();
 
-    const modalOverlay = DOM.getObject(".modal-overlay");
     const taskModal = DOM.getObject(".add-task-modal");
     const projectModal = DOM.getObject(".add-project-modal");
 
     DOM.addProperties(taskModal, { classList: ["hide"] });
     DOM.addProperties(projectModal, { classList: ["hide"] });
-    DOM.addProperties(modalOverlay, { classList: ["hide"] });
 
     const defaultBtn = DOM.getObject(".none-btn");
     changeSelectedPriority(defaultBtn);
@@ -521,14 +523,24 @@ const DisplayManager = (() => {
     DisplayManager.refreshDisplay();
   }
 
+  function closeModalOverlay() {
+    const modalOverlay = DOM.getObject(".modal-overlay");
+    DOM.addProperties(modalOverlay, { classList: ["hide"] });
+    closeAddModals();
+    closeDetailsModal();
+    closeEditTaskModal();
+  }
+
   return {
     refreshDisplay,
-    editTaskModal: { open: openEditTaskModal, close: closeEditTaskModal },
-    detailsModal: { open: openDetailsModal, close: closeDetailsModal },
-    addModal: {
-      open: openAddModal,
-      close: closeAddModals,
-      changeSelectedPriority,
+    modals: {
+      editTaskModal: { open: openEditTaskModal },
+      detailsModal: { open: openDetailsModal },
+      addModal: {
+        open: openAddModal,
+        changeSelectedPriority,
+      },
+      close: closeModalOverlay,
     },
     changeView,
   };
