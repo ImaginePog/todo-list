@@ -323,7 +323,13 @@ const DisplayManager = (() => {
     const task = ProjectManager.getProject(projId).tasks[taskId];
 
     DOM.addProperties(editTaskForm["taskName"], { value: task.name });
-    DOM.addProperties(editTaskForm["taskPriority"], { value: task.priority });
+    if (task.description) {
+      DOM.addProperties(editTaskForm[1], { value: task.description });
+    }
+
+    const query = "." + task.priority + "-btn-edit";
+    changeSelectedPriority(DOM.getObject(query));
+
     if (task.dueDate) {
       DOM.addProperties(editTaskForm["duedate"], {
         value: format(task.dueDate, "yyyy-MM-dd"),
