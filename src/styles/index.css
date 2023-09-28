@@ -8,6 +8,7 @@
 /* ROOT */
 :root {
   --color-primary: #6262b9;
+  --color-primary-shade: #a6a6ff;
   --color-secondary: white;
   --color-tertiary: #f0efef;
   --color-box-shadow: #6262b980;
@@ -58,6 +59,15 @@ ul {
 
   font-size: 3rem;
   padding: 1rem;
+}
+
+.title-start,
+.title-end {
+  color: white;
+}
+
+.title-mid {
+  color: var(--color-primary-shade);
 }
 
 /* SIDEBAR */
