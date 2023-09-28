@@ -75,17 +75,43 @@ const DisplayManager = (() => {
   function renderAllProjectsTab() {
     const frag = DOM.getFragment();
 
-    const list = DOM.createElement("ul");
+    const list = DOM.createElement("ul", { classList: ["project-list"] });
     ProjectManager.getAllProjects().forEach((project) => {
+      let totalTasks = project.tasks.length;
+      let incompleteTasks = project.getIncompleteTasks().length;
+      let completeTasks = project.getCompleteTasks().length;
+      let overdueTasks = project.getOverdueTasks().length;
+
       const item = DOM.createElement("item", {
-        innerText:
-          "Name: " + project.name + " No. of tasks: " + project.tasks.length,
         classList: ["project-container"],
         dataset: {
           projId: project.id,
           tabber: "project",
         },
       });
+      const name = DOM.createElement("h2", {
+        classList: ["project-container-title"],
+        innerText: project.name,
+      });
+
+      const stats = DOM.createElement("span", {
+        classList: ["project-container-stats"],
+        innerText:
+          "Total: " +
+          totalTasks +
+          " | " +
+          "Incomplete: " +
+          incompleteTasks +
+          " | " +
+          "Complete: " +
+          completeTasks +
+          " | " +
+          "Overdue: " +
+          overdueTasks,
+      });
+
+      item.append(name, stats);
+
       list.appendChild(item);
     });
 
