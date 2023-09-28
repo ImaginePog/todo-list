@@ -255,11 +255,7 @@ const DisplayManager = (() => {
 
     const selectedProj = ProjectManager.getProject(projId);
 
-    const tasks = [
-      ...selectedProj.getIncompleteTasks(),
-      ...selectedProj.getCompleteTasks(),
-    ];
-    const list = createTaskList(tasks);
+    const list = createTaskList(selectedProj.tasks);
 
     DOM.getObject(".dynamic-display").append(list);
   }
