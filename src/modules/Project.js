@@ -23,14 +23,14 @@ export default class Project {
   }
 
   getTasksDueToday() {
-    const tasks = this.getIncompleteTasks();
+    const tasks = this.getPendingTasks();
     return tasks.filter((task) => {
       if (task.dueDate) return isToday(task.dueDate);
     });
   }
 
   getTasksDueThisWeek() {
-    const tasks = this.getIncompleteTasks();
+    const tasks = this.getPendingTasks();
 
     return tasks.filter((task) => {
       if (task.dueDate && !task.overdue) {
@@ -39,7 +39,7 @@ export default class Project {
     });
   }
 
-  getIncompleteTasks() {
+  getPendingTasks() {
     return this.tasks.filter((task) => !task.completed && !task.overdue);
   }
 

@@ -78,7 +78,7 @@ const DisplayManager = (() => {
     const list = DOM.createElement("ul", { classList: ["project-list"] });
     ProjectManager.getAllProjects().forEach((project) => {
       let totalTasks = project.tasks.length;
-      let incompleteTasks = project.getIncompleteTasks().length;
+      let pendingTasks = project.getPendingTasks().length;
       let completeTasks = project.getCompleteTasks().length;
       let overdueTasks = project.getOverdueTasks().length;
 
@@ -104,8 +104,8 @@ const DisplayManager = (() => {
           "Total: " +
           totalTasks +
           " | " +
-          "Incomplete: " +
-          incompleteTasks +
+          "Pending: " +
+          pendingTasks +
           " | " +
           "Complete: " +
           completeTasks +
@@ -440,14 +440,16 @@ const DisplayManager = (() => {
     let dueDate = null;
     if (taskInfo.completed) {
       statusText = "Completed";
+    } else if (taskInfo.overdue) {
+      statusText = "Overdue";
     } else {
-      statusText = "Incomplete";
+      statusText = "Pending";
+    }
+
+    if (!taskInfo.completed) {
       let dueText = "";
       if (taskInfo.dueDate) {
         dueText = format(taskInfo.dueDate, "MMMM-do,yyyy");
-        if (taskInfo.overdue) {
-          dueText += " (overdue)";
-        }
       } else {
         dueText = "No due";
       }
@@ -455,6 +457,7 @@ const DisplayManager = (() => {
         innerText: "Due On: " + dueText,
       });
     }
+
     const status = DOM.createElement("div", {
       innerText: "Status: " + statusText,
     });
