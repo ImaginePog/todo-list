@@ -82,6 +82,7 @@ ul {
 
 .sidebar-project-list-header {
   font-size: 1.8rem;
+  flex: 1;
 }
 
 .add-project-btn {
@@ -499,4 +500,8 @@ ul {
 
 .overdue {
   color: red;
+}
+
+.interactable-ui-item {
+  cursor: pointer;
 }

@@ -24,14 +24,14 @@ const DisplayManager = (() => {
 
       const item = DOM.createElement("li", {
         innerText: project.name,
-        classList: ["tab", "sidebar-project-item"],
+        classList: ["tab", "sidebar-project-item", "interactable-ui-item"],
         dataset: {
           action: project.id,
         },
       });
 
       const deleteProjBtn = DOM.createElement("span", {
-        classList: ["delete-project-btn"],
+        classList: ["delete-project-btn", "interactable-ui-item"],
       });
 
       const deleteBtnImg = DOM.createElement("img", {
@@ -75,7 +75,9 @@ const DisplayManager = (() => {
   function renderAllProjectsTab() {
     const frag = DOM.getFragment();
 
-    const list = DOM.createElement("ul", { classList: ["project-list"] });
+    const list = DOM.createElement("ul", {
+      classList: ["project-list"],
+    });
     ProjectManager.getAllProjects().forEach((project) => {
       let totalTasks = project.tasks.length;
       let pendingTasks = project.getPendingTasks().length;
@@ -83,7 +85,7 @@ const DisplayManager = (() => {
       let overdueTasks = project.getOverdueTasks().length;
 
       const item = DOM.createElement("item", {
-        classList: ["project-container"],
+        classList: ["project-container", "interactable-ui-item"],
         dataset: {
           projId: project.id,
           tabber: "project",
@@ -137,7 +139,7 @@ const DisplayManager = (() => {
     const frag = DOM.getFragment();
     tasks.forEach((task) => {
       const item = DOM.createElement("li", {
-        classList: [task.priority, "task-container"],
+        classList: [task.priority, "task-container", "interactable-ui-item"],
         dataset: {
           taskId: task.id,
           projId: task.projectId,
@@ -146,7 +148,7 @@ const DisplayManager = (() => {
       });
 
       const completeBtn = DOM.createElement("button", {
-        classList: ["task-complete-btn", "icon-btn"],
+        classList: ["task-complete-btn", "icon-btn", "interactable-ui-item"],
       });
       let checkBtnSrc;
       if (task.completed) {
@@ -194,7 +196,7 @@ const DisplayManager = (() => {
       });
 
       const starBtn = DOM.createElement("button", {
-        classList: ["task-star-btn", "icon-btn"],
+        classList: ["task-star-btn", "icon-btn", "interactable-ui-item"],
       });
       let starIconSrc;
       if (task.starred) {
@@ -212,7 +214,7 @@ const DisplayManager = (() => {
       starBtn.append(starImg);
 
       const editBtn = DOM.createElement("button", {
-        classList: ["task-edit-btn", "icon-btn"],
+        classList: ["task-edit-btn", "icon-btn", "interactable-ui-item"],
       });
       const editImg = DOM.createElement("img", {
         src: editIcon,
@@ -224,7 +226,7 @@ const DisplayManager = (() => {
       editBtn.append(editImg);
 
       const deleteBtn = DOM.createElement("button", {
-        classList: ["task-delete-btn", "icon-btn"],
+        classList: ["task-delete-btn", "icon-btn", "interactable-ui-item"],
       });
       const deleteImg = DOM.createElement("img", {
         src: trashIcon,
@@ -410,7 +412,7 @@ const DisplayManager = (() => {
       classList: ["task-details-title"],
     });
     const closeBtn = DOM.createElement("button", {
-      classList: ["close-details-btn", "icon-btn"],
+      classList: ["close-details-btn", "icon-btn", "interactable-ui-item"],
     });
     const closeBtnImg = DOM.createElement("img", {
       src: closeIcon,

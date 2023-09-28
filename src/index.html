@@ -11,15 +11,22 @@
       <header id="header">TODOER</header>
       <aside id="aside">
         <ul class="tab-list">
-          <li class="tab" data-action="0">Home</li>
-          <li class="tab" data-action="today">Today</li>
-          <li class="tab" data-action="week">This Week</li>
-          <li class="tab" data-action="starred">Starred</li>
-          <li class="all-projects-tab">
+          <li class="tab interactable-ui-item" data-action="0">Home</li>
+          <li class="tab interactable-ui-item" data-action="today">Today</li>
+          <li class="tab interactable-ui-item" data-action="week">This Week</li>
+          <li class="tab interactable-ui-item" data-action="starred">
+            Starred
+          </li>
+          <li class="all-projects-tab interactable-ui-item">
             <h3 class="tab sidebar-project-list-header" data-action="allproj">
               Projects
             </h3>
-            <button class="add-project-btn" data-action="add">+</button>
+            <button
+              class="add-project-btn interactable-ui-item"
+              data-action="add"
+            >
+              +
+            </button>
           </li>
           <li>
             <ul class="sidebar-project-list"></ul>
@@ -28,7 +35,7 @@
       </aside>
       <main id="main">
         <div class="dynamic-display"></div>
-        <button class="main-add-modal-btn"></button>
+        <button class="main-add-modal-btn interactable-ui-item"></button>
       </main>
       <footer id="footer">
         <a href="https://icons8.com" class="icon-credits">Icons by Icons8</a>
@@ -49,7 +56,7 @@
       <div class="add-task-modal hide">
         <div class="modal-header">
           <h3>Add Task</h3>
-          <button class="close-modal-btn icon-btn">
+          <button class="close-modal-btn icon-btn interactable-ui-item">
             <img
               src="assets/images/icons8-close-48.png"
               alt="close"
@@ -81,21 +88,21 @@
             <div class="priority-container input-container">
               <label>Priority:</label>
               <div
-                class="priority-btn high-btn"
+                class="priority-btn high-btn interactable-ui-item"
                 data-value="high"
                 data-action="priorityChange"
               >
                 High
               </div>
               <div
-                class="priority-btn none-btn selected-priority none-selected"
+                class="priority-btn none-btn selected-priority none-selected interactable-ui-item"
                 data-value="none"
                 data-action="priorityChange"
               >
                 None
               </div>
               <div
-                class="priority-btn low-btn"
+                class="priority-btn low-btn interactable-ui-item"
                 data-value="low"
                 data-action="priorityChange"
               >
@@ -106,7 +113,12 @@
               <label for="project-select">Project:</label>
               <select name="parentProject" id="project-select"></select>
             </div>
-            <button class="modal-form-btn" data-action="addTask">Add</button>
+            <button
+              class="modal-form-btn interactable-ui-item"
+              data-action="addTask"
+            >
+              Add
+            </button>
           </form>
         </div>
       </div>
@@ -114,7 +126,7 @@
       <div class="edit-task-modal hide">
         <div class="modal-header">
           <h3>Edit Task</h3>
-          <button class="close-modal-btn icon-btn">
+          <button class="close-modal-btn icon-btn interactable-ui-item">
             <img
               src="assets/images/icons8-close-48.png"
               alt="close"
@@ -145,21 +157,21 @@
             <div class="priority-container input-container">
               <label>Priority:</label>
               <div
-                class="priority-btn high-btn high-btn-edit"
+                class="priority-btn high-btn high-btn-edit interactable-ui-item"
                 data-value="high"
                 data-action="priorityChange"
               >
                 High
               </div>
               <div
-                class="priority-btn none-btn none-btn-edit"
+                class="priority-btn none-btn none-btn-edit interactable-ui-item"
                 data-value="none"
                 data-action="priorityChange"
               >
                 None
               </div>
               <div
-                class="priority-btn low-btn low-btn-edit"
+                class="priority-btn low-btn low-btn-edit interactable-ui-item"
                 data-value="low"
                 data-action="priorityChange"
               >
@@ -168,7 +180,7 @@
             </div>
             <button
               name="editbtn"
-              class="edit-task-btn modal-form-btn"
+              class="edit-task-btn modal-form-btn interactable-ui-item"
               data-action="edit"
             >
               Edit
@@ -179,7 +191,7 @@
       <div class="add-project-modal hide">
         <div class="modal-header">
           <h3>Add Project</h3>
-          <button class="close-modal-btn icon-btn">
+          <button class="close-modal-btn icon-btn interactable-ui-item">
             <img
               src="assets/images/icons8-close-48.png"
               alt="close"
@@ -198,7 +210,12 @@
               maxlength="15"
               required
             />
-            <button class="modal-form-btn" data-action="addTask">Add</button>
+            <button
+              class="modal-form-btn interactable-ui-item"
+              data-action="addTask"
+            >
+              Add
+            </button>
           </form>
         </div>
       </div>
