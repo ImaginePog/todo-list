@@ -13,24 +13,25 @@ export default class Task {
       this.creationDate = new Date();
     }
 
+    if (taskInfo.completed != undefined) {
+      this.completed = taskInfo.completed;
+    } else {
+      this.completed = false;
+    }
+
     if (taskInfo.dueDate) {
       taskInfo.dueDate = parseISO(taskInfo.dueDate);
 
       let now = new Date();
       now = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 
-      this.overdue = isAfter(now, taskInfo.dueDate);
+      this.overdue = isAfter(now, taskInfo.dueDate) && !this.completed;
       this.dueDate = taskInfo.dueDate;
     } else {
       this.overdue = false;
       this.dueDate = "";
     }
 
-    if (taskInfo.completed != undefined) {
-      this.completed = taskInfo.completed;
-    } else {
-      this.completed = false;
-    }
     this.priority = taskInfo.priority;
     this.description = taskInfo.description;
 
