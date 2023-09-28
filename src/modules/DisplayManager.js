@@ -94,6 +94,10 @@ const DisplayManager = (() => {
         innerText: project.name,
       });
 
+      const statsContainer = DOM.createElement("div", {
+        classList: ["stats-container"],
+      });
+
       const stats = DOM.createElement("span", {
         classList: ["project-container-stats"],
         innerText:
@@ -105,12 +109,17 @@ const DisplayManager = (() => {
           " | " +
           "Complete: " +
           completeTasks +
-          " | " +
-          "Overdue: " +
-          overdueTasks,
+          " | ",
       });
 
-      item.append(name, stats);
+      const statsOverdue = DOM.createElement("span", {
+        classList: ["project-container-stats", "overdue"],
+        innerText: "Overdue: " + overdueTasks,
+      });
+
+      statsContainer.append(stats, statsOverdue);
+
+      item.append(name, statsContainer);
 
       list.appendChild(item);
     });
