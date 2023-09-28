@@ -47,6 +47,10 @@ export default class Project {
     return this.tasks.filter((task) => task.completed);
   }
 
+  getOverdueTasks() {
+    return this.tasks.filter((task) => task.overdue);
+  }
+
   getStarredTasks() {
     return this.tasks.filter((task) => task.starred);
   }
