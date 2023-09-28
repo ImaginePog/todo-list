@@ -40,7 +40,7 @@ export default class Project {
   }
 
   getIncompleteTasks() {
-    return this.tasks.filter((task) => !task.completed);
+    return this.tasks.filter((task) => !task.completed && !task.overdue);
   }
 
   getCompleteTasks() {
