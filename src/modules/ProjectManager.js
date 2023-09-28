@@ -123,7 +123,9 @@ const ProjectManager = (() => {
     const found = projects.find((proj) => {
       return proj.name == projName;
     });
-    return found.id;
+    if (found) {
+      return found.id;
+    } else return null;
   }
 
   //Returns all projects

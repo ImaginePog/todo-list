@@ -1,6 +1,7 @@
 import DOM from "./DOM";
 import ProjectManager from "./ProjectManager";
 import DisplayManager from "./DisplayManager";
+import Project from "./Project";
 
 //IIFE module responsible for handling all the events from the user
 //Calls all the suitable modules' functions based on the inputs from the user
@@ -130,6 +131,11 @@ const Handle = (() => {
     e.preventDefault();
     const form = e.currentTarget;
     let name = form["projectName"].value;
+
+    if (ProjectManager.getProjectId(name)) {
+      alert("Please enter a unique name");
+      return;
+    }
 
     ProjectManager.changeState(ProjectManager.STATE_ACTIONS.ADD_PROJ, {
       projName: name,
