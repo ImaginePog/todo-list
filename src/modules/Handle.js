@@ -8,17 +8,26 @@ const Handle = (() => {
     if (!e.target.dataset.action) {
       return;
     }
-    if (e.target.dataset.action == "delete") {
-      const projId = e.target.closest(".sidebar-project-item").dataset.action;
 
-      ProjectManager.changeState(ProjectManager.STATE_ACTIONS.REMOVE_PROJ, {
-        projId,
-      });
+    switch (e.target.dataset.action) {
+      case "delete":
+        const projId = e.target.closest(".sidebar-project-item").dataset.action;
 
-      DisplayManager.changeView("allproj");
-      return;
+        ProjectManager.changeState(ProjectManager.STATE_ACTIONS.REMOVE_PROJ, {
+          projId,
+        });
+
+        DisplayManager.changeView("allproj");
+        break;
+      case "add":
+        DisplayManager.modals.addModal.open(
+          DOM.getObject(".add-project-modal")
+        );
+
+        break;
+      default:
+        DisplayManager.changeView(e.target.dataset.action);
     }
-    DisplayManager.changeView(e.target.dataset.action);
   });
 
   main.addEventListener("click", (e) => {

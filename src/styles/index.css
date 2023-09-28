@@ -74,8 +74,24 @@ ul {
   border-left: 3px solid #6262b9;
 }
 
+.all-projects-tab {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .sidebar-project-list-header {
   font-size: 1.8rem;
+}
+
+.add-project-btn {
+  background: transparent;
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.add-project-btn:hover {
+  transform: scale(1.1);
 }
 
 .sidebar-project-list {
