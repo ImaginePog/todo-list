@@ -13,11 +13,7 @@ export default class Task {
       this.creationDate = new Date();
     }
 
-    if (taskInfo.completed != undefined) {
-      this.completed = taskInfo.completed;
-    } else {
-      this.completed = false;
-    }
+    this.completed = Boolean(taskInfo.completed);
 
     if (taskInfo.dueDate) {
       taskInfo.dueDate = parseISO(taskInfo.dueDate);
@@ -35,11 +31,7 @@ export default class Task {
     this.priority = taskInfo.priority;
     this.description = taskInfo.description;
 
-    if (taskInfo.starred != undefined) {
-      this.starred = taskInfo.starred;
-    } else {
-      this.starred = false;
-    }
+    this.starred = Boolean(taskInfo.starred);
     this.projectId = projectId;
     this.id = id;
   }
