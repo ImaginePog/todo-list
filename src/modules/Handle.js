@@ -2,9 +2,10 @@ import DOM from "./DOM";
 import ProjectManager from "./ProjectManager";
 import DisplayManager from "./DisplayManager";
 
+//IIFE module responsible for handling all the events from the user
+//Calls all the suitable modules' functions based on the inputs from the user
 const Handle = (() => {
-  const sidebar = DOM.getObject("#aside");
-  sidebar.addEventListener("click", (e) => {
+  function handleSidebarClick(e) {
     if (!e.target.dataset.action) {
       return;
     }
@@ -28,9 +29,9 @@ const Handle = (() => {
       default:
         DisplayManager.changeView(e.target.dataset.action);
     }
-  });
+  }
 
-  main.addEventListener("click", (e) => {
+  function handleMainClick(e) {
     if (e.target.dataset.action) {
       const taskId = e.target.closest(".task-container").dataset.taskId;
       const projId = e.target.closest(".task-container").dataset.projId;
@@ -65,15 +66,13 @@ const Handle = (() => {
     } else if (e.target.dataset.tabber) {
       DisplayManager.changeView(e.target.dataset.projId);
     }
-  });
+  }
 
-  const addModalBtn = DOM.getObject(".main-add-modal-btn");
-  addModalBtn.addEventListener("click", (e) => {
+  function handleAddModalBtn(e) {
     DisplayManager.modals.addModal.open(DOM.getObject(".add-task-modal"));
-  });
+  }
 
-  const modalOverlay = DOM.getObject(".modal-overlay");
-  modalOverlay.addEventListener("click", (e) => {
+  function handleModalOverlayClick(e) {
     if (!e.target.dataset.action) {
       return;
     }
@@ -81,10 +80,9 @@ const Handle = (() => {
     if (e.target.dataset.action === "close") {
       DisplayManager.modals.close();
     }
-  });
+  }
 
-  const addTaskForm = DOM.getObject(".add-task-form");
-  addTaskForm.addEventListener("click", (e) => {
+  function handleAddTaskFormClick(e) {
     if (!e.target.dataset.action) {
       return;
     }
@@ -96,9 +94,9 @@ const Handle = (() => {
         );
         break;
     }
-  });
+  }
 
-  addTaskForm.addEventListener("submit", (e) => {
+  function handleAddTaskFormSubmit(e) {
     e.preventDefault();
     const form = e.currentTarget;
 
@@ -126,10 +124,22 @@ const Handle = (() => {
 
     DisplayManager.modals.close();
     DisplayManager.changeView(project);
-  });
+  }
 
-  const editTaskForm = DOM.getObject(".edit-task-form");
-  editTaskForm.addEventListener("click", (e) => {
+  function handleAddProjectFormSubmit(e) {
+    e.preventDefault();
+    const form = e.currentTarget;
+    let name = form["projectName"].value;
+
+    ProjectManager.changeState(ProjectManager.STATE_ACTIONS.ADD_PROJ, {
+      projName: name,
+    });
+
+    DisplayManager.modals.close();
+    DisplayManager.changeView(ProjectManager.getProjectId(name));
+  }
+
+  function handleEditTaskFormClick(e) {
     if (!e.target.dataset.action) {
       return;
     }
@@ -141,8 +151,9 @@ const Handle = (() => {
         );
         break;
     }
-  });
-  editTaskForm.addEventListener("submit", (e) => {
+  }
+
+  function handleEditTaskFormSubmit(e) {
     e.preventDefault();
     const form = e.currentTarget;
 
@@ -169,24 +180,29 @@ const Handle = (() => {
 
     DisplayManager.modals.close();
     DisplayManager.refreshDisplay();
-  });
+  }
 
-  const addProjectForm = DOM.getObject(".add-project-form");
-  addProjectForm.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const form = e.currentTarget;
-    let name = form["projectName"].value;
+  //Initializes all the even listeners to the respective objects
+  function initEventHandlers() {
+    const sidebar = DOM.getObject("#aside");
+    const addModalBtn = DOM.getObject(".main-add-modal-btn");
+    const modalOverlay = DOM.getObject(".modal-overlay");
+    const addTaskForm = DOM.getObject(".add-task-form");
+    const addProjectForm = DOM.getObject(".add-project-form");
+    const editTaskForm = DOM.getObject(".edit-task-form");
 
-    ProjectManager.changeState(ProjectManager.STATE_ACTIONS.ADD_PROJ, {
-      projName: name,
-    });
+    sidebar.addEventListener("click", handleSidebarClick);
+    main.addEventListener("click", handleMainClick);
+    addModalBtn.addEventListener("click", handleAddModalBtn);
+    modalOverlay.addEventListener("click", handleModalOverlayClick);
+    addTaskForm.addEventListener("click", handleAddTaskFormClick);
+    addTaskForm.addEventListener("submit", handleAddTaskFormSubmit);
+    addProjectForm.addEventListener("submit", handleAddProjectFormSubmit);
+    editTaskForm.addEventListener("click", handleEditTaskFormClick);
+    editTaskForm.addEventListener("submit", handleEditTaskFormSubmit);
+  }
 
-    DisplayManager.modals.close();
-    DisplayManager.changeView(ProjectManager.getProjectId(name));
-  });
-
-  ProjectManager.populateProjects();
-  DisplayManager.changeView("0");
+  return { initEventHandlers };
 })();
 
 export default Handle;

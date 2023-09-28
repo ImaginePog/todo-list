@@ -10,131 +10,12 @@ import closeIcon from "../assets/images/icons8-close-48.png";
 import uncheckedBox from "../assets/images/icons8-unchecked-checkbox-32.png";
 import checkedBox from "../assets/images/icons8-checked-checkbox-32.png";
 
+//IIFE module responsible for rendering items to the display,
+//updating the display and opening and closing modals
 const DisplayManager = (() => {
   let currentView = "";
 
-  function renderSidebarProjects() {
-    const projectListSide = DOM.getObject(".sidebar-project-list");
-    DOM.addProperties(projectListSide, { innerText: "" });
-
-    ProjectManager.getAllProjects().forEach((project) => {
-      if (project.id == 0) {
-        return;
-      }
-
-      const item = DOM.createElement("li", {
-        innerText: project.name,
-        classList: ["tab", "sidebar-project-item", "interactable-ui-item"],
-        dataset: {
-          action: project.id,
-        },
-      });
-
-      const deleteProjBtn = DOM.createElement("span", {
-        classList: ["delete-project-btn", "interactable-ui-item"],
-      });
-
-      const deleteBtnImg = DOM.createElement("img", {
-        src: trashIcon,
-        dataset: {
-          action: "delete",
-        },
-      });
-      deleteProjBtn.append(deleteBtnImg);
-
-      item.append(deleteProjBtn);
-
-      projectListSide.append(item);
-    });
-    DOM.reloadObject(".tab");
-  }
-
-  function renderProjectSelect() {
-    const projectSelect = DOM.getObject("#project-select");
-    const frag = DOM.getFragment();
-
-    ProjectManager.getAllProjects().forEach((project) => {
-      const opt = DOM.createElement("option", {
-        value: project.id,
-        innerText: project.name,
-      });
-      if (project.id == currentView) {
-        DOM.addProperties(opt, {
-          attributes: {
-            selected: true,
-          },
-        });
-      }
-      frag.append(opt);
-    });
-
-    DOM.addProperties(projectSelect, { innerText: "" });
-    projectSelect.append(frag);
-  }
-
-  function renderAllProjectsTab() {
-    const frag = DOM.getFragment();
-
-    const list = DOM.createElement("ul", {
-      classList: ["project-list"],
-    });
-    ProjectManager.getAllProjects().forEach((project) => {
-      let totalTasks = project.tasks.length;
-      let pendingTasks = project.getPendingTasks().length;
-      let completeTasks = project.getCompleteTasks().length;
-      let overdueTasks = project.getOverdueTasks().length;
-
-      const item = DOM.createElement("item", {
-        classList: ["project-container", "interactable-ui-item"],
-        dataset: {
-          projId: project.id,
-          tabber: "project",
-        },
-      });
-      const name = DOM.createElement("h2", {
-        classList: ["project-container-title"],
-        innerText: project.name,
-      });
-
-      const statsContainer = DOM.createElement("div", {
-        classList: ["stats-container"],
-      });
-
-      const stats = DOM.createElement("span", {
-        classList: ["project-container-stats"],
-        innerText:
-          "Total: " +
-          totalTasks +
-          " | " +
-          "Pending: " +
-          pendingTasks +
-          " | " +
-          "Complete: " +
-          completeTasks +
-          " | ",
-      });
-
-      const statsOverdue = DOM.createElement("span", {
-        classList: ["project-container-stats"],
-        innerText: "Overdue: " + overdueTasks,
-      });
-      if (overdueTasks) {
-        DOM.addProperties(statsOverdue, { classList: ["overdue"] });
-      }
-
-      statsContainer.append(stats, statsOverdue);
-
-      item.append(name, statsContainer);
-
-      list.appendChild(item);
-    });
-
-    DOM.addProperties(DOM.getObject(".dynamic-display"), { innerText: "" });
-
-    frag.append(list);
-    DOM.getObject(".dynamic-display").append(frag);
-  }
-
+  //Creates task containers for all tabs
   function createTaskItems(tasks) {
     const frag = DOM.getFragment();
     tasks.forEach((task) => {
@@ -245,6 +126,7 @@ const DisplayManager = (() => {
     return frag;
   }
 
+  //Creates task list for the tabs
   function createTaskList(tasks) {
     const frag = DOM.getFragment();
 
@@ -255,6 +137,7 @@ const DisplayManager = (() => {
     return frag;
   }
 
+  //Renders each project's tasks as task containers
   function renderProjectTab(projId) {
     DOM.addProperties(DOM.getObject(".dynamic-display"), { innerText: "" });
 
@@ -265,8 +148,9 @@ const DisplayManager = (() => {
     DOM.getObject(".dynamic-display").append(list);
   }
 
+  //Renders tasks due today from all projects as task containers
   function renderTodayTab() {
-    DOM.addProperties(DOM.getObject(".dynamic-display"), { innerText: "" }); //CLEAR DISPLAY
+    DOM.addProperties(DOM.getObject(".dynamic-display"), { innerText: "" });
 
     let todayTasks = [];
     ProjectManager.getAllProjects().forEach((project) => {
@@ -278,6 +162,7 @@ const DisplayManager = (() => {
     DOM.getObject(".dynamic-display").append(list);
   }
 
+  //Renders tasks due this week from all projects as task contianers
   function renderThisWeekTab() {
     DOM.addProperties(DOM.getObject(".dynamic-display"), { innerText: "" });
     let weekTasks = [];
@@ -292,6 +177,7 @@ const DisplayManager = (() => {
     DOM.getObject(".dynamic-display").append(list);
   }
 
+  //Renders all starred tasks from all projects
   function renderStarredTab() {
     DOM.addProperties(DOM.getObject(".dynamic-display"), { innerText: "" });
     let starredTasks = [];
@@ -306,6 +192,108 @@ const DisplayManager = (() => {
     DOM.getObject(".dynamic-display").append(list);
   }
 
+  //Renders the all projects tab
+  function renderAllProjectsTab() {
+    const frag = DOM.getFragment();
+
+    const list = DOM.createElement("ul", {
+      classList: ["project-list"],
+    });
+    ProjectManager.getAllProjects().forEach((project) => {
+      let totalTasks = project.tasks.length;
+      let pendingTasks = project.getPendingTasks().length;
+      let completeTasks = project.getCompleteTasks().length;
+      let overdueTasks = project.getOverdueTasks().length;
+
+      const item = DOM.createElement("item", {
+        classList: ["project-container", "interactable-ui-item"],
+        dataset: {
+          projId: project.id,
+          tabber: "project",
+        },
+      });
+      const name = DOM.createElement("h2", {
+        classList: ["project-container-title"],
+        innerText: project.name,
+      });
+
+      const statsContainer = DOM.createElement("div", {
+        classList: ["stats-container"],
+      });
+
+      const stats = DOM.createElement("span", {
+        classList: ["project-container-stats"],
+        innerText:
+          "Total: " +
+          totalTasks +
+          " | " +
+          "Pending: " +
+          pendingTasks +
+          " | " +
+          "Complete: " +
+          completeTasks +
+          " | ",
+      });
+
+      const statsOverdue = DOM.createElement("span", {
+        classList: ["project-container-stats"],
+        innerText: "Overdue: " + overdueTasks,
+      });
+      if (overdueTasks) {
+        DOM.addProperties(statsOverdue, { classList: ["overdue"] });
+      }
+
+      statsContainer.append(stats, statsOverdue);
+
+      item.append(name, statsContainer);
+
+      list.appendChild(item);
+    });
+
+    DOM.addProperties(DOM.getObject(".dynamic-display"), { innerText: "" });
+
+    frag.append(list);
+    DOM.getObject(".dynamic-display").append(frag);
+  }
+
+  //Renders all the created projects in the sidebar
+  function renderSidebarProjects() {
+    const projectListSide = DOM.getObject(".sidebar-project-list");
+    DOM.addProperties(projectListSide, { innerText: "" });
+
+    ProjectManager.getAllProjects().forEach((project) => {
+      if (project.id == 0) {
+        return;
+      }
+
+      const item = DOM.createElement("li", {
+        innerText: project.name,
+        classList: ["tab", "sidebar-project-item", "interactable-ui-item"],
+        dataset: {
+          action: project.id,
+        },
+      });
+
+      const deleteProjBtn = DOM.createElement("span", {
+        classList: ["delete-project-btn", "interactable-ui-item"],
+      });
+
+      const deleteBtnImg = DOM.createElement("img", {
+        src: trashIcon,
+        dataset: {
+          action: "delete",
+        },
+      });
+      deleteProjBtn.append(deleteBtnImg);
+
+      item.append(deleteProjBtn);
+
+      projectListSide.append(item);
+    });
+    DOM.reloadObject(".tab");
+  }
+
+  //Highlights which tab is currently selected
   function renderTabSelection(currentView) {
     const tabList = DOM.getObject(".tab");
 
@@ -321,6 +309,7 @@ const DisplayManager = (() => {
     }
   }
 
+  //Renders the current view and then highlights it's selection
   function renderCurrentView() {
     switch (currentView) {
       case "allproj":
@@ -342,57 +331,130 @@ const DisplayManager = (() => {
     renderTabSelection(currentView);
   }
 
-  function changeView(newView) {
-    currentView = newView;
-    refreshDisplay();
-  }
-
+  //Re-renders everything
   function refreshDisplay() {
     renderSidebarProjects();
     renderCurrentView();
   }
 
-  function openEditTaskModal(projId, taskId) {
-    const modalOverlay = DOM.getObject(".modal-overlay");
-    const modal = DOM.getObject(".edit-task-modal");
-    const editTaskForm = DOM.getObject(".edit-task-form");
-    const task = ProjectManager.getProject(projId).tasks[taskId];
+  //Public function for changing tabs
+  function changeView(newView) {
+    currentView = newView;
+    refreshDisplay();
+  }
 
-    DOM.addProperties(editTaskForm, {
-      dataset: { projId: projId, taskId: taskId },
-    });
+  //Loads and renders the project select input for adding tasks
+  function renderProjectSelect() {
+    const projectSelect = DOM.getObject("#project-select");
+    const frag = DOM.getFragment();
 
-    DOM.addProperties(editTaskForm["taskName"], { value: task.name });
-    if (task.description) {
-      DOM.addProperties(editTaskForm[1], { value: task.description });
-    }
-
-    const query = "." + task.priority + "-btn-edit";
-    changeSelectedPriority(DOM.getObject(query));
-
-    if (task.dueDate) {
-      DOM.addProperties(editTaskForm["duedate"], {
-        value: format(task.dueDate, "yyyy-MM-dd"),
+    ProjectManager.getAllProjects().forEach((project) => {
+      const opt = DOM.createElement("option", {
+        value: project.id,
+        innerText: project.name,
       });
-    }
-
-    DOM.addProperties(editTaskForm["editbtn"], {
-      dataset: {
-        projId,
-        taskId,
-      },
+      if (project.id == currentView) {
+        DOM.addProperties(opt, {
+          attributes: {
+            selected: true,
+          },
+        });
+      }
+      frag.append(opt);
     });
+
+    DOM.addProperties(projectSelect, { innerText: "" });
+    projectSelect.append(frag);
+  }
+
+  //Opens the suitable add modal based on whats provided
+  //Also has default behavior for opening different add modal for different views
+  function openAddModal(defaultModal) {
+    const modalOverlay = DOM.getObject(".modal-overlay");
     DOM.removeProperties(modalOverlay, { classList: ["hide"] });
-    DOM.removeProperties(modal, { classList: ["hide"] });
+    let modal = defaultModal;
+
+    switch (currentView) {
+      case "allproj":
+        modal = DOM.getObject(".add-project-modal");
+        DOM.removeProperties(modal, { classList: ["hide"] });
+        break;
+      default:
+        DOM.removeProperties(modal, { classList: ["hide"] });
+        renderProjectSelect();
+    }
   }
 
-  function closeEditTaskModal() {
-    const modal = DOM.getObject(".edit-task-modal");
-    const editTaskForm = DOM.getObject(".edit-task-form");
-    DOM.addProperties(modal, { classList: ["hide"] });
-    editTaskForm.reset();
+  //Changes the selected priority for the modal's priority btns
+  function changeSelectedPriority(activeBtn) {
+    const btns = DOM.getObject(".priority-btn");
+    btns.forEach((btn) => {
+      if (btn.classList.contains("selected-priority")) {
+        btn.classList.remove("selected-priority");
+        switch (btn.dataset.value) {
+          case "high":
+            DOM.removeProperties(btn, {
+              classList: ["high-selected"],
+            });
+            break;
+          case "none":
+            DOM.removeProperties(btn, {
+              classList: ["none-selected"],
+            });
+            break;
+          case "low":
+            DOM.removeProperties(btn, {
+              classList: ["low-selected"],
+            });
+            break;
+        }
+        return;
+      }
+    });
+
+    activeBtn.classList.add("selected-priority");
+    switch (activeBtn.dataset.value) {
+      case "high":
+        DOM.addProperties(activeBtn, {
+          classList: ["high-selected"],
+        });
+        break;
+      case "none":
+        DOM.addProperties(activeBtn, {
+          classList: ["none-selected"],
+        });
+        break;
+      case "low":
+        activeBtn.classList.add("low-selected");
+        DOM.addProperties(activeBtn, {
+          classList: ["low-selected"],
+        });
+        break;
+    }
   }
 
+  //Closes any add modal thats open
+  function closeAddModals() {
+    const taskForm = DOM.getObject(".add-task-form");
+    taskForm.reset();
+
+    const projectForm = DOM.getObject(".add-project-form");
+    projectForm.reset();
+
+    const taskModal = DOM.getObject(".add-task-modal");
+    const projectModal = DOM.getObject(".add-project-modal");
+
+    DOM.addProperties(taskModal, { classList: ["hide"] });
+    DOM.addProperties(projectModal, { classList: ["hide"] });
+
+    const defaultBtn = DOM.getObject(".none-btn");
+    changeSelectedPriority(defaultBtn);
+
+    DisplayManager.refreshDisplay();
+  }
+
+  //Opens the details modal
+  //Creates the detail based on the task container that was pressed
   function openDetailsModal(projId, taskId) {
     const modalOverlay = DOM.getObject(".modal-overlay");
 
@@ -488,93 +550,56 @@ const DisplayManager = (() => {
     DOM.removeProperties(modalOverlay, { classList: ["hide"] });
   }
 
+  //Closes the details modal and resets its contents
   function closeDetailsModal() {
     const modal = DOM.getObject(".details-modal");
     DOM.addProperties(modal, { classList: ["hide"], innerText: "" });
   }
 
-  function changeSelectedPriority(activeBtn) {
-    const btns = DOM.getObject(".priority-btn");
-    btns.forEach((btn) => {
-      if (btn.classList.contains("selected-priority")) {
-        btn.classList.remove("selected-priority");
-        switch (btn.dataset.value) {
-          case "high":
-            DOM.removeProperties(btn, {
-              classList: ["high-selected"],
-            });
-            break;
-          case "none":
-            DOM.removeProperties(btn, {
-              classList: ["none-selected"],
-            });
-            break;
-          case "low":
-            DOM.removeProperties(btn, {
-              classList: ["low-selected"],
-            });
-            break;
-        }
-        return;
-      }
+  //Opens the task edit modal
+  function openEditTaskModal(projId, taskId) {
+    const modalOverlay = DOM.getObject(".modal-overlay");
+    const modal = DOM.getObject(".edit-task-modal");
+    const editTaskForm = DOM.getObject(".edit-task-form");
+    const task = ProjectManager.getProject(projId).tasks[taskId];
+
+    DOM.addProperties(editTaskForm, {
+      dataset: { projId: projId, taskId: taskId },
     });
 
-    activeBtn.classList.add("selected-priority");
-    switch (activeBtn.dataset.value) {
-      case "high":
-        DOM.addProperties(activeBtn, {
-          classList: ["high-selected"],
-        });
-        break;
-      case "none":
-        DOM.addProperties(activeBtn, {
-          classList: ["none-selected"],
-        });
-        break;
-      case "low":
-        activeBtn.classList.add("low-selected");
-        DOM.addProperties(activeBtn, {
-          classList: ["low-selected"],
-        });
-        break;
+    DOM.addProperties(editTaskForm["taskName"], { value: task.name });
+    if (task.description) {
+      DOM.addProperties(editTaskForm[1], { value: task.description });
     }
-  }
 
-  function openAddModal(defaultModal) {
-    const modalOverlay = DOM.getObject(".modal-overlay");
+    const query = "." + task.priority + "-btn-edit";
+    changeSelectedPriority(DOM.getObject(query));
+
+    if (task.dueDate) {
+      DOM.addProperties(editTaskForm["duedate"], {
+        value: format(task.dueDate, "yyyy-MM-dd"),
+      });
+    }
+
+    DOM.addProperties(editTaskForm["editbtn"], {
+      dataset: {
+        projId,
+        taskId,
+      },
+    });
     DOM.removeProperties(modalOverlay, { classList: ["hide"] });
-    let modal = defaultModal;
-
-    switch (currentView) {
-      case "allproj":
-        modal = DOM.getObject(".add-project-modal");
-        DOM.removeProperties(modal, { classList: ["hide"] });
-        break;
-      default:
-        DOM.removeProperties(modal, { classList: ["hide"] });
-        renderProjectSelect();
-    }
+    DOM.removeProperties(modal, { classList: ["hide"] });
   }
 
-  function closeAddModals() {
-    const taskForm = DOM.getObject(".add-task-form");
-    taskForm.reset();
-
-    const projectForm = DOM.getObject(".add-project-form");
-    projectForm.reset();
-
-    const taskModal = DOM.getObject(".add-task-modal");
-    const projectModal = DOM.getObject(".add-project-modal");
-
-    DOM.addProperties(taskModal, { classList: ["hide"] });
-    DOM.addProperties(projectModal, { classList: ["hide"] });
-
-    const defaultBtn = DOM.getObject(".none-btn");
-    changeSelectedPriority(defaultBtn);
-
-    DisplayManager.refreshDisplay();
+  //Closes the task edit modal
+  function closeEditTaskModal() {
+    const modal = DOM.getObject(".edit-task-modal");
+    const editTaskForm = DOM.getObject(".edit-task-form");
+    DOM.addProperties(modal, { classList: ["hide"] });
+    editTaskForm.reset();
   }
 
+  //Closes the modal overlay and any modal open under it
   function closeModalOverlay() {
     const modalOverlay = DOM.getObject(".modal-overlay");
     DOM.addProperties(modalOverlay, { classList: ["hide"] });

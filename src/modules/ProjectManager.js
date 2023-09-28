@@ -1,10 +1,14 @@
 import Storage from "./Storage";
 import Project from "./Project";
 
+//IIFE module that handles all the projects changes
+//Responsible for adding, editing and deleting projects
+//Responsible for loading saved projects from storage
 const ProjectManager = (() => {
   let projects = [];
-  const defaultProject = "Home"; //For now this variable is a constant maybe allow users to change it?? idk
+  const defaultProject = "Home";
 
+  //Possible actions on projects
   const STATE_ACTIONS = Object.freeze({
     ADD_PROJ: "0",
     REMOVE_PROJ: "1",
@@ -15,16 +19,17 @@ const ProjectManager = (() => {
     STAR_TASK: "6",
   });
 
+  //Updates the storage with current projects state
   function updateState() {
-    console.log("Updating state");
     Storage.updateStorage(projects);
   }
 
+  //Adds a new project
   function addProject(projName) {
     projects.push(new Project(projName, projects.length));
-    console.log("new project was added");
   }
 
+  //Deletes a project based on it's id and resets other projects' id
   function removeProject(projId) {
     projects = projects.filter((project) => project.id != projId);
     projects.forEach((project, index) => {
@@ -32,26 +37,32 @@ const ProjectManager = (() => {
     });
   }
 
+  //Adds a new task to based on the given task info to the given project id
   function addTaskToProject(projId, taskInfo) {
     projects[projId].addTask(taskInfo);
   }
 
+  //Edits a task from a project based on the given project and task id
   function editTaskFromProject(projId, taskId, taskInfo) {
     projects[projId].editTask(taskId, taskInfo);
   }
 
+  //Toggles the status of a task of a project
   function toggleTaskCompletion(projId, taskId) {
     projects[projId].toggleTaskStatus(taskId);
   }
 
+  //Removes a task from a project
   function removeTaskFromProject(projId, taskId) {
     projects[projId].removeTask(taskId);
   }
 
+  //Toggles the starred status of a task of a project
   function toggleTaskStar(projId, taskId) {
     projects[projId].toggleTaskStar(taskId);
   }
 
+  //Handles all state changing actions then updates the state
   function changeState(action, data) {
     switch (action) {
       case STATE_ACTIONS.ADD_PROJ:
@@ -76,17 +87,15 @@ const ProjectManager = (() => {
         toggleTaskStar(data.projId, data.taskId);
         break;
       default:
-        console.log("FATAL ERROR: DONT KNOW WHATS GOING ON THIS IS BAD!");
         return;
     }
 
     updateState();
   }
 
+  //Loads saved project state from the storage
   function populateProjects() {
     let storedState = Storage.getStoredState();
-    console.log("AFTER RELOADING: ");
-    console.log(storedState);
 
     if (!storedState) {
       addProject(defaultProject);
@@ -94,7 +103,6 @@ const ProjectManager = (() => {
     }
 
     storedState.forEach((projectData) => {
-      console.log(projectData);
       changeState(STATE_ACTIONS.ADD_PROJ, { projName: projectData.name });
       projectData.tasks.forEach((task) => {
         changeState(STATE_ACTIONS.ADD_TASK, {
@@ -105,10 +113,12 @@ const ProjectManager = (() => {
     });
   }
 
+  //Returns a project based on the given id
   function getProject(projId) {
     return projects[projId];
   }
 
+  //Returns the project id based on the name of the project
   function getProjectId(projName) {
     const found = projects.find((proj) => {
       return proj.name == projName;
@@ -116,6 +126,7 @@ const ProjectManager = (() => {
     return found.id;
   }
 
+  //Returns all projects
   function getAllProjects() {
     return projects;
   }
@@ -124,9 +135,9 @@ const ProjectManager = (() => {
     populateProjects,
     STATE_ACTIONS,
     changeState,
-    getAllProjects,
     getProject,
     getProjectId,
+    getAllProjects,
   };
 })();
 

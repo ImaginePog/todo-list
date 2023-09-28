@@ -143,8 +143,8 @@ const DOM = (() => {
     return frag;
   }
 
-  loadObjects();
   return {
+    loadObjects,
     getObject,
     createElement,
     addProperties,

@@ -1,5 +1,7 @@
 import { isAfter, parseISO } from "date-fns";
 
+//Class to represent a todo task
+//Contains all the information for the todo task and its parent project's id
 export default class Task {
   constructor(taskInfo, id, projectId) {
     this.name = taskInfo.name;
@@ -36,6 +38,7 @@ export default class Task {
     this.id = id;
   }
 
+  //Toggles completion of a task, also changes overdue status based on its due date
   toggleStatus() {
     if (this.completed) {
       this.completed = false;
@@ -43,13 +46,14 @@ export default class Task {
       let now = new Date();
       now = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 
-      this.overdue = isAfter(now, this.dueDate);
+      this.overdue = isAfter(now, parseISO(this.dueDate));
     } else {
       this.completed = true;
       this.overdue = false;
     }
   }
 
+  //Toggles task's starred status
   toggleStar() {
     if (this.starred != undefined) {
       this.starred = !this.starred;
