@@ -113,9 +113,12 @@ const DisplayManager = (() => {
       });
 
       const statsOverdue = DOM.createElement("span", {
-        classList: ["project-container-stats", "overdue"],
+        classList: ["project-container-stats"],
         innerText: "Overdue: " + overdueTasks,
       });
+      if (overdueTasks) {
+        DOM.addProperties(statsOverdue, { classList: ["overdue"] });
+      }
 
       statsContainer.append(stats, statsOverdue);
 
