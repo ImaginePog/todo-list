@@ -14,6 +14,9 @@ export default class Project {
 
   removeTask(taskId) {
     this.tasks = this.tasks.filter((task) => task.id != taskId);
+    this.tasks.forEach((task, index) => {
+      task.id = index;
+    });
   }
 
   editTask(taskId, newTaskInfo) {
